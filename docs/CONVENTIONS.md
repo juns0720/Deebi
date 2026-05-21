@@ -11,6 +11,9 @@
   서버 모듈에만 둔다. 클라이언트 컴포넌트에서 import 금지.
 - 환경 변수는 `process.env`로만 접근. 클라이언트 노출이 필요한 값만
   `NEXT_PUBLIC_` 접두사.
+- API 응답은 `docs/API_CONTRACTS.md`의 `{ ok, data, error }` 형태를 따른다.
+- DB 테이블과 타입은 `docs/DATA_MODEL.md`를 기준으로 한다.
+- 도메인 순수 로직은 가능하면 `src/lib/domain/**`에 둔다.
 
 ## 폴더
 
@@ -20,7 +23,7 @@
 ## 커밋
 
 - 형식: `type(phase-NN): 요약`
-  - 예: `feat(phase-03): GitHub OAuth 콜백 라우트 추가`
+  - 예: `feat(phase-04): GitHub OAuth 콜백 라우트 추가`
   - type: `feat` / `fix` / `chore` / `docs` / `refactor`
 - 한 단계 = 최소 한 개의 의미 있는 커밋. 단계 도중 작은 커밋 허용.
 - `docs/PROGRESS.md` 갱신은 해당 단계 커밋에 포함하거나 별도 `docs:` 커밋.
@@ -31,6 +34,8 @@
 - 규칙·스펙 변경은 `docs/` 안의 해당 문서에서. 진입점(`CLAUDE.md`/`AGENTS.md`)에
   내용을 복제하지 않는다.
 - 설계 결정은 `DECISIONS.md`에 누적(덮어쓰지 않고 추가).
+- phase를 추가하거나 쪼개면 `docs/phases/00-overview.md`와 `docs/PROGRESS.md`를 함께 맞춘다.
+- UI/UX 미확정 항목은 `docs/UI_UX_QUESTIONS.md`에 남기고, 확정 후 `docs/UI_UX.md`와 `docs/DECISIONS.md`를 갱신한다.
 
 ## 비밀정보
 
@@ -42,3 +47,15 @@
 - 각 phase 문서의 "완료 조건"이 사실상의 테스트 명세다.
 - 자동화 테스트는 MVP 필수는 아니나, 건강도·포인트 계산(`src/lib/health.ts`)
   같은 순수 로직은 단위 테스트를 권장.
+- 기본 검증은 `npm run lint`, `npm run typecheck`, `npm run build`다.
+- 화면이 바뀌는 phase는 브라우저에서 모바일/데스크톱 주요 화면을 확인한다.
+
+## UI
+
+- UI 구현은 `docs/UI_UX.md`를 따른다.
+- Deebi의 주요 UI는 전체적으로 픽셀 그래픽 감성을 유지한다.
+- 기본 폰트는 PF스타더스트를 사용한다. 폰트 파일이 없으면 토큰과 fallback을 준비하고 Working Notes에 기록한다.
+- 카드 안에 카드를 중첩하지 않는다.
+- 버튼, 카드, 배지는 텍스트가 넘치지 않게 고정된 여백과 반응형 줄바꿈을 고려한다.
+- 건강도처럼 중요한 상태는 색상만으로 표현하지 않고 숫자와 라벨을 함께 제공한다.
+- MVP에서 실제 광고 SDK를 넣지 않고 placeholder만 둔다.
