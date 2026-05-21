@@ -8,7 +8,7 @@
 
 - 모든 primary key는 가능하면 DB에서 생성한다.
 - 시간 필드는 `timestamptz`를 사용한다.
-- GitHub access token은 `users.access_token`에 저장하지만 서버 전용으로 취급한다.
+- GitHub access token은 `users`가 아니라 서버 전용 `user_oauth_tokens` 테이블에 저장한다.
 - RLS 정책은 Phase 03에서 함께 작성한다.
 - 클라이언트가 보내는 `user_id`는 신뢰하지 않는다. 서버 세션에서 확인한 user id를 사용한다.
 - 삭제보다 보존을 우선한다. 단, inventory/equipped/room_members 같은 관계 데이터는 명시적 삭제를 허용한다.
@@ -37,7 +37,6 @@ MVP에서는 enum을 써도 되고 check constraint를 써도 된다. 단, TypeS
 | `github_id` | `bigint` | unique, not null | GitHub user id |
 | `github_login` | `text` | not null | GitHub login |
 | `avatar_url` | `text` | nullable | GitHub avatar URL |
-| `access_token` | `text` | not null | GitHub API 호출용 token, 서버 전용 |
 | `points` | `int` | not null, default 0, `>= 0` | 누적 사용 가능 포인트 |
 | `health` | `int` | not null, default 50, `0..100` | 마지막 동기화 계산값 |
 | `created_at` | `timestamptz` | not null, default now() | 생성 시각 |
@@ -51,8 +50,32 @@ MVP에서는 enum을 써도 되고 check constraint를 써도 된다. 단, TypeS
 
 주의:
 
-- API 응답에 `access_token`을 포함하지 않는다.
-- service role 외에는 `access_token` 직접 조회를 금지한다.
+- OAuth token은 이 테이블에 저장하지 않는다.
+- API 응답, page props, room member response에 token 관련 필드를 포함하지 않는다.
+
+### 3.1.1 `user_oauth_tokens`
+
+GitHub API 호출용 token을 저장하는 서버 전용 private table이다. 일반 사용자 조회와 분리해 accidental exposure 위험을 줄인다.
+
+| 컬럼 | 타입 | 제약 | 설명 |
+|---|---|---|---|
+| `user_id` | `uuid` | pk, fk `users.id` on delete cascade | 사용자 |
+| `provider` | `text` | pk part, default `github` | OAuth provider. MVP에서는 `github`만 사용 |
+| `access_token` | `text` | not null | GitHub API 호출용 token |
+| `scope` | `text` | not null | 승인된 OAuth scope 문자열 |
+| `created_at` | `timestamptz` | not null, default now() | 생성 시각 |
+| `updated_at` | `timestamptz` | not null, default now() | 수정 시각 |
+
+primary key:
+
+- `(user_id, provider)`
+
+보안 원칙:
+
+- service role 서버 코드만 이 테이블을 조회한다.
+- 일반 RLS 정책에서는 클라이언트 직접 읽기/쓰기를 열지 않는다.
+- API response, page props, log, error message에 `access_token`을 포함하지 않는다.
+- token table을 join하는 조회 함수는 반환 column allowlist를 명시한다.
 
 ### 3.2 `commit_stats`
 
@@ -250,7 +273,8 @@ type PublicRoomMessage = {
 
 Phase 03에서 최소 아래 정책을 둔다.
 
-- `users`: 본인 공개 필드 읽기 허용, `access_token`은 일반 클라이언트 접근 금지
+- `users`: 본인 공개 필드 읽기 허용
+- `user_oauth_tokens`: 일반 클라이언트 접근 금지. service role 서버 코드만 조회/갱신
 - `commit_stats`: 본인 데이터만 읽기 허용
 - `items`: 모든 로그인 사용자가 읽기 가능
 - `inventory`: 본인만 읽기 가능
@@ -259,4 +283,4 @@ Phase 03에서 최소 아래 정책을 둔다.
 - `room_members`: 같은 룸 멤버 읽기 가능, 본인 참여/나가기 가능
 - `room_messages`: 같은 룸 멤버 읽기/작성 가능, 작성자라도 일반 삭제/수정은 MVP에서 열지 않음
 
-MVP에서 모든 DB 접근을 service role 서버 API로만 처리한다면 RLS는 방어막으로 두고, 클라이언트 직접 접근은 열지 않는다.
+MVP에서 모든 DB 접근을 service role 서버 API로만 처리한다면 RLS는 방어막으로 두고, 클라이언트 직접 접근은 열지 않는다. token table은 MVP 전체에서 클라이언트 직접 접근을 열지 않는다.

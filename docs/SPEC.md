@@ -61,7 +61,8 @@
 |---|---|
 | 형태 | 웹 대시보드, 모바일 웹 대응 |
 | 인증 | GitHub OAuth, client secret은 서버에서만 처리 |
-| 커밋 데이터 | 로그인 사용자의 GitHub 활동. 공개 활동은 필수, 비공개 활동은 OAuth scope 결정 후 가능하면 포함 |
+| OAuth scope | MVP는 `read:user`만 사용 |
+| 커밋 데이터 | MVP는 로그인 사용자의 공개 GitHub PushEvent 기준. 비공개 커밋 집계는 후속 확장 |
 | 동기화 방식 | 사용자 진입 시 lazy sync + `last_synced_at` throttle |
 | 꾸미기 재화 | 포인트 |
 | 꾸미기 획득 | 뽑기 1종만 |
@@ -116,8 +117,9 @@
 - `GET /api/auth/callback`에서 `code`를 access token으로 교환한다.
 - 서버가 GitHub 사용자 정보를 조회한다.
 - `users` 테이블에 사용자 정보를 upsert한다.
+- GitHub access token은 `user_oauth_tokens` private table에 저장한다.
 - httpOnly 세션 쿠키를 발급한다.
-- access token은 DB에 저장하되 클라이언트에 노출하지 않는다.
+- access token은 클라이언트, API 응답, page props, 로그에 노출하지 않는다.
 - 로그아웃을 제공한다.
 
 ### 8.3 대시보드
@@ -142,6 +144,8 @@
 
 - 대시보드 진입 시 서버에서 동기화를 시도한다.
 - 마지막 동기화가 10분 이내면 기존 캐시를 사용한다.
+- MVP는 `read:user` OAuth scope와 public PushEvent 집계를 사용한다.
+- 비공개 커밋은 MVP에서 집계하지 않는다.
 - GitHub API 오류가 발생하면 기존 캐시를 보여주고 오류를 사용자에게 과하게 노출하지 않는다.
 - 신규 커밋에 대해서만 포인트를 지급한다.
 - `commit_stats`로 날짜별 커밋 집계를 저장한다.
@@ -281,10 +285,10 @@ pointsDelta = newCommitCount * 10 + newStreakDays * 5
 - 동기화와 보상 계산은 재시도해도 중복 포인트를 지급하면 안 된다.
 - MVP 단계에서는 빠른 개발을 위해 테스트 범위를 핵심 순수 로직과 API 경계 중심으로 잡는다.
 
-## 13. 열린 항목
+## 13. 열린 항목과 후속 확장
 
-아래 항목은 개발자와 질의응답으로 확정한다. 확정되면 `docs/DECISIONS.md`에 기록하고 관련 문서를 업데이트한다.
+아래 항목은 MVP 진행을 막지 않는다. 확정되면 `docs/DECISIONS.md`에 기록하고 관련 문서를 업데이트한다.
 
-- GitHub OAuth scope: `read:user`만 사용할지, 비공개 커밋 집계를 위해 `repo`까지 요청할지
-- 건강도 decay 수치가 너무 강한지 여부
-- 중복 아이템 환급 30포인트 유지 여부
+- 후속 확장: 비공개 커밋 집계를 위해 `repo` scope 또는 GitHub App을 도입할지 여부
+- 플레이 테스트 항목: 건강도 decay 수치가 너무 강한지 여부. MVP 기본값은 6시간마다 -10, 오늘 커밋당 +15, streak 최대 +25다.
+- 플레이 테스트 항목: 중복 아이템 환급 30포인트가 적절한지 여부. MVP 기본값은 30포인트 환급이다.

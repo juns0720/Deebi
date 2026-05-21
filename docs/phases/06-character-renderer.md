@@ -4,6 +4,18 @@
 
 건강도 구간과 장착 아이템을 반영하는 코드 기반 도트 캐릭터 렌더러를 만든다. 이 단계가 끝나면 캐릭터가 health 상태와 equipped item에 따라 시각적으로 달라진다.
 
+## Task 목록
+
+Phase 06은 캐릭터 에셋 계약, 상태 애니메이션, 장착 레이어를 분리해 진행한다.
+
+| Task | 이름 | 파일 | 상태 |
+|---|---|---|---|
+| T01 | 캐릭터 에셋 계약과 placeholder 기반 | `docs/tasks/phase-06/T01-asset-contract-placeholder.md` | NOT STARTED |
+| T02 | health 상태와 idle 애니메이션 | `docs/tasks/phase-06/T02-health-idle-animation.md` | NOT STARTED |
+| T03 | 장착 아이템 레이어와 슬롯 합성 | `docs/tasks/phase-06/T03-equipment-layers.md` | NOT STARTED |
+| T04 | 반응형 크기와 reduced motion | `docs/tasks/phase-06/T04-responsive-motion.md` | NOT STARTED |
+| T05 | 대시보드 연결과 렌더러 QA | `docs/tasks/phase-06/T05-renderer-dashboard-qa.md` | NOT STARTED |
+
 ## 변경 범위
 
 - **해도 됨:** `src/components/character/**`, 캐릭터 타입, 아이템 레이어 정의, 렌더러 테스트/스토리성 샘플, UI/UX 문서 갱신

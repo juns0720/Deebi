@@ -4,6 +4,19 @@
 
 룸 생성, 코드 참여, 멤버 캐릭터 그리드, 공동 룸 채팅, 룸 나가기를 구현한다. 이 단계가 끝나면 사용자는 룸 링크를 공유해 서로의 캐릭터 상태를 보고 같은 방 안에서 간단히 대화할 수 있다.
 
+## Task 목록
+
+Phase 09는 룸 API, 룸 화면, 공동 룸 채팅, 보안 검증을 나누어 진행한다.
+
+| Task | 이름 | 파일 | 상태 |
+|---|---|---|---|
+| T01 | 룸 생성, 참여, 목록 API | `docs/tasks/phase-09/T01-room-create-join-list.md` | NOT STARTED |
+| T02 | 룸 상세, 멤버십, 나가기 API | `docs/tasks/phase-09/T02-room-detail-membership-leave.md` | NOT STARTED |
+| T03 | 공동 룸 스테이지와 멤버 표시 | `docs/tasks/phase-09/T03-room-stage-members.md` | NOT STARTED |
+| T04 | 룸 메시지 API | `docs/tasks/phase-09/T04-room-message-api.md` | NOT STARTED |
+| T05 | 공동 룸 채팅 UI와 갱신 | `docs/tasks/phase-09/T05-room-chat-ui.md` | NOT STARTED |
+| T06 | 룸 권한, 제한, QA | `docs/tasks/phase-09/T06-room-security-qa.md` | NOT STARTED |
+
 ## 변경 범위
 
 - **해도 됨:** room APIs, room message APIs, `/room/[code]`, room components, dashboard room 진입 UI, 공동 룸 텍스트 채팅 UI
@@ -12,6 +25,7 @@
 ## 작업
 
 - room code 생성 함수를 구현한다.
+- `GET /api/rooms`를 구현해 내가 참여한 룸 목록을 반환한다.
 - `POST /api/rooms`를 구현한다.
 - `POST /api/rooms/join`을 구현한다.
 - `GET /api/rooms/[code]`를 구현한다.
@@ -34,6 +48,7 @@
 ## 완료 조건
 
 - [ ] 로그인 사용자가 룸을 만들 수 있다.
+- [ ] 로그인 사용자가 참여 중인 룸 목록을 조회할 수 있다.
 - [ ] 생성자가 자동으로 첫 멤버가 된다.
 - [ ] code로 룸에 참여할 수 있다.
 - [ ] 한 번 참여한 룸은 대시보드 `함께하는 방` 탭에서 다시 입장할 수 있다.

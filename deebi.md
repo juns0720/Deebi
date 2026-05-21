@@ -7,7 +7,7 @@
 - 데이터 모델: `docs/DATA_MODEL.md`
 - API 계약: `docs/API_CONTRACTS.md`
 - UI/UX: `docs/UI_UX.md`
-- 단계 진행: `docs/PROGRESS.md`, `docs/phases/`
+- 진행 상태: `docs/PROGRESS.md`, `docs/phases/`, `docs/tasks/`
 
 ---
 
@@ -28,7 +28,7 @@
 | 서비스명 | Deebi |
 | 형태 | 웹 대시보드, 모바일 웹 대응 |
 | 인증 | GitHub OAuth, 서버에서 client secret 처리 |
-| 커밋 데이터 | 로그인 사용자의 GitHub 활동, 공개 + 가능 시 비공개 포함 |
+| 커밋 데이터 | MVP는 공개 GitHub 활동 기준. 비공개 커밋은 후속 확장 |
 | 꾸미기 재화 | 포인트 |
 | 획득 방식 | 뽑기 1종만 |
 | 상점/직접구매 | MVP 제외 |
@@ -76,9 +76,10 @@
 3. GitHub callback `GET /api/auth/callback?code=...`
 4. 서버가 `code`와 client secret으로 access token 교환
 5. access token으로 GitHub 사용자 정보 조회
-6. `users` 테이블에 upsert
-7. httpOnly secure session cookie 발급
-8. 이후 커밋 동기화는 서버가 저장된 token으로 수행
+6. `users` 테이블에 GitHub 사용자 profile upsert
+7. `user_oauth_tokens` private table에 GitHub access token upsert
+8. httpOnly secure session cookie 발급
+9. 이후 커밋 동기화는 서버가 저장된 token으로 수행
 
 환경 변수:
 
@@ -95,6 +96,7 @@
 
 ```text
 users
+user_oauth_tokens
 commit_stats
 items
 inventory

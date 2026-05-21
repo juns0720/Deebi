@@ -54,8 +54,8 @@ type ApiError = {
 
 scope:
 
-- 기본 후보: `read:user`
-- 비공개 커밋 집계 확정 시: `read:user repo`
+- MVP 기본값: `read:user`
+- 비공개 커밋 집계용 `repo` scope는 MVP에서 요청하지 않는다.
 
 응답:
 
@@ -77,6 +77,7 @@ query:
 성공:
 
 - `users` upsert
+- `user_oauth_tokens` upsert. GitHub access token은 이 private table에만 저장한다.
 - session cookie 발급
 - `/dashboard`로 redirect
 
@@ -136,6 +137,7 @@ type SyncRequest = {
 처리:
 
 - `force`가 false이고 `last_synced_at`이 10분 이내면 캐시 결과 반환
+- 서버 전용 `user_oauth_tokens`에서 GitHub access token 조회
 - GitHub API로 커밋 활동 조회
 - `commit_stats` upsert
 - points delta 계산
@@ -156,6 +158,74 @@ type SyncResponse = ApiSuccess<{
   lastSyncedAt: string;
 }>;
 ```
+
+### 3.3 dashboard server view model
+
+역할:
+
+- `/dashboard` Server Component 또는 서버 함수가 한 번에 사용할 view model이다.
+- 반드시 public-safe shape만 반환한다.
+- 이 계약은 외부 HTTP API가 아니라 `src/lib/server/dashboard.ts` 같은 서버 전용 함수의 반환 기준으로 둔다.
+
+권장 함수:
+
+```ts
+async function getDashboardViewData(sessionUserId: string): Promise<DashboardViewData>;
+```
+
+응답 shape:
+
+```ts
+type DashboardViewData = {
+  me: {
+    id: string;
+    githubLogin: string;
+    avatarUrl: string | null;
+    points: number;
+    health: number;
+    lastSyncedAt: string | null;
+  };
+  stats: {
+    todayCommitCount: number;
+    streakDays: number;
+    syncStatus: "never_synced" | "fresh" | "stale" | "syncing" | "error";
+    usedCache: boolean;
+    lastSyncErrorMessage?: string;
+  };
+  character: {
+    stateKey: "healthy_idle" | "normal_idle" | "tired_idle" | "neglected_idle";
+    equipped: Array<{
+      slot: "hat" | "face" | "accessory" | "background";
+      itemId: string;
+    }>;
+  };
+  inventory: {
+    items: Array<{
+      id: string;
+      name: string;
+      slot: "hat" | "face" | "accessory" | "background";
+      rarity: "common" | "rare" | "unique";
+      acquired: boolean;
+      equipped: boolean;
+    }>;
+    isEmpty: boolean;
+  };
+  joinedRooms: Array<{
+    id: string;
+    code: string;
+    name: string;
+    memberCount: number;
+    myJoinedAt: string;
+    lastMessageAt: string | null;
+  }>;
+};
+```
+
+금지:
+
+- `user_oauth_tokens.access_token` 또는 OAuth token 관련 필드는 포함하지 않는다.
+- 서버 내부 오류, SQL 원문, service role key 존재 여부를 포함하지 않는다.
+- Phase 07의 dashboard UI는 위 shape을 기준으로 mock 데이터를 실제 데이터로 치환한다.
 
 ## 4. 인벤토리 API
 
@@ -267,7 +337,38 @@ type GachaResponse = ApiSuccess<{
 
 ## 6. 룸 API
 
-### 6.1 `POST /api/rooms`
+### 6.1 `GET /api/rooms`
+
+역할:
+
+- 현재 로그인 사용자가 참여 중인 룸 목록을 반환한다.
+- dashboard의 `함께하는 방` 탭과 방치 모드 미니 신호가 이 계약을 기준으로 동작한다.
+
+응답:
+
+```ts
+type JoinedRoomsResponse = ApiSuccess<{
+  rooms: Array<{
+    id: string;
+    code: string;
+    name: string;
+    memberCount: number;
+    myJoinedAt: string;
+    lastMessageAt: string | null;
+  }>;
+}>;
+```
+
+정렬:
+
+- `myJoinedAt` 최신순을 기본으로 한다.
+- 향후 `lastMessageAt` 또는 최근 활동순 정렬을 추가할 수 있지만 MVP 기본값은 참여 최신순이다.
+
+오류:
+
+- 세션 없음: `401`
+
+### 6.2 `POST /api/rooms`
 
 역할:
 
@@ -296,7 +397,7 @@ type CreateRoomResponse = ApiSuccess<{
 }>;
 ```
 
-### 6.2 `POST /api/rooms/join`
+### 6.3 `POST /api/rooms/join`
 
 역할:
 
@@ -330,7 +431,7 @@ type JoinRoomResponse = ApiSuccess<{
 - MVP에서는 별도 친구 승인이나 참여 확인 API가 없다.
 - 이미 참여한 룸은 `room_members`를 기준으로 내 룸 목록에서 다시 입장할 수 있다.
 
-### 6.3 `GET /api/rooms/[code]`
+### 6.4 `GET /api/rooms/[code]`
 
 역할:
 
@@ -367,7 +468,7 @@ type RoomResponse = ApiSuccess<{
 - 동률이면 `todayCommitCount` 내림차순
 - 그래도 동률이면 `githubLogin` 오름차순
 
-### 6.4 `POST /api/rooms/[code]/leave`
+### 6.5 `POST /api/rooms/[code]/leave`
 
 역할:
 
@@ -382,7 +483,7 @@ type LeaveRoomResponse = ApiSuccess<{
 }>;
 ```
 
-### 6.5 `GET /api/rooms/[code]/messages`
+### 6.6 `GET /api/rooms/[code]/messages`
 
 역할:
 
@@ -421,7 +522,7 @@ type RoomMessagesResponse = ApiSuccess<{
 - 룸 없음: `404`, code `ROOM_NOT_FOUND`
 - 룸 멤버가 아님: `403`, code `ROOM_FORBIDDEN`
 
-### 6.6 `POST /api/rooms/[code]/messages`
+### 6.7 `POST /api/rooms/[code]/messages`
 
 역할:
 
@@ -473,3 +574,5 @@ MVP 채팅 범위:
 ## 7. 페이지 데이터 경계
 
 Server Component에서 직접 서버 함수를 호출할 수 있다. 단, 페이지가 API 계약과 다른 shape을 쓰면 안 된다. 페이지용 내부 함수도 위 타입과 같은 의미를 유지한다.
+
+특히 `/dashboard`는 `DashboardViewData`를 기준으로 구현한다. `/room/[code]`는 `RoomResponse`와 `RoomMessagesResponse`를 기준으로 구현한다.

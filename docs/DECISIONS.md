@@ -12,7 +12,13 @@
 ## 로그
 
 <!-- 아래에 새 결정을 추가하세요 -->
+- [2026-05-21][phase-01] MVP OAuth scope는 `read:user`만 사용하고 비공개 커밋 집계는 후속 확장으로 분리 — 처음부터 `repo` 권한을 요구하면 신뢰 장벽이 커지므로 공개 활동 기반으로 먼저 검증하기 위해 (결정 주체: codex)
+- [2026-05-21][phase-01] MVP GitHub 활동 집계는 public PushEvent 기준으로 시작 — 구현 복잡도와 권한 부담을 낮추고, 비공개 커밋은 추후 GitHub App 또는 선택 권한으로 확장하기 위해 (결정 주체: codex)
+- [2026-05-21][phase-01] GitHub access token은 `users`가 아니라 `user_oauth_tokens` private table에 저장 — 공개 사용자 row 조회 중 token이 실수로 노출되는 위험을 줄이기 위해 (결정 주체: codex)
+- [2026-05-21][phase-01] 세션은 직접 서명한 httpOnly cookie로 시작 — MVP에서 외부 session library 의존을 줄이고 내부 user id만 담는 단순한 서버 세션으로 충분하기 때문 (결정 주체: codex)
+- [2026-05-21][phase-01] sync와 gacha의 중복 보상 방지는 Postgres RPC transaction으로 처리 — Supabase JS 단일 호출만으로 다중 statement 원자성을 보장하기 어려워 DB row lock과 constraint를 함께 사용하기 위해 (결정 주체: codex)
 - [2026-05-21][ui-ux] 전체 UI/UX를 픽셀 그래픽 감성으로 구현하고 기본 폰트는 PF스타더스트로 확정 — 캐릭터뿐 아니라 앱 전체가 같은 픽셀 세계처럼 보여야 Deebi의 방치형 공간 감성이 살아나기 때문 (결정 주체: developer)
+- [2026-05-21][phase-01] 실제 개발 진행 단위를 phase가 아닌 `PNN-TNN` task로 확정 — phase는 큰 단락으로 유지하되 자동 개발과 리뷰는 기능 단위 task 하나씩 진행하기 위해 (결정 주체: developer)
 - [2026-05-21][phase-01] 개발 흐름을 UI/UX 우선으로 재정렬 — Deebi의 핵심 가치가 픽셀 방과 공동 룸 감성이므로 DB/API보다 mock 기반 화면 검증을 먼저 하기 위해 (결정 주체: developer)
 - [2026-05-21][ui-ux] 공동 룸 채팅 배치는 데스크톱 오른쪽 패널, 모바일 하단 시트로 확정 — 방/캐릭터를 계속 보면서 대화할 수 있게 하고 작은 화면에서는 공간을 절약하기 위해 (결정 주체: developer)
 - [2026-05-21][ui-ux] 공동 룸 채팅은 MVP에 포함하기로 확정 — 친구들과 같은 방에서 개발하는 느낌을 강화하기 위해, 단 DM/전역 채팅/신고·차단/파일 첨부/읽음 표시 같은 고급 채팅 기능은 제외 (결정 주체: developer)
@@ -44,6 +50,6 @@
 - [2026-05-21][ui-ux] Deebi 공간 모델은 "개인 방 기본 + 친구들과 들어가는 공동 작업 테이블 룸"으로 확정 — 혼자 방치형으로 캐릭터를 보되, 친구와 함께할 때는 같은 개발 공간에 있는 느낌을 주기 위해 (결정 주체: developer)
 - [2026-05-21][ui-ux] Deebi UI/UX 핵심 톤을 "픽셀 캐릭터 기반의 가벼운 방치형 작업/놀이 공간"으로 확정 — 사용자가 직접 조작하는 복잡한 게임보다 친구 캐릭터와 같은 공간에 켜두고 즐기는 경험을 우선 (결정 주체: developer)
 - [2026-05-21][phase-01] 서비스명을 `Deebi`로 확정 — 개발자 지시로 기존 가칭을 전면 대체 (결정 주체: developer)
-- [2026-05-21][phase-01] 자동 개발을 위해 제품/기술/DB/API/UI/QA/phase 문서를 분리 — 이후 에이전트가 Current Phase와 참조 문서만 보고 단계별 구현 가능하도록 문서 체계 확장 (결정 주체: developer/codex)
+- [2026-05-21][phase-01] 자동 개발을 위해 제품/기술/DB/API/UI/QA/phase/task 문서를 분리 — 이후 에이전트가 Current Phase와 Current Task만 보고 기능 단위 구현이 가능하도록 문서 체계 확장 (결정 주체: developer/codex)
 - [2026-05-21][phase-01] Next.js 16.2.6, React 19.2.6, Tailwind CSS 4.3.0, TypeScript 6.0.3으로 초기 의존성을 고정 — npm 설치 시점의 최신 버전을 lockfile과 package.json에 함께 고정해 재현성을 확보 (결정 주체: codex)
 - [2026-05-21][phase-01] Node.js 엔진 권장값을 `20.19.0 || >=22.13.0`으로 설정 — 현재 Node 21.x에서 일부 패키지 engine 경고가 발생해 LTS 계열 사용을 명시 (결정 주체: codex)

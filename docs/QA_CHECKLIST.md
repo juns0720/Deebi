@@ -23,9 +23,10 @@ npm run dev
 ## 2. 문서 QA
 
 - `docs/PROGRESS.md` Current Phase가 실제 phase 파일을 가리킨다.
-- phase 파일이 하나만 진행 대상으로 지정되어 있다.
-- `docs/SPEC.md`와 phase 문서가 충돌하지 않는다.
-- MVP 제외 기능이 phase 작업에 들어가지 않았다.
+- `docs/PROGRESS.md` Current Task가 실제 task 파일을 가리킨다.
+- phase 파일 하나와 task 파일 하나만 진행 대상으로 지정되어 있다.
+- `docs/SPEC.md`와 phase/task 문서가 충돌하지 않는다.
+- MVP 제외 기능이 task 작업에 들어가지 않았다.
 - 열린 항목을 확정했다면 `docs/DECISIONS.md`에 기록했다.
 - 개발자 테스트가 사람이 따라 할 수 있는 절차로 적혀 있다.
 
@@ -34,7 +35,7 @@ npm run dev
 - `.env.local`이 커밋되지 않는다.
 - `GITHUB_CLIENT_SECRET`이 클라이언트 코드에 없다.
 - `SUPABASE_SERVICE_ROLE_KEY`가 클라이언트 코드에 없다.
-- `users.access_token`이 API 응답에 없다.
+- `user_oauth_tokens.access_token`이 API 응답에 없다.
 - OAuth callback에서 state 검증을 한다.
 - API는 클라이언트가 보낸 user id를 신뢰하지 않는다.
 - 룸 메시지 조회/작성은 같은 룸 멤버에게만 허용된다.

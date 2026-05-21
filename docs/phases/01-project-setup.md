@@ -2,7 +2,22 @@
 
 ## 목표
 
-Deebi의 Next.js App Router 프로젝트를 레포 루트에 구성하고, AI가 이후 모든 단계를 자동으로 이해하고 실행할 수 있도록 문서 체계를 완성한다. 이 단계가 끝나면 개발자는 `PROGRESS.md`의 Current Phase만 보고 다음 명령을 내릴 수 있다.
+Deebi의 Next.js App Router 프로젝트를 레포 루트에 구성하고, AI가 이후 모든 단계를 자동으로 이해하고 실행할 수 있도록 문서 체계를 완성한다. 이 단계가 끝나면 개발자는 `PROGRESS.md`의 Current Phase와 Current Task만 보고 다음 명령을 내릴 수 있다.
+
+## Task 목록
+
+Phase 01은 이미 완료된 초기 기반 작업을 아래 task 단위로 나누어 기록한다. 이후 개발은 항상 `PNN-TNN` 단위로 진행한다.
+
+| Task | 이름 | 파일 | 상태 |
+|---|---|---|---|
+| T01 | 프로젝트 기본 앱과 패키지 설정 | `docs/tasks/phase-01/T01-project-bootstrap.md` | DONE |
+| T02 | 제품 브리프와 시작 문서 정리 | `docs/tasks/phase-01/T02-product-brief.md` | DONE |
+| T03 | 핵심 제품/기술 문서 체계 | `docs/tasks/phase-01/T03-core-documents.md` | DONE |
+| T04 | UI/UX 결정과 픽셀 감성 기준 | `docs/tasks/phase-01/T04-ui-ux-decisions.md` | DONE |
+| T05 | Phase/Task 자동 개발 운영 구조 | `docs/tasks/phase-01/T05-phase-task-structure.md` | DONE |
+| T06 | 초기 검증과 브라우저 확인 | `docs/tasks/phase-01/T06-verification.md` | DONE |
+| T07 | Phase 01 리뷰 패키지 | `docs/tasks/phase-01/T07-phase-01-review.md` | DONE |
+| T08 | 최종 계약/정합성 보강 | `docs/tasks/phase-01/T08-final-contract-hardening.md` | AWAITING REVIEW |
 
 ## 변경 범위
 
@@ -19,6 +34,8 @@ Deebi의 Next.js App Router 프로젝트를 레포 루트에 구성하고, AI가
 - `deebi.md`의 원본 기획 정보가 손실되지 않도록 `docs/SPEC.md`와 세부 문서로 재구성한다.
 - `docs/ARCHITECTURE.md`, `docs/DATA_MODEL.md`, `docs/API_CONTRACTS.md`, `docs/UI_UX.md`, `docs/UI_UX_QUESTIONS.md`, `docs/AUTOMATION.md`, `docs/QA_CHECKLIST.md`를 작성한다.
 - Phase 02 이후의 phase 문서를 모두 만들어 다음 자동 개발 흐름을 고정한다.
+- `docs/tasks/phase-01/**`, `docs/tasks/phase-02/**`를 만들어 실제 개발 단위를 task로 고정한다.
+- API, DB, UI/UX, 보안, transaction, 열린 기술 결정의 충돌을 줄이기 위한 최종 계약 보강을 수행한다.
 - Phase 02는 DB보다 먼저 UI/UX 정적 프로토타입을 만드는 단계로 둔다.
 - `npm run lint`, `npm run typecheck`, `npm run build` 검증이 통과하는 상태로 만든다.
 
@@ -36,6 +53,8 @@ Deebi의 Next.js App Router 프로젝트를 레포 루트에 구성하고, AI가
 - [ ] `docs/DATA_MODEL.md`와 `docs/API_CONTRACTS.md`가 Phase 03~09 구현 기준으로 충분하다.
 - [ ] `docs/UI_UX.md`와 `docs/UI_UX_QUESTIONS.md`가 UI/UX 질의응답 기반 결정을 지원한다.
 - [ ] `docs/phases/02-*.md` 이후 문서가 모두 존재한다.
+- [ ] `docs/tasks/phase-01/**`와 `docs/tasks/phase-02/**`가 존재하고, `PROGRESS.md`에서 task 단위 상태를 추적한다.
+- [ ] dashboard, joined rooms, token 저장, sync/gacha transaction, OAuth scope, GitHub 활동 조회 방식이 문서에서 명확하다.
 - [ ] `npm run lint`, `npm run typecheck`, `npm run build`가 통과한다.
 
 ## 개발자 테스트

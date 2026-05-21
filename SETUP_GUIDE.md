@@ -33,15 +33,15 @@ npm --version
    - `GITHUB_CLIENT_ID`
    - `GITHUB_CLIENT_SECRET`
 
-### 2.1 OAuth scope 결정
+### 2.1 OAuth scope
 
-아직 개발자와 확정할 항목:
+MVP 확정:
 
-- 공개 활동만 집계: `read:user`
-- 비공개 커밋까지 집계: `read:user repo`
-- 사용자가 권한 범위를 선택: 구현 복잡도 증가
+- scope는 `read:user`만 사용한다.
+- 커밋 집계는 공개 PushEvent 기준으로 시작한다.
+- 비공개 커밋 집계는 MVP 이후 `repo` scope 또는 GitHub App 전환을 별도 검토한다.
 
-이 결정은 `docs/UI_UX_QUESTIONS.md`의 권한/신뢰 질문과 함께 확정한다.
+이 결정은 `docs/DECISIONS.md`와 `docs/SPEC.md`에 기록되어 있다.
 
 ## 3. Supabase 프로젝트 준비
 
@@ -101,17 +101,15 @@ npm run build
 
 Deebi의 기본 폰트는 **PF스타더스트**다.
 
-준비할 것:
+현재 상태:
 
-1. PF스타더스트 폰트 파일을 확보한다. 웹에서는 `woff2` 형식을 권장한다.
-2. 해당 폰트의 라이선스가 웹 임베딩과 서비스 사용을 허용하는지 확인한다.
-3. 폰트 파일은 예를 들어 `public/fonts/` 아래에 둔다.
-4. 구현 단계에서는 `next/font/local` 또는 동등한 방식으로 로드한다.
+- `public/fonts/PFStardust.woff`가 포함되어 있다.
+- `src/app/globals.css`에서 `@font-face`로 로드한다.
 
 주의:
 
-- 폰트 파일 자체는 라이선스 조건을 확인한 뒤에만 커밋한다.
-- 폰트 파일이 아직 없으면 Phase 02에서는 PF스타더스트용 CSS token과 fallback만 먼저 준비한다.
+- 배포 전 PF스타더스트의 웹 임베딩과 서비스 사용 조건을 다시 확인한다.
+- 필요하면 `public/fonts/README.md`에 출처와 라이선스 확인 결과를 갱신한다.
 
 ## 7. Vercel 배포 준비
 
@@ -129,7 +127,7 @@ Phase 12에서 최종 처리한다. 미리 준비할 내용:
 - [ ] GitHub OAuth 앱을 만들었다.
 - [ ] 로컬 callback URL을 `http://localhost:3000/api/auth/callback`으로 등록했다.
 - [ ] Supabase 프로젝트를 만들었다.
-- [ ] PF스타더스트 폰트 파일과 웹 임베딩 라이선스를 확인했다.
+- [ ] PF스타더스트 폰트 파일 위치와 웹 임베딩 라이선스를 확인했다.
 - [ ] `.env.local`을 만들고 필요한 값을 채웠다.
 - [ ] `.env.local`을 커밋하지 않는다.
-- [ ] UI/UX 질문 중 OAuth scope 방향을 답할 준비가 되어 있다.
+- [ ] MVP OAuth scope가 `read:user`임을 확인했다.

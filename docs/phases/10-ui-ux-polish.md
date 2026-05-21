@@ -4,6 +4,18 @@
 
 개발자와 확정한 UI/UX 답변을 바탕으로 Deebi의 화면 완성도를 높인다. 이 단계가 끝나면 랜딩, 대시보드, 룸이 모바일과 데스크톱에서 일관된 제품처럼 보인다.
 
+## Task 목록
+
+Phase 10은 실제 데이터 연결 후의 화면 품질을 영역별로 점검하고 다듬는다.
+
+| Task | 이름 | 파일 | 상태 |
+|---|---|---|---|
+| T01 | 디자인 토큰과 픽셀 UI 감사 | `docs/tasks/phase-10/T01-design-audit.md` | NOT STARTED |
+| T02 | 랜딩과 dashboard polish | `docs/tasks/phase-10/T02-landing-dashboard-polish.md` | NOT STARTED |
+| T03 | 룸과 채팅 반응형 polish | `docs/tasks/phase-10/T03-room-chat-responsive-polish.md` | NOT STARTED |
+| T04 | 상태 카피와 접근성 보강 | `docs/tasks/phase-10/T04-states-copy-accessibility.md` | NOT STARTED |
+| T05 | 브라우저 QA와 문서 정리 | `docs/tasks/phase-10/T05-browser-qa-docs.md` | NOT STARTED |
+
 ## 변경 범위
 
 - **해도 됨:** 레이아웃, 색상, 타이포그래피, 카피, 상태 화면, 접근성, 반응형 개선, UI 컴포넌트 정리

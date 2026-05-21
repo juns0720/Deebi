@@ -4,6 +4,18 @@
 
 Phase 02에서 만든 mock 기반 `/dashboard` 화면을 실제 데이터 기반으로 연결한다. 이 단계가 끝나면 사용자는 캐릭터, 건강도, 커밋 지표, 포인트, 인벤토리, 장착 상태를 한 화면에서 볼 수 있다.
 
+## Task 목록
+
+Phase 07은 mock UI를 실제 데이터로 치환하되, 방/인벤토리/방치 모드를 기능 단위로 나누어 진행한다.
+
+| Task | 이름 | 파일 | 상태 |
+|---|---|---|---|
+| T01 | dashboard 서버 데이터 조회 | `docs/tasks/phase-07/T01-dashboard-data.md` | NOT STARTED |
+| T02 | 내 방 실제 데이터 레이아웃 | `docs/tasks/phase-07/T02-my-room-real-data.md` | NOT STARTED |
+| T03 | 인벤토리와 장착 상태 표시 | `docs/tasks/phase-07/T03-inventory-equipped-read.md` | NOT STARTED |
+| T04 | 방치 모드, 문, 룸 상태 신호 | `docs/tasks/phase-07/T04-idle-door-room-signals.md` | NOT STARTED |
+| T05 | 함께하는 방 탭과 dashboard QA | `docs/tasks/phase-07/T05-rooms-tab-dashboard-qa.md` | NOT STARTED |
+
 ## 변경 범위
 
 - **해도 됨:** `/dashboard`, dashboard components, inventory read API 또는 server function, sync status UI, empty/loading/error state

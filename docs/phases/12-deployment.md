@@ -4,6 +4,18 @@
 
 Deebi MVP를 Vercel에 배포할 수 있게 환경 변수, OAuth callback, Supabase production 적용 절차, 최종 검증을 정리한다.
 
+## Task 목록
+
+Phase 12는 배포 문서, production 설정, 최종 검증, 인수인계를 나누어 진행한다.
+
+| Task | 이름 | 파일 | 상태 |
+|---|---|---|---|
+| T01 | 배포 문서와 환경 변수 매트릭스 | `docs/tasks/phase-12/T01-deployment-docs-env.md` | NOT STARTED |
+| T02 | production OAuth와 Supabase 절차 | `docs/tasks/phase-12/T02-production-oauth-supabase.md` | NOT STARTED |
+| T03 | 최종 build와 배포 전 수정 | `docs/tasks/phase-12/T03-final-build-fixes.md` | NOT STARTED |
+| T04 | MVP 범위와 보안 최종 QA | `docs/tasks/phase-12/T04-release-scope-security-qa.md` | NOT STARTED |
+| T05 | 릴리즈 인수인계와 PROGRESS 종료 | `docs/tasks/phase-12/T05-release-handoff.md` | NOT STARTED |
+
 ## 변경 범위
 
 - **해도 됨:** 배포 문서, env 체크, Vercel 설정 문서, production callback 안내, 최종 build 수정

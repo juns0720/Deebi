@@ -4,6 +4,23 @@
 
 Deebi의 핵심 감성인 "내 방에 켜두는 픽셀 캐릭터"와 "친구들과 같은 방에서 개발하는 공동 룸"을 실제 화면으로 먼저 검증한다. 이 단계가 끝나면 DB, OAuth, GitHub API 없이도 랜딩, 내 방, 함께하는 방, 공동 룸, 채팅, 방치 모드를 mock 데이터로 확인할 수 있다.
 
+## Task 목록
+
+Phase 02는 아래 task를 **T 번호 순서대로 하나씩** 진행한다. 에이전트는 한 번에 task 하나만 수행한다.
+
+| Task | 이름 | 파일 | 상태 |
+|---|---|---|---|
+| T01 | 픽셀 디자인 토큰과 폰트 기반 | `docs/tasks/phase-02/T01-design-tokens.md` | NOT STARTED |
+| T02 | 랜딩 정적 프로토타입 | `docs/tasks/phase-02/T02-landing.md` | NOT STARTED |
+| T03 | 대시보드 앱 셸과 탭 구조 | `docs/tasks/phase-02/T03-dashboard-shell.md` | NOT STARTED |
+| T04 | 내 방 스테이지 | `docs/tasks/phase-02/T04-my-room-stage.md` | NOT STARTED |
+| T05 | 관리 패널과 인벤토리 dock | `docs/tasks/phase-02/T05-management-inventory.md` | NOT STARTED |
+| T06 | 방치 모드 | `docs/tasks/phase-02/T06-idle-mode.md` | NOT STARTED |
+| T07 | 함께하는 방 탭 | `docs/tasks/phase-02/T07-rooms-tab.md` | NOT STARTED |
+| T08 | 공동 룸 스테이지 | `docs/tasks/phase-02/T08-shared-room-stage.md` | NOT STARTED |
+| T09 | 공동 룸 채팅 | `docs/tasks/phase-02/T09-room-chat.md` | NOT STARTED |
+| T10 | 반응형/접근성/QA 정리 | `docs/tasks/phase-02/T10-responsive-qa.md` | NOT STARTED |
+
 ## 변경 범위
 
 - **해도 됨:** `src/app/**`, `src/components/**`, `src/lib/mock/**`, `src/types/**`, CSS/Tailwind 스타일, UI copy, 접근성/반응형 개선, `docs/DECISIONS.md`, `docs/PROGRESS.md`

@@ -4,6 +4,18 @@
 
 포인트를 사용한 뽑기, 중복 환급, 인벤토리 추가, 아이템 장착/해제 기능을 구현한다. 이 단계가 끝나면 사용자는 포인트로 아이템을 얻고 캐릭터에 반영할 수 있다.
 
+## Task 목록
+
+Phase 08은 뽑기 확률, API transaction, 장착 API, UI 연결을 순서대로 진행한다.
+
+| Task | 이름 | 파일 | 상태 |
+|---|---|---|---|
+| T01 | 뽑기 확률 순수 로직 | `docs/tasks/phase-08/T01-gacha-probability.md` | NOT STARTED |
+| T02 | gacha API와 포인트 transaction | `docs/tasks/phase-08/T02-gacha-api-transaction.md` | NOT STARTED |
+| T03 | 장착/해제 API | `docs/tasks/phase-08/T03-equipment-api.md` | NOT STARTED |
+| T04 | 뽑기와 장착 UI 연결 | `docs/tasks/phase-08/T04-gacha-equipment-ui.md` | NOT STARTED |
+| T05 | 뽑기/장착 edge case QA | `docs/tasks/phase-08/T05-gacha-equipment-qa.md` | NOT STARTED |
+
 ## 변경 범위
 
 - **해도 됨:** `/api/gacha`, `/api/inventory/equip`, gacha UI, gacha reveal, equipment slots, inventory interaction
