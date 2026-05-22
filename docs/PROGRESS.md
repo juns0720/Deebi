@@ -9,23 +9,23 @@
 
 ## Current Phase
 
-- **Phase:** 01 — 프로젝트 셋업과 문서 기반
-- **File:** `docs/phases/01-project-setup.md`
-- **Status:** AWAITING REVIEW
+- **Phase:** 02 — UI/UX 정적 프로토타입
+- **File:** `docs/phases/02-ui-ux-prototype.md`
+- **Status:** IN PROGRESS
   - 가능한 값: `NOT STARTED` / `IN PROGRESS` / `AWAITING REVIEW` / `DONE`
 
 ## Current Task
 
-- **Task:** P01-T08 — 최종 계약/정합성 보강
-- **File:** `docs/tasks/phase-01/T08-final-contract-hardening.md`
+- **Task:** P02-T02 — 랜딩 정적 프로토타입
+- **File:** `docs/tasks/phase-02/T02-landing.md`
 - **Status:** AWAITING REVIEW
   - 가능한 값: `NOT STARTED` / `IN PROGRESS` / `AWAITING REVIEW` / `DONE`
-- **Next Ready Task:** P02-T01 — 픽셀 디자인 토큰과 폰트 기반 (`docs/tasks/phase-02/T01-design-tokens.md`)
+- **Next Ready Task:** P02-T03 — 대시보드 앱 셸과 탭 구조 (`docs/tasks/phase-02/T03-dashboard-shell.md`)
 
 ## Phase Status
 
-- [x] Phase 01 — 프로젝트 셋업과 문서 기반 (AWAITING REVIEW)
-- [ ] Phase 02 — UI/UX 정적 프로토타입
+- [x] Phase 01 — 프로젝트 셋업과 문서 기반 (DONE)
+- [ ] Phase 02 — UI/UX 정적 프로토타입 (IN PROGRESS)
 - [ ] Phase 03 — DB 스키마
 - [ ] Phase 04 — 인증과 세션
 - [ ] Phase 05 — 커밋 동기화
@@ -48,12 +48,12 @@
 - [x] P01-T05 — Phase/Task 자동 개발 운영 구조 — DONE
 - [x] P01-T06 — 초기 검증과 브라우저 확인 — DONE
 - [x] P01-T07 — Phase 01 리뷰 패키지 — DONE
-- [x] P01-T08 — 최종 계약/정합성 보강 — AWAITING REVIEW
+- [x] P01-T08 — 최종 계약/정합성 보강 — DONE
 
 ### Phase 02 — UI/UX 정적 프로토타입
 
-- [ ] P02-T01 — 픽셀 디자인 토큰과 폰트 기반 — NOT STARTED
-- [ ] P02-T02 — 랜딩 정적 프로토타입 — NOT STARTED
+- [x] P02-T01 — 픽셀 디자인 토큰과 폰트 기반 — DONE
+- [x] P02-T02 — 랜딩 정적 프로토타입 — AWAITING REVIEW
 - [ ] P02-T03 — 대시보드 앱 셸과 탭 구조 — NOT STARTED
 - [ ] P02-T04 — 내 방 스테이지 — NOT STARTED
 - [ ] P02-T05 — 관리 패널과 인벤토리 dock — NOT STARTED
@@ -146,52 +146,34 @@
 
 ## Working Notes
 
-Phase 01에서 Deebi 프로젝트의 실행 기반과 자동 개발 문서 기반을 정리했다.
+P02-T02에서 `/` 랜딩을 어두운 온보딩 스토리 중심으로 재구성했다.
 
 주요 변경:
 
-- 서비스명을 `Deebi`로 통일했다.
-- Next.js App Router + TypeScript + Tailwind 기본 앱을 구성했다.
-- `package.json`, `package-lock.json`, `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`, `eslint.config.mjs`, `.env.example`, `.gitignore`를 구성했다.
-- `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/globals.css`로 첫 화면을 만들었다.
-- `deebi.md`를 원본 기획 브리프로 정리했다.
-- `README.md`, `FIRST_PROMPT.md`, `SETUP_GUIDE.md`를 Deebi 전용으로 갱신했다.
-- `docs/SPEC.md`, `docs/ARCHITECTURE.md`, `docs/DATA_MODEL.md`, `docs/API_CONTRACTS.md`, `docs/UI_UX.md`, `docs/UI_UX_QUESTIONS.md`, `docs/AUTOMATION.md`, `docs/QA_CHECKLIST.md`를 작성했다.
-- `docs/phases/00-overview.md`와 Phase 01~12 문서를 작성해 이후 자동 개발 단계를 고정했다.
-- `docs/tasks/_TASK_TEMPLATE.md`와 `docs/tasks/phase-01`부터 `docs/tasks/phase-12`까지의 task 문서를 추가했다.
-- 모든 phase 문서에 `Task 목록`을 추가해 실제 개발 단위를 `PNN-TNN`으로 고정했다.
-- `docs/tasks/phase-01/T08-final-contract-hardening.md`를 추가해 최종 계약/정합성 보강을 정식 task로 분리했다.
-- `docs/AGENT_GUIDE.md`, `docs/AUTOMATION.md`, `docs/CONVENTIONS.md`, `README.md`, `FIRST_PROMPT.md`를 task 단위 운영에 맞게 갱신했다.
-- `docs/API_CONTRACTS.md`에 `DashboardViewData`와 `GET /api/rooms` joined rooms 계약을 추가했다.
-- `docs/DATA_MODEL.md`에서 GitHub access token 저장 위치를 `user_oauth_tokens` private table로 분리했다.
-- `docs/ARCHITECTURE.md`에 직접 서명 httpOnly session, public PushEvent 기반 GitHub activity source, sync/gacha RPC transaction 전략을 명시했다.
-- `docs/SPEC.md`와 `SETUP_GUIDE.md`에서 MVP OAuth scope를 `read:user`로 확정하고 비공개 커밋 집계는 후속 확장으로 분리했다.
-- `docs/UI_UX.md`의 잘못된 Phase 05 렌더러 참조를 Phase 06으로 수정하고 PF스타더스트 파일 포함 상태를 반영했다.
-- UI/UX 질의응답 결과를 반영해 개인 방/공동 룸 모델, 32x32 캐릭터, 방치 모드, 밝은 픽셀 방 톤, 랜딩 카피, 공동 룸 채팅 MVP 포함 결정을 문서에 반영했다.
-- 전체 UI/UX를 픽셀 그래픽 감성으로 구현하고 기본 폰트를 PF스타더스트로 쓰는 방향을 확정했다.
-- `public/fonts/PFStardust.woff`를 추가하고 `src/app/globals.css`에서 기본 폰트로 연결했다.
-- 전체 개발 흐름을 UI/UX 우선으로 재정렬했다. Phase 02에서 mock 기반 정적 프로토타입을 먼저 만들고, Phase 03부터 DB/API/기능을 연결한다.
+- P02-T01 검토 통과 지시로 보고 Phase Task Status를 `DONE` 처리하고 Current Task를 P02-T02로 이동했다.
+- `src/types/onboarding.ts`에 `OnboardingSlide`, `OnboardingAsset`, `OnboardingStatChip` 등 온보딩 데이터 shape를 추가했다.
+- `src/lib/mock/onboarding.ts`에 6단계 온보딩 slide 데이터를 추가했다.
+- `src/components/landing/onboarding-story.tsx`, `onboarding-card.tsx`, `pixel-room-scene.tsx`를 추가해 어두운 밤방 + 라임 포인트 + 픽셀 카드 랜딩을 구성했다.
+- `public/assets/onboarding/README.md`를 추가해 개발자가 제공할 최종 온보딩 에셋 위치와 fallback 방식을 기록했다.
+- 실제 에셋이 아직 없으므로 CSS 픽셀 placeholder 장면을 렌더링한다. 에셋은 `provided: true`와 `src`가 있을 때만 사용한다.
+- `/` 첫 화면 H1을 `각자 코딩해도, 같은 방에 있는 것처럼.`으로 변경하고 6개 온보딩 카드를 데스크톱 grid, 모바일 snap carousel로 배치했다.
+- OAuth는 실제 연결하지 않고 `GitHub 로그인 준비 중` 비활성 CTA와 `먼저 둘러보기` anchor만 제공한다.
+- 모바일 360px에서 긴 한국어 문장이 잘리지 않도록 `pixel-copy` 줄바꿈 class를 추가했다.
 
 검증:
 
 - `npm run lint` 통과
 - `npm run typecheck` 통과
 - `npm run build` 통과
-- 브라우저에서 `http://127.0.0.1:3000/` 확인: title `Deebi`, 이전 가칭 미노출, 첫 화면 렌더링 정상
-- task 문서 구조 검증: phase 문서의 task 링크가 모두 실제 파일을 가리킨다.
-- `git diff --check` 통과
-- P01-T08 문서 구조 검증 통과: phase task row 69개, 실제 task 파일 69개, 누락 링크 0개, task/phase 필수 섹션 누락 0개
-- P01-T08 보강 후 `git diff --check` 통과
-- P01-T08 보강 후 `npm run lint` 통과
-- P01-T08 보강 후 `npm run typecheck` 통과
-- P01-T08 보강 후 `npm run build` 통과
+- dev 서버 `http://127.0.0.1:3000/` 실행 확인
+- 브라우저 DOM 확인: title `Deebi`, H1 핵심 문장, 온보딩 card 6개, 공동 룸 preview 문구, MVP 제외 기능 문구 미노출 확인
+- Chrome headless 360px screenshot 확인: 헤더, H1, CTA, 3단계 힌트, 첫 온보딩 카드 텍스트가 겹치거나 잘리지 않음
 
 주의:
 
-- 현재 로컬 Node는 v21.7.3이라 설치 시 engine 경고가 난다. `SETUP_GUIDE.md`와 `package.json`에는 Node 20 LTS 또는 22 LTS 계열 권장을 명시했다.
-- `npm audit` 기준 moderate 취약점 2건이 보고된다. `npm audit fix --force`는 breaking change 가능성이 있어 Phase 01에서는 자동 적용하지 않았다.
-- MVP OAuth scope는 `read:user`, GitHub 활동 조회는 public PushEvent 기준으로 확정했다. 비공개 커밋, health decay 조정, 중복 환급량 조정은 후속 확장 또는 플레이 테스트 항목으로 남긴다.
-- PF스타더스트는 Noonnu CDN에서 받은 `public/fonts/PFStardust.woff`를 사용한다. 배포 전 웹폰트 사용 조건과 표기 필요 여부를 다시 확인한다.
+- 최종 픽셀 배경/캐릭터/아이템 이미지는 개발자가 제공한다.
+- 현재 온보딩 장면은 최종 캐릭터 디자인이 아니라 교체 가능한 placeholder다.
+- 현재 로컬 Node는 v21.7.3이라 설치/실행 시 engine 경고 가능성이 있다. 권장 버전은 Node 20 LTS 또는 22 LTS 계열이다.
 
 ## Blockers
 
@@ -199,12 +181,10 @@ none
 
 ## Developer Test
 
-1. `docs/PROGRESS.md`에서 `Current Task`가 P01-T08인지 확인한다.
-2. `Phase Task Status`에서 Phase 01 안에 P01-T01~P01-T08이 표시되는지 확인한다.
-3. `docs/API_CONTRACTS.md`에서 `DashboardViewData`와 `GET /api/rooms` 계약을 확인한다.
-4. `docs/ARCHITECTURE.md`에서 OAuth scope, GitHub activity source, session, transaction 전략을 확인한다.
-5. `docs/DATA_MODEL.md`에서 `user_oauth_tokens` private table을 확인한다.
-6. `npm run build`가 통과하는지 확인한다.
+1. `/`를 데스크톱 폭에서 확인한다.
+2. `/`를 모바일 360px 폭에서 확인한다.
+3. 첫 화면만 보고 “친구들과 같은 방에서 개발하는 서비스”인지 느껴지는지 판단한다.
+4. `npm run lint`, `npm run typecheck`, `npm run build`가 통과하는지 확인한다.
 
 ---
 
