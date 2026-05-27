@@ -35,7 +35,7 @@ export const mockDashboardData: DashboardMockData = {
   user: {
     id: "mock-user-1",
     githubLogin: "deebi-maker",
-    displayName: "Deebi Maker",
+    displayName: "DeeBi Maker",
     health: 82,
     healthBand: "great",
     todayCommitCount: 12,

@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Deebi",
-  description: "Deebi turns GitHub commit activity into a tiny pixel dashboard.",
+  title: "DeeBi",
+  description: "DeeBi turns GitHub commit activity into a tiny pixel dashboard.",
 };
 
 export default function RootLayout({

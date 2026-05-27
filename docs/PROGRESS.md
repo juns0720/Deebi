@@ -16,11 +16,11 @@
 
 ## Current Task
 
-- **Task:** P02-T02 — 랜딩 정적 프로토타입
-- **File:** `docs/tasks/phase-02/T02-landing.md`
+- **Task:** P02-T03 — 대시보드 앱 셸과 탭 구조
+- **File:** `docs/tasks/phase-02/T03-dashboard-shell.md`
 - **Status:** AWAITING REVIEW
   - 가능한 값: `NOT STARTED` / `IN PROGRESS` / `AWAITING REVIEW` / `DONE`
-- **Next Ready Task:** P02-T03 — 대시보드 앱 셸과 탭 구조 (`docs/tasks/phase-02/T03-dashboard-shell.md`)
+- **Next Ready Task:** P02-T04 — 내 방 스테이지 (`docs/tasks/phase-02/T04-my-room-stage.md`)
 
 ## Phase Status
 
@@ -53,8 +53,8 @@
 ### Phase 02 — UI/UX 정적 프로토타입
 
 - [x] P02-T01 — 픽셀 디자인 토큰과 폰트 기반 — DONE
-- [x] P02-T02 — 랜딩 정적 프로토타입 — AWAITING REVIEW
-- [ ] P02-T03 — 대시보드 앱 셸과 탭 구조 — NOT STARTED
+- [x] P02-T02 — 랜딩 정적 프로토타입 — DONE
+- [x] P02-T03 — 대시보드 앱 셸과 탭 구조 — AWAITING REVIEW
 - [ ] P02-T04 — 내 방 스테이지 — NOT STARTED
 - [ ] P02-T05 — 관리 패널과 인벤토리 dock — NOT STARTED
 - [ ] P02-T06 — 방치 모드 — NOT STARTED
@@ -146,33 +146,35 @@
 
 ## Working Notes
 
-P02-T02에서 `/` 랜딩을 어두운 온보딩 스토리 중심으로 재구성했다.
+P02-T03에서 `/dashboard` mock 앱 셸과 `내 방` / `함께하는 방` 탭 구조를 추가했다.
 
 주요 변경:
 
-- P02-T01 검토 통과 지시로 보고 Phase Task Status를 `DONE` 처리하고 Current Task를 P02-T02로 이동했다.
-- `src/types/onboarding.ts`에 `OnboardingSlide`, `OnboardingAsset`, `OnboardingStatChip` 등 온보딩 데이터 shape를 추가했다.
-- `src/lib/mock/onboarding.ts`에 6단계 온보딩 slide 데이터를 추가했다.
-- `src/components/landing/onboarding-story.tsx`, `onboarding-card.tsx`, `pixel-room-scene.tsx`를 추가해 어두운 밤방 + 라임 포인트 + 픽셀 카드 랜딩을 구성했다.
-- `public/assets/onboarding/README.md`를 추가해 개발자가 제공할 최종 온보딩 에셋 위치와 fallback 방식을 기록했다.
-- 실제 에셋이 아직 없으므로 CSS 픽셀 placeholder 장면을 렌더링한다. 에셋은 `provided: true`와 `src`가 있을 때만 사용한다.
-- `/` 첫 화면 H1을 `각자 코딩해도, 같은 방에 있는 것처럼.`으로 변경하고 6개 온보딩 카드를 데스크톱 grid, 모바일 snap carousel로 배치했다.
-- OAuth는 실제 연결하지 않고 `GitHub 로그인 준비 중` 비활성 CTA와 `먼저 둘러보기` anchor만 제공한다.
-- 모바일 360px에서 긴 한국어 문장이 잘리지 않도록 `pixel-copy` 줄바꿈 class를 추가했다.
+- 개발자 피드백에 따라 온보딩의 임시 초기 방 테스트 화면(`#room-test`)을 제거했다. 내 방 에셋 비율/좌표계 검증은 P02-T04에서 정식으로 다룬다.
+- 랜딩 첫 화면의 `시작하기` 버튼은 `/dashboard` 목업 셸로 이동하고, `구경하기` 버튼은 기존 기능 미리보기(`#demo`)로 유지했다.
+- `src/app/dashboard/page.tsx`를 추가해 `/dashboard` route를 만들었다.
+- `src/components/dashboard/dashboard-shell.tsx`를 추가해 클라이언트 상태 기반 `내 방` / `함께하는 방` 탭 전환을 구현했다.
+- 기존 `src/lib/mock/deebi.ts`의 `mockDashboardData`를 사용해 사용자, 건강도, 오늘 커밋, streak, 포인트, 인벤토리 수, 참여 중인 룸 목록을 표시했다.
+- 상단에는 `DeeBi`, 목업 UI 배지, 목업 사용자, 건강도 요약을 배치해 실제 인증이 연결된 화면으로 오해하지 않게 했다.
+- `내 방` 탭에는 세부 스테이지 완성 대신 간단한 픽셀 방 셸과 상태/지표 요약만 두었다. 본격적인 방 비율/레이어 계약은 다음 task인 P02-T04 범위로 남겼다.
+- `함께하는 방` 탭에는 참여 중인 룸 카드와 비활성 `새 룸 만들기` / `코드로 참여` 버튼을 두어 실제 룸 API가 아직 없음을 작게 표시했다.
+- 모바일에서 탭과 패널이 화면 밖으로 밀리지 않도록 `.pixel-tab` 최소 폭, 패널 최대 폭, dashboard root의 가로 overflow를 보정했다.
+- `public/assets/onboarding/room-test/*` PNG는 삭제하지 않았다. 현재 온보딩에서는 참조하지 않으며, P02-T04에서 에셋/좌표계 검증용으로 다시 판단할 수 있다.
 
 검증:
 
 - `npm run lint` 통과
 - `npm run typecheck` 통과
 - `npm run build` 통과
-- dev 서버 `http://127.0.0.1:3000/` 실행 확인
-- 브라우저 DOM 확인: title `Deebi`, H1 핵심 문장, 온보딩 card 6개, 공동 룸 preview 문구, MVP 제외 기능 문구 미노출 확인
-- Chrome headless 360px screenshot 확인: 헤더, H1, CTA, 3단계 힌트, 첫 온보딩 카드 텍스트가 겹치거나 잘리지 않음
+- 텍스트 검색 확인: `src` 안에 `room-test`, `초기 방`, `앞 테이블`, `러그`, `빈 방 위에` 참조가 남아 있지 않다.
+- 브라우저 확인: `/dashboard` 데스크톱에서 `내 방` / `함께하는 방` 탭이 보이고, `함께하는 방` 탭 클릭 시 룸 카드와 룸 액션 영역으로 전환된다.
+- Chrome CDP 모바일 확인: 360px viewport에서 `/dashboard`의 `innerWidth: 360`, `scrollWidth: 360`, `bodyScrollWidth: 360`으로 가로 오버플로가 없다.
+- `npm run build` 결과 `/dashboard`가 static route로 생성된다.
 
 주의:
 
 - 최종 픽셀 배경/캐릭터/아이템 이미지는 개발자가 제공한다.
-- 현재 온보딩 장면은 최종 캐릭터 디자인이 아니라 교체 가능한 placeholder다.
+- 현재 `/dashboard`의 방 셸은 최종 내 방 스테이지가 아니라 P02-T03용 구조 placeholder다.
 - 현재 로컬 Node는 v21.7.3이라 설치/실행 시 engine 경고 가능성이 있다. 권장 버전은 Node 20 LTS 또는 22 LTS 계열이다.
 
 ## Blockers
@@ -183,8 +185,12 @@ none
 
 1. `/`를 데스크톱 폭에서 확인한다.
 2. `/`를 모바일 360px 폭에서 확인한다.
-3. 첫 화면만 보고 “친구들과 같은 방에서 개발하는 서비스”인지 느껴지는지 판단한다.
-4. `npm run lint`, `npm run typecheck`, `npm run build`가 통과하는지 확인한다.
+3. 온보딩에서 초기 방 테스트 화면이 더 이상 나오지 않는지 확인한다.
+4. `/` 첫 화면의 `시작하기`가 `/dashboard`로, `구경하기`가 기능 미리보기 화면(`#demo`)으로 이동하는지 확인한다.
+5. `/dashboard`를 데스크톱 폭에서 열고 `내 방` / `함께하는 방` 탭이 보이는지 확인한다.
+6. 두 탭을 전환했을 때 내 방 목업 셸과 함께하는 방 목업 카드가 안정적으로 바뀌는지 확인한다.
+7. `/dashboard`를 모바일 360px 폭에서 확인하고 탭과 패널이 화면 밖으로 넘치지 않는지 확인한다.
+8. `npm run lint`, `npm run typecheck`, `npm run build`가 통과하는지 확인한다.
 
 ---
 

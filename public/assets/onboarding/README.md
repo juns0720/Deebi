@@ -1,4 +1,4 @@
-# Deebi Onboarding Assets
+# DeeBi Onboarding Assets
 
 Place final onboarding artwork here when it is ready.
 

@@ -1,6 +1,22 @@
 @import "tailwindcss";
 
 @font-face {
+  font-family: "Galmuri11";
+  src: url("/fonts/Galmuri11.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Galmuri9";
+  src: url("/fonts/Galmuri9.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
   font-family: "PFStardust";
   src: url("/fonts/PFStardust.woff") format("woff");
   font-display: swap;
@@ -11,7 +27,8 @@
 :root {
   --background: #f8f1df;
   --foreground: #17120f;
-  --font-pixel: "PFStardust", "DungGeunMo", "Galmuri11", Arial, sans-serif;
+  --font-pixel: "Galmuri11", "PFStardust", "DungGeunMo", Arial, sans-serif;
+  --font-pixel-title: "Galmuri9", "Galmuri11", "PFStardust", Arial, sans-serif;
 
   --pixel-ink: #17120f;
   --pixel-ink-soft: #4c4038;
@@ -86,6 +103,7 @@ select {
 }
 
 .pixel-panel {
+  max-width: 100%;
   border: var(--pixel-border);
   border-radius: var(--pixel-radius);
   background: var(--pixel-surface);
@@ -104,16 +122,19 @@ select {
 
 .pixel-button {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 48px;
   align-items: center;
   justify-content: center;
   gap: var(--pixel-space-2);
   border: var(--pixel-border);
-  border-radius: var(--pixel-radius);
-  padding: var(--pixel-space-3) var(--pixel-space-4);
-  background: var(--pixel-surface-raised);
+  border-radius: 0;
+  padding: 14px 18px;
+  background: var(--pixel-paper);
   color: var(--pixel-ink);
-  box-shadow: var(--pixel-shadow-soft);
+  box-shadow:
+    inset 2px 2px 0 rgb(255 255 255 / 0.7),
+    inset -2px -2px 0 rgb(23 18 15 / 0.13),
+    4px 4px 0 var(--pixel-ink);
   font-weight: 900;
   letter-spacing: 0;
   line-height: 1.2;
@@ -126,12 +147,18 @@ select {
 
 .pixel-button:hover:not(:disabled) {
   transform: translate(1px, 1px);
-  box-shadow: 2px 2px 0 var(--pixel-ink);
+  box-shadow:
+    inset 2px 2px 0 rgb(255 255 255 / 0.7),
+    inset -2px -2px 0 rgb(23 18 15 / 0.13),
+    3px 3px 0 var(--pixel-ink);
 }
 
 .pixel-button:active:not(:disabled) {
   transform: translate(3px, 3px);
-  box-shadow: 1px 1px 0 var(--pixel-ink);
+  box-shadow:
+    inset -2px -2px 0 rgb(255 255 255 / 0.55),
+    inset 2px 2px 0 rgb(23 18 15 / 0.16),
+    1px 1px 0 var(--pixel-ink);
 }
 
 .pixel-button:focus-visible,
@@ -146,9 +173,8 @@ select {
 }
 
 .pixel-button--primary {
-  background: var(--pixel-green);
+  background: var(--pixel-mint);
   color: #07140d;
-  box-shadow: var(--pixel-shadow-blue);
 }
 
 .pixel-button--secondary {
@@ -202,22 +228,33 @@ select {
 
 .pixel-tab {
   display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
   min-height: 40px;
   align-items: center;
   justify-content: center;
   border: var(--pixel-border);
   border-radius: var(--pixel-radius);
-  padding: var(--pixel-space-2) var(--pixel-space-4);
+  padding: var(--pixel-space-2) var(--pixel-space-3);
   background: #ead8b5;
   color: var(--pixel-ink);
   box-shadow: 2px 2px 0 var(--pixel-ink);
   font-weight: 900;
   line-height: 1.2;
+  overflow-wrap: anywhere;
+  text-align: center;
+  word-break: keep-all;
 }
 
 .pixel-tab[data-active="true"] {
   background: var(--pixel-blue);
   box-shadow: var(--pixel-shadow-green);
+}
+
+@media (min-width: 640px) {
+  .pixel-tab {
+    padding: var(--pixel-space-2) var(--pixel-space-4);
+  }
 }
 
 .pixel-text-muted {
@@ -226,7 +263,7 @@ select {
 
 .pixel-copy {
   overflow-wrap: anywhere;
-  word-break: break-all;
+  word-break: keep-all;
 }
 
 .pixel-grid-art {
@@ -237,4 +274,220 @@ select {
   border-radius: var(--pixel-radius);
   backdrop-filter: none;
   filter: none;
+}
+
+@keyframes onboarding-pixel-float {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(0, -6px);
+  }
+}
+
+.onboarding-float {
+  animation: onboarding-pixel-float 1800ms steps(2, end) infinite;
+}
+
+.onboarding-page {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@keyframes pixel-idle-bob {
+  0%,
+  100% {
+    translate: -50% -50%;
+  }
+
+  50% {
+    translate: -50% calc(-50% - 4px);
+  }
+}
+
+@keyframes pixel-happy-hop {
+  0%,
+  100% {
+    translate: -50% -50%;
+  }
+
+  35% {
+    translate: -50% calc(-50% - 8px);
+  }
+
+  55% {
+    translate: -50% calc(-50% + 2px);
+  }
+}
+
+@keyframes pixel-sad-sway {
+  0%,
+  100% {
+    rotate: 0deg;
+    translate: -50% -50%;
+  }
+
+  50% {
+    rotate: -1deg;
+    translate: calc(-50% + 2px) -50%;
+  }
+}
+
+@keyframes pixel-twinkle {
+  0%,
+  45%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes pixel-rain-drop {
+  0% {
+    opacity: 0;
+    transform: translate(0, -4px) rotate(-20deg);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-8px, 10px) rotate(-20deg);
+  }
+}
+
+@keyframes pixel-condition-fill {
+  0% {
+    width: 22%;
+  }
+
+  100% {
+    width: 75%;
+  }
+}
+
+@keyframes pixel-heart-pop {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  45% {
+    transform: translateY(-6px) scale(1.15);
+  }
+}
+
+@keyframes pixel-capsule-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pixel-item-pop {
+  0% {
+    opacity: 0.6;
+    transform: translateY(5px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pixel-chat-pop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.pixel-idle-bob {
+  animation: pixel-idle-bob 1400ms steps(2, end) infinite;
+}
+
+.pixel-happy-hop {
+  animation: pixel-happy-hop 900ms steps(3, end) infinite;
+}
+
+.pixel-sad-sway {
+  animation: pixel-sad-sway 1800ms steps(2, end) infinite;
+}
+
+.pixel-twinkle {
+  animation: pixel-twinkle 1100ms steps(2, end) infinite;
+}
+
+.pixel-rain-drop {
+  animation: pixel-rain-drop 900ms steps(3, end) infinite;
+}
+
+.pixel-condition-fill {
+  animation: pixel-condition-fill 900ms steps(4, end) infinite alternate;
+}
+
+.pixel-heart-pop {
+  animation: pixel-heart-pop 820ms steps(3, end) infinite;
+}
+
+.pixel-capsule-hop {
+  animation: pixel-capsule-hop 1200ms steps(2, end) infinite;
+}
+
+.pixel-item-pop {
+  animation: pixel-item-pop 420ms steps(2, end) both;
+}
+
+.pixel-chat-pop {
+  animation: pixel-chat-pop 1400ms steps(2, end) infinite;
+}
+
+.pixel-delay-1 {
+  animation-delay: 140ms;
+}
+
+.pixel-delay-2 {
+  animation-delay: 280ms;
+}
+
+.pixel-delay-3 {
+  animation-delay: 420ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .onboarding-float,
+  .pixel-capsule-hop,
+  .pixel-chat-pop,
+  .pixel-happy-hop,
+  .pixel-heart-pop,
+  .pixel-condition-fill,
+  .pixel-idle-bob,
+  .pixel-item-pop,
+  .pixel-rain-drop,
+  .pixel-sad-sway,
+  .pixel-twinkle {
+    animation: none;
+  }
 }

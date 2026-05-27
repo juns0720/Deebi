@@ -1,95 +1,156 @@
-import { PixelBadge, PixelButton, PixelLinkButton } from "@/components/ui";
+"use client";
+
+import { useMemo, useState } from "react";
+import { PixelLinkButton } from "@/components/ui";
 import type { OnboardingSlide } from "@/types/onboarding";
-import { OnboardingCard } from "./onboarding-card";
+import { PixelRoomScene } from "./pixel-room-scene";
 
 interface OnboardingStoryProps {
   slides: OnboardingSlide[];
 }
 
-const logoCells = [
-  "bg-[#9bf542]",
-  "bg-[#67b7e8]",
-  "bg-[#ff6c98]",
-  "bg-[#f8fafc]",
-  "bg-[#0c1422]",
-  "bg-[#b8ff61]",
-  "bg-[#f6c453]",
-  "bg-[#f8fafc]",
-  "bg-[#67b7e8]",
-];
+interface FeatureDetail {
+  navLabel: string;
+  summary: string;
+}
+
+const featureDetails: Record<string, FeatureDetail> = {
+  "commit-heal": {
+    navLabel: "오늘 기록",
+    summary: "커밋할수록 포인트가 쌓이고, 개발량에 따라 DeeBi의 상태가 달라져요.",
+  },
+  "gacha-items": {
+    navLabel: "꾸미기",
+    summary: "포인트로 옷이나 방 소품을 뽑을 수 있어요.",
+  },
+  "friends-room": {
+    navLabel: "함께하기",
+    summary: "친구들과 같은 방에 모여 공부할 수 있어요.",
+  },
+};
+
+function TitleScreen({ roomSlide }: { roomSlide: OnboardingSlide }) {
+  return (
+    <section
+      id="top"
+      className="relative isolate flex min-h-[100svh] overflow-hidden bg-[#f8f1df] px-4 text-[#17120f] sm:px-6"
+    >
+      <div className="absolute inset-0 translate-y-[4%] scale-[1.03] opacity-95 saturate-[1.08]">
+        <PixelRoomScene className="size-full" frame="bleed" showLabels={false} size="hero" variant={roomSlide.scene} />
+      </div>
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,250,240,0.50)_0%,rgba(255,250,240,0.18)_38%,rgba(248,241,223,0.10)_62%,rgba(248,241,223,0.58)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_39%,rgba(255,250,240,0.74)_0%,rgba(255,250,240,0.44)_27%,rgba(255,250,240,0.07)_56%,rgba(255,250,240,0.18)_100%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#f8f1df] to-transparent" />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-[1180px] flex-col items-center justify-center pb-14 pt-12 text-center sm:pb-20 sm:pt-16">
+        <h1 className="text-[4.25rem] font-black leading-none text-[#17120f] [font-family:var(--font-pixel-title)] sm:text-[7rem] lg:text-[9rem]">
+          DeeBi
+        </h1>
+        <p className="pixel-copy mt-4 max-w-[520px] text-lg font-black leading-8 text-[#4c4038] sm:text-2xl">
+          커밋이 쌓이는 나만의 도트룸
+        </p>
+        <div className="mt-9 flex w-full max-w-[280px] flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
+          <PixelLinkButton className="w-full text-2xl sm:min-w-44 sm:w-auto" href="/dashboard" variant="primary">
+            시작하기
+          </PixelLinkButton>
+          <PixelLinkButton className="w-full text-2xl sm:min-w-44 sm:w-auto" href="#demo" variant="quiet">
+            구경하기
+          </PixelLinkButton>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeatureDemo({ featureSlides }: { featureSlides: OnboardingSlide[] }) {
+  const [activeId, setActiveId] = useState(featureSlides[0]?.id ?? "commit-heal");
+  const activeSlide = featureSlides.find((slide) => slide.id === activeId) ?? featureSlides[0];
+  if (!activeSlide) {
+    return null;
+  }
+
+  return (
+    <section
+      id="demo"
+      className="relative isolate flex min-h-[100svh] overflow-hidden bg-[#f8f1df] px-4 py-8 text-[#17120f] sm:px-6 sm:py-10"
+    >
+      <div className="absolute inset-0 translate-y-[18%] scale-[1.05] opacity-95 saturate-[1.08] sm:translate-y-[8%]">
+        <PixelRoomScene
+          background={activeSlide.asset?.background}
+          character={activeSlide.asset?.character}
+          className="size-full"
+          frame="bleed"
+          showLabels={false}
+          size="hero"
+          variant={activeSlide.scene}
+        />
+      </div>
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,250,240,0.94)_0%,rgba(255,250,240,0.78)_34%,rgba(255,250,240,0.20)_66%,rgba(248,241,223,0.80)_100%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#f8f1df] to-transparent" />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-[1180px] flex-col">
+        <div className="flex items-center justify-between gap-4">
+          <PixelLinkButton href="#top" size="small" variant="quiet">
+            처음으로
+          </PixelLinkButton>
+          <span className="border-2 border-[#17120f] bg-[#fffaf0]/92 px-3 py-1 text-xs font-black text-[#4c4038] shadow-[3px_3px_0_#8f6a42]">
+            02 / 02
+          </span>
+        </div>
+
+        <div className="mx-auto mt-12 max-w-[840px] text-center sm:mt-14">
+          <h2 className="text-balance text-3xl font-black leading-tight text-[#17120f] [font-family:var(--font-pixel-title)] sm:text-5xl">
+            오늘 기록이 DeeBi를 바꿔요.
+          </h2>
+          <p className="pixel-copy mx-auto mt-4 flex min-h-16 max-w-[720px] items-center justify-center text-base leading-8 text-[#4c4038] sm:min-h-10 sm:text-lg">
+            {featureDetails[activeSlide.id]?.summary}
+          </p>
+        </div>
+
+        <div className="mx-auto mt-8 grid w-full max-w-[500px] grid-cols-3 gap-2">
+          {featureSlides.map((slide) => {
+            const tab = featureDetails[slide.id];
+            const active = slide.id === activeSlide.id;
+
+            return (
+              <button
+                key={slide.id}
+                className={`border-2 px-2 py-3 text-center text-sm font-black transition-colors ${
+                  active
+                    ? "border-[#17120f] bg-[#a8e6c1] text-[#17120f] shadow-[3px_3px_0_#1f8b56]"
+                    : "border-[#17120f] bg-[#fffaf0]/92 text-[#4c4038] shadow-[2px_2px_0_#8f6a42] hover:bg-[#f2d28d]"
+                }`}
+                onClick={() => setActiveId(slide.id)}
+                type="button"
+              >
+                {tab?.navLabel ?? slide.id}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="min-h-[300px] flex-1 sm:min-h-[380px] lg:min-h-[460px]" />
+      </div>
+    </section>
+  );
+}
 
 export function OnboardingStory({ slides }: OnboardingStoryProps) {
+  const introSlide = slides.find((slide) => slide.id === "room-intro") ?? slides[0];
+  const roomSlide = slides.find((slide) => slide.id === "friends-room") ?? slides[slides.length - 1] ?? introSlide;
+  const featureSlides = useMemo(
+    () => slides.filter((slide) => ["commit-heal", "gacha-items", "friends-room"].includes(slide.id)),
+    [slides],
+  );
+
+  if (!introSlide || !roomSlide) {
+    return null;
+  }
+
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#050914] text-white">
-      <div className="absolute inset-0 -z-0 bg-[radial-gradient(circle_at_20%_0%,rgba(155,245,66,0.12),transparent_34%),radial-gradient(circle_at_80%_8%,rgba(103,183,232,0.14),transparent_32%),linear-gradient(180deg,#08111f_0%,#050914_58%,#070b12_100%)]" />
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1540px] flex-col px-4 py-4 sm:px-6 lg:px-8">
-        <header className="flex items-center justify-between gap-4 rounded-[2px] border border-[#18263d] bg-[#0b1322]/90 px-4 py-3 shadow-[0_8px_24px_rgba(0,0,0,0.26)]">
-          <div className="flex items-center gap-3">
-            <div className="pixel-grid-art grid size-9 grid-cols-3 overflow-hidden border-2 border-[#9fb2d1] bg-[#050914] shadow-[3px_3px_0_#000]">
-              {logoCells.map((color, index) => (
-                <span key={`${color}-${index}`} className={color} />
-              ))}
-            </div>
-            <div>
-              <div className="text-xl font-black text-[#9bf542]">Deebi</div>
-              <div className="hidden text-xs text-[#aab8cc] sm:block">
-                작은 커밋이 모여, Deebi의 하루가 빛나요
-              </div>
-            </div>
-          </div>
-          <div className="hidden sm:block">
-            <PixelBadge tone="success">온보딩 미리보기</PixelBadge>
-          </div>
-        </header>
-
-        <section className="grid gap-5 py-7 lg:grid-cols-[minmax(260px,0.62fr)_minmax(0,1fr)] lg:items-end">
-          <div className="max-w-[328px] sm:max-w-3xl">
-            <p className="mb-3 text-sm font-black uppercase tracking-normal text-[#9bf542]">
-              GitHub activity pixel room
-            </p>
-            <h1 className="max-w-[328px] text-3xl font-black leading-tight tracking-normal text-white [overflow-wrap:anywhere] sm:max-w-3xl sm:text-5xl lg:text-6xl">
-              각자 코딩해도,
-              <br />
-              같은 방에 있는 것처럼.
-            </h1>
-            <p className="pixel-copy mt-4 max-w-[320px] text-sm leading-7 text-[#d7e2f2] sm:max-w-2xl sm:text-lg sm:leading-8">
-              Deebi는 GitHub 커밋으로 캐릭터 상태가 바뀌는 작은 픽셀방이에요. 내
-              방을 켜두고, 친구들과 같은 방에서 느슨하게 같이 개발해요.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <PixelButton disabled type="button" variant="primary">
-                GitHub 로그인 준비 중
-              </PixelButton>
-              <PixelLinkButton href="#onboarding-demo" variant="quiet">
-                먼저 둘러보기
-              </PixelLinkButton>
-            </div>
-          </div>
-
-          <div className="grid gap-2 border border-[#1d2b42] bg-[#0b1322] p-3 text-sm text-[#d7e2f2] sm:grid-cols-3">
-            <div>
-              <span className="block text-[#9bf542]">01</span>
-              커밋이 캐릭터 건강도로 바뀌어요
-            </div>
-            <div>
-              <span className="block text-[#9bf542]">02</span>
-              포인트로 작은 아이템을 뽑아요
-            </div>
-            <div>
-              <span className="block text-[#9bf542]">03</span>
-              친구들과 같은 룸에서 상태를 봐요
-            </div>
-          </div>
-        </section>
-
-        <section id="onboarding-demo" aria-label="Deebi 온보딩" className="pb-3">
-          <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:snap-none lg:grid-cols-3 lg:overflow-visible lg:px-0">
-            {slides.map((slide) => (
-              <OnboardingCard key={slide.id} slide={slide} />
-            ))}
-          </div>
-        </section>
-      </div>
+    <main className="min-h-screen overflow-x-clip bg-[#f8f1df] text-[#17120f]">
+      <TitleScreen roomSlide={roomSlide} />
+      <FeatureDemo featureSlides={featureSlides} />
     </main>
   );
 }

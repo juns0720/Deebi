@@ -13,11 +13,13 @@
 
 <!-- 아래에 새 결정을 추가하세요 -->
 - [2026-05-21][phase-01] MVP OAuth scope는 `read:user`만 사용하고 비공개 커밋 집계는 후속 확장으로 분리 — 처음부터 `repo` 권한을 요구하면 신뢰 장벽이 커지므로 공개 활동 기반으로 먼저 검증하기 위해 (결정 주체: codex)
+- [2026-05-27][ui-ux] 서비스 표시명을 `Deebi`에서 `DeeBi`로 변경 — 타이틀 화면에서 B를 대문자로 강조해 브랜드명이 더 또렷하게 보이도록 하기 위해 (결정 주체: developer)
 - [2026-05-21][phase-01] MVP GitHub 활동 집계는 public PushEvent 기준으로 시작 — 구현 복잡도와 권한 부담을 낮추고, 비공개 커밋은 추후 GitHub App 또는 선택 권한으로 확장하기 위해 (결정 주체: codex)
 - [2026-05-21][phase-01] GitHub access token은 `users`가 아니라 `user_oauth_tokens` private table에 저장 — 공개 사용자 row 조회 중 token이 실수로 노출되는 위험을 줄이기 위해 (결정 주체: codex)
 - [2026-05-21][phase-01] 세션은 직접 서명한 httpOnly cookie로 시작 — MVP에서 외부 session library 의존을 줄이고 내부 user id만 담는 단순한 서버 세션으로 충분하기 때문 (결정 주체: codex)
 - [2026-05-21][phase-01] sync와 gacha의 중복 보상 방지는 Postgres RPC transaction으로 처리 — Supabase JS 단일 호출만으로 다중 statement 원자성을 보장하기 어려워 DB row lock과 constraint를 함께 사용하기 위해 (결정 주체: codex)
 - [2026-05-21][ui-ux] 전체 UI/UX를 픽셀 그래픽 감성으로 구현하고 기본 폰트는 PF스타더스트로 확정 — 캐릭터뿐 아니라 앱 전체가 같은 픽셀 세계처럼 보여야 Deebi의 방치형 공간 감성이 살아나기 때문 (결정 주체: developer)
+- [2026-05-27][ui-ux] 기본 UI 폰트를 Galmuri11로 변경하고 큰 타이틀/HUD 포인트에는 Galmuri9를 사용 — PF스타더스트보다 한국어 본문 가독성이 좋고 도트 캐릭터/RPG HUD 감성도 유지되기 때문 (결정 주체: developer)
 - [2026-05-21][phase-01] 실제 개발 진행 단위를 phase가 아닌 `PNN-TNN` task로 확정 — phase는 큰 단락으로 유지하되 자동 개발과 리뷰는 기능 단위 task 하나씩 진행하기 위해 (결정 주체: developer)
 - [2026-05-21][phase-01] 개발 흐름을 UI/UX 우선으로 재정렬 — Deebi의 핵심 가치가 픽셀 방과 공동 룸 감성이므로 DB/API보다 mock 기반 화면 검증을 먼저 하기 위해 (결정 주체: developer)
 - [2026-05-21][ui-ux] 공동 룸 채팅 배치는 데스크톱 오른쪽 패널, 모바일 하단 시트로 확정 — 방/캐릭터를 계속 보면서 대화할 수 있게 하고 작은 화면에서는 공간을 절약하기 위해 (결정 주체: developer)
