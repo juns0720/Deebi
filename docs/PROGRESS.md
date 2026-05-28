@@ -174,8 +174,10 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - `game-frame`, `inventory`, `progress` UI 에셋을 직접 픽셀 제작 방식으로 다시 그려 임시 사각 테두리 느낌을 줄이고 HUD/패널/슬롯/게이지의 게임 UI 감성을 보강했다.
 - `내 방` 집 에셋을 기준으로 만든 `같이 하기` 문 후보 `public/assets/rooms/my-room/menu-objects/candidates/object-visit-candidate-1.png`를 승인된 최종 런타임 에셋 `object-visit.png`로 승격했다.
 - 비교 검사용 시트 `public/assets/rooms/my-room/menu-objects/candidates/object-visit-candidate-1-preview.png`에는 기준 `내 방`, 현재 `같이 하기`, 신규 후보를 128px/64px로 나란히 배치했다.
-- 다음 에셋 후보로 `꾸미기` 가방 `public/assets/rooms/my-room/menu-objects/candidates/object-customize-candidate-1.png`를 만들었다. 승인 전이므로 런타임 최종 `object-customize.png`는 아직 덮어쓰지 않았다.
+- `꾸미기` 가방 후보 `public/assets/rooms/my-room/menu-objects/candidates/object-customize-candidate-1.png`를 승인된 최종 런타임 에셋 `object-customize.png`로 승격했다.
 - 비교 검사용 시트 `public/assets/rooms/my-room/menu-objects/candidates/object-customize-candidate-1-preview.png`에는 기준 `내 방`, 승인된 `같이 하기`, 현재 `꾸미기`, 신규 후보를 128px/64px로 나란히 배치했다.
+- 다음 에셋 후보로 `뽑기` 기계 `public/assets/rooms/my-room/menu-objects/candidates/object-gacha-candidate-1.png`를 만들었다. 승인 전이므로 런타임 최종 `object-gacha.png`는 아직 덮어쓰지 않았다.
+- 비교 검사용 시트 `public/assets/rooms/my-room/menu-objects/candidates/object-gacha-candidate-1-preview.png`에는 기준 `내 방`, 승인된 `같이 하기`, 승인된 `꾸미기`, 현재 `뽑기`, 신규 후보를 128px/64px로 나란히 배치했다.
 - 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`의 SHA-256 hash는 변경 전과 동일하며, 각각 `source/`와 `layers/` 하위 폴더로 정리했다.
 - `public/assets/**` 루트에는 런타임 최종 에셋만 두고, 승인 전 후보는 `menu-objects/candidates/`처럼 별도 하위 폴더에 둔다.
 - `docs/tasks/phase-02/T05-management-inventory.md`, `docs/PIXEL_ASSET_PIPELINE.md`, `docs/DECISIONS.md`를 새 헤더 에셋 메뉴 방향에 맞게 갱신했다.
@@ -191,7 +193,7 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - `public/assets/characters/deebi/deebi.png`는 개발자 제공 기준 캐릭터 원본으로 취급한다. 원본을 덮어쓰지 말고, 필요하면 파생 파일만 만든다.
 - UI 에셋은 용도별로 `public/assets/ui/game-frame/`, `public/assets/ui/inventory/`, `public/assets/ui/progress/`에 있다. 텍스트/숫자는 에셋에 굽지 않고 HTML로 유지한다.
 - 헤더 메뉴 에셋은 `public/assets/rooms/my-room/menu-objects/object-visit.png`, `object-my-room.png`, `object-customize.png`, `object-gacha.png` 파일을 사용한다. 현재 실제 버튼은 헤더에 있고 stage 내부에는 없다.
-- `같이 하기` 문 품질 리워크는 최종 `object-visit.png`에 반영 완료했다. 다음은 `꾸미기` 가방 후보 `menu-objects/candidates/object-customize-candidate-1.png`를 개발자가 보고 승인하면 최종 `object-customize.png`로 승격한다. 승인 전에는 `뽑기` 후보를 만들지 않는다.
+- `같이 하기` 문과 `꾸미기` 가방 품질 리워크는 최종 런타임 에셋에 반영 완료했다. 다음은 `뽑기` 기계 후보 `menu-objects/candidates/object-gacha-candidate-1.png`를 개발자가 보고 승인하면 최종 `object-gacha.png`로 승격한다.
 - 다음 작업자가 이어서 손볼 가능성이 높은 파일은 `src/components/dashboard/dashboard-shell.tsx`, `src/components/dashboard/game-room-frame.tsx`, `src/components/dashboard/my-room-stage.tsx`, `src/lib/mock/room-assets.ts`, `src/app/globals.css`다.
 - P02-T06 방치 모드를 시작하기 전에는 P02-T05 리뷰가 통과되어야 한다. 방치 모드에서는 이 공통 프레임에서 우측 command panel과 하단 Dock을 어떻게 접거나 축소할지 결정하면 된다.
 
@@ -202,11 +204,13 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - `npm run build` 통과, `/dashboard` static route 생성 확인
 - 이미지 검사: 상단 오브젝트 PNG 4개가 `128x128` RGBA, 투명 모서리, 크로마키 잔여 0픽셀임을 확인
 - 이미지 검사: 최종 `object-visit.png`가 `128x128` RGBA, alpha bbox `83x106`, 투명 모서리, 크로마키 잔여 0픽셀임을 확인
-- 이미지 검사: `object-customize-candidate-1.png`가 `128x128` RGBA, alpha bbox `96x108`, 투명 모서리, 크로마키 잔여 0픽셀임을 확인
+- 이미지 검사: 최종 `object-customize.png`가 `128x128` RGBA, alpha bbox `96x108`, 투명 모서리, 크로마키 잔여 0픽셀임을 확인
+- 이미지 검사: `object-gacha-candidate-1.png`가 `128x128` RGBA, alpha bbox `83x112`, 투명 모서리, 크로마키/마젠타 잔여 0픽셀임을 확인
 - 이미지 검사: 헤더 메뉴 PNG 4종의 가시 색 수가 64색 이하임을 확인
 - 브라우저 데스크톱 확인: 브랜드 텍스트, 상단 헤더 프레임, 우상단 코인 HUD 없이 헤더 중앙에 `같이 하기`/`내 방`/`꾸미기`/`뽑기` 메뉴가 64px 아이콘으로 선명하게 보이고, 하단 Dock의 오늘 커밋 표시를 확인했다.
 - 브라우저 데스크톱 확인: `1280px` 폭에서 `scrollWidth=1280`, 헤더 메뉴 그룹 중심과 헤더 중심의 차이 `0px`, 헤더 배경 투명/테두리 0/box-shadow none임을 확인했다.
 - 브라우저 데스크톱 확인: 적용 후 `같이 하기` 메뉴가 최종 `object-visit.png`를 참조하고, 헤더 메뉴 중심 차이 `0px`, 코인 HUD 없음 상태를 유지함을 확인했다.
+- 브라우저 데스크톱 확인: 적용 후 `꾸미기` 메뉴가 최종 `object-customize.png`를 참조하고, 헤더 메뉴 중심 차이 `0px`, 코인 HUD 없음 상태를 유지함을 확인했다.
 - 이미지 확인: `object-my-room.png`가 `128x128` RGBA, 투명 모서리, 마젠타 계열 배경 제거 상태임을 확인했다.
 - UI 에셋 확인: `game-frame`, `inventory`, `progress` PNG가 기존 경로/크기로 갱신되고 브라우저에서 패널, 슬롯, 게이지에 정상 적용됨을 확인했다.
 - 브라우저 상호작용 확인: 헤더 에셋 메뉴의 `같이 하기`, `내 방`, `꾸미기` 클릭 동작 통과
