@@ -13,6 +13,7 @@
 
 - `docs/PIXEL_ASSET_PIPELINE.md`의 UI 프레임 원칙을 따른다.
 - `public/assets/ui/` 아래에 게임 UI 에셋을 용도별 폴더로 직접 제작한다.
+  - `hud/icon-coin.png`
   - `game-frame/hud-bar.png`
   - `game-frame/command-panel.png`
   - `game-frame/log-window.png`
@@ -28,13 +29,14 @@
 - 승인된 `source/source-scene.png`, `layers/base-room.png`, `layers/foreground-scene.png`는 수정하지 않는다.
 - UI/오브젝트 에셋에는 텍스트를 굽지 않는다. 텍스트, 숫자, 상태값은 HTML로 유지한다.
 - `GameRoomFrame`을 만들어 `내 방`과 `함께하는 방`이 같은 상단 에셋 메뉴, stage, 우측 command panel, 하단 dock 구조를 공유하게 한다.
-- 상단에는 `DeeBi`, 현재 위치, 픽셀 에셋 메뉴만 노출한다. health와 오늘 커밋은 상단에 두지 않는다.
+- 상단에는 `DeeBi`, 현재 위치, 보유 코인 HUD, 픽셀 에셋 메뉴만 노출한다. health와 오늘 커밋은 상단에 두지 않는다.
 - 기존 오른쪽 카드 묶음은 제거하고, 선택된 방 오브젝트의 설명과 명령만 보여주는 RPG식 선택 메뉴창으로 바꾼다.
 - 헤더 에셋 메뉴 동작:
   - `놀러가기`: `함께하는 방` 탭 전환만 수행한다.
-  - `상태`: health, streak, points, sync mock을 보여준다.
+  - `상태`: health, streak, owned, sync mock을 보여준다.
   - `꾸미기`: 장착 슬롯과 보유 아이템을 보여준다.
   - `뽑기`: 포인트와 비활성 mock CTA를 보여준다.
+- 포인트는 헤더 오른쪽 코인 HUD와 `뽑기` 선택 메뉴창에서만 보인다. `상태` 선택 메뉴창에는 별도 POINT 카드를 두지 않는다.
 - 하단 Dock은 내 방에서는 sync/status 로그 카드로 사용하고 오늘 커밋 수를 이곳에 표시한다. `함께하는 방`에서는 향후 채팅이 들어갈 같은 위치를 placeholder로 둔다.
 - 모바일에서는 `HUD → stage → command panel → log dock` 순서로 쌓고 가로 overflow를 만들지 않는다.
 
@@ -46,8 +48,10 @@
 - [ ] 메뉴가 stage 안에 끼어들지 않고 헤더의 픽셀 에셋 버튼처럼 보인다.
 - [ ] UI 에셋에 텍스트가 굽혀 있지 않고 HTML 텍스트가 유지된다.
 - [ ] 상단 헤더에는 health와 오늘 커밋이 보이지 않는다.
+- [ ] 상단 헤더 오른쪽에 코인 아이콘과 보유 포인트 숫자가 HUD처럼 보인다.
 - [ ] 오늘 커밋은 하단 sync/status 로그 Dock에서 보인다.
-- [ ] streak, points, 장착 슬롯, 인벤토리 mock은 우측 선택 메뉴창에서 보인다.
+- [ ] streak, owned, sync mock, 장착 슬롯, 인벤토리 mock은 우측 선택 메뉴창에서 보인다.
+- [ ] 포인트는 헤더 코인 HUD와 뽑기 선택 메뉴창에서만 보인다.
 - [ ] 포인트 부족/뽑기 가능 mock 상태가 구분된다.
 - [ ] `놀러가기` 에셋 메뉴가 `함께하는 방` 탭 전환으로만 동작한다.
 - [ ] 하단 Dock이 내 방에서는 상태 로그로 보이고, 향후 채팅 영역과 충돌하지 않는 구조다.

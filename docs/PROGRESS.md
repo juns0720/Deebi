@@ -161,6 +161,10 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 새 오브젝트 에셋 `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`를 `public/assets/rooms/my-room/menu-objects/`에 추가했다.
 - 상단 옵션 에셋은 사용자 피드백에 맞춰 예쁜 문, 모니터, 인벤토리 가방/백팩형 오브젝트, 핑크 유리돔 뽑기 기계로 다시 생성했고, 모두 `128x128` 투명 PNG로 저장했다.
 - 상단 메뉴 에셋 4종을 최종 파일로 승격했다: `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`.
+- 헤더 오른쪽 상단에 보유 포인트를 보여주는 코인 HUD를 추가했다. 포인트는 단위 없이 숫자로 표시하고, 새 금화 에셋은 `public/assets/ui/hud/icon-coin.png`에 저장했다.
+- 상단 메뉴 버튼의 카드형 테두리/배경/박스섀도를 제거하고, 4개 메뉴를 큰 픽셀 오브젝트와 작은 라벨 중심의 HUD 메뉴로 정리했다.
+- `상태` 선택 메뉴창의 `POINT` 카드를 제거했다. 포인트는 헤더 코인 HUD와 `뽑기` 선택 메뉴창에서만 보인다.
+- 기존 최종 상단 메뉴 에셋은 재생성하지 않고 `object-status.png`, `object-customize.png`, `object-gacha.png`의 투명 캔버스 내부 실루엣만 `object-visit.png` 기준에 맞춰 크게 정규화했다.
 - 이후 소형 픽셀 오브젝트 품질 기준은 최종 상단 메뉴 4종을 기준으로 하는 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 색상은 고정하지 않고, 42px에서도 읽히는 게임 아이템 질감과 한 개씩 생성/검수하는 workflow를 `docs/PIXEL_ASSET_PIPELINE.md`에 기록했다.
 - 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`의 SHA-256 hash는 변경 전과 동일하며, 각각 `source/`와 `layers/` 하위 폴더로 정리했다.
 - `public/assets/**`에는 런타임 최종 에셋만 남기고, 온보딩 테스트 에셋/미사용 메뉴 에셋/승인 전 후보 에셋은 삭제했다.
@@ -170,7 +174,7 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 
 - 현재 UI 컨셉은 "픽셀 게임 클라이언트"다. 웹 대시보드 카드 묶음이 아니라 `상단 에셋 메뉴`, `중앙 stage`, `우측 RPG command panel`, `하단 sync/chat dock`으로 이해하면 된다.
 - `내 방`과 `함께하는 방`은 같은 외곽 프레임을 공유한다. 하단 Dock은 내 방에서는 sync/status 로그, 함께하는 방에서는 이후 채팅 영역이 된다.
-- 상단 헤더에는 HP/커밋 숫자를 두지 않는다. 현재 위치와 픽셀 에셋 메뉴만 둔다. 커밋 정보는 하단 `SYNC LOG` 카드에 둔다.
+- 상단 헤더에는 HP/커밋 숫자를 두지 않는다. 현재 위치, 보유 코인 HUD, 픽셀 에셋 메뉴만 둔다. 커밋 정보는 하단 `SYNC LOG` 카드에 둔다.
 - stage 위에 메뉴성 UI를 올리지 않는다. 승인된 방 장면 위에 상단 옵션 버튼이 끼어들면 안 된다.
 - `public/assets/rooms/my-room/source/source-scene.png`는 개발자가 승인한 원본 장면이다. `layers/base-room.png`와 `layers/foreground-scene.png`는 이 장면을 분리한 렌더용 레이어다.
 - 승인된 방/캐릭터/책상 장면을 수정해야 하는 경우에는 먼저 별도 preview로 만들고 개발자 승인 후 저장한다. 현재 방향은 방 원본을 재생성하지 않고 UI/메뉴/오브젝트 에셋만 별도 레이어 또는 헤더 메뉴로 추가하는 것이다.
@@ -185,11 +189,11 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - `npm run lint` 통과
 - `npm run typecheck` 통과
 - `npm run build` 통과, `/dashboard` static route 생성 확인
-- 이미지 검사: 신규 상단 오브젝트 PNG 4개가 `128x128` RGBA, 투명 모서리, `#ff00ff` 잔여 0픽셀임을 확인
-- 브라우저 데스크톱 확인: 헤더에 HP/커밋 텍스트가 없고 stage 내부 메뉴 버튼 수가 0개이며, 하단 Dock에 오늘 커밋이 표시된다.
+- 이미지 검사: 신규 코인 HUD PNG와 상단 오브젝트 PNG 4개가 `128x128` RGBA, 투명 모서리, 크로마키 잔여 0픽셀임을 확인
+- 브라우저 데스크톱 확인: 헤더 우상단에 `보유 코인 240` HUD가 보이고, 메뉴 버튼 4개는 border/background/box-shadow 없이 아이콘+라벨로 표시되며, 하단 Dock에 오늘 커밋이 표시된다.
 - 브라우저 상호작용 확인: 헤더 에셋 메뉴의 `꾸미기`, `놀러가기`, `상태` 클릭 동작 통과
 - 브라우저 키보드 확인: 헤더 `뽑기` Enter 활성화로 command panel 전환 통과
-- 브라우저 모바일 360px 확인: `innerWidth=360`, `scrollWidth=360`, `bodyScrollWidth=360`, `labelsFit=true`로 가로 overflow가 없고 상단 메뉴 텍스트가 버튼 안에 맞는다.
+- 브라우저 모바일 360px 확인: `innerWidth=360`, `scrollWidth=360`으로 가로 overflow가 없고, 브랜드/코인 HUD/상단 메뉴가 서로 겹치지 않는다.
 
 ## Blockers
 
@@ -199,7 +203,7 @@ none
 
 1. `/dashboard`의 `내 방` 탭을 데스크톱 폭에서 연다.
 2. 방 stage가 중심이고 오른쪽 카드 더미 느낌이 사라졌는지 확인한다.
-3. 상단 헤더에 HP와 커밋 지표가 없고, 커밋 정보가 하단 sync/status 로그 카드에 있는지 확인한다.
+3. 상단 헤더에 HP와 커밋 지표가 없고, 오른쪽 코인 HUD와 하단 sync/status 로그 카드의 커밋 정보가 보이는지 확인한다.
 4. stage 안에 메뉴 옵션이 끼어들어가 있지 않은지 확인한다.
 5. `상태`, `꾸미기`, `뽑기` 헤더 에셋 메뉴를 클릭/키보드 포커스로 선택했을 때 우측 선택 메뉴창 내용이 바뀌는지 확인한다.
 6. `놀러가기` 헤더 에셋 메뉴가 `함께하는 방` 탭 전환으로만 동작하는지 확인한다.

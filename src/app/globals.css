@@ -277,7 +277,7 @@ select {
 
 .game-room-frame__hud {
   display: grid;
-  min-height: 86px;
+  min-height: 112px;
   align-items: center;
   gap: 10px;
   border: var(--pixel-border);
@@ -285,7 +285,15 @@ select {
   background: var(--pixel-paper);
   box-shadow: var(--pixel-shadow);
   grid-template-columns: minmax(0, 1fr);
-  padding: 14px;
+  padding: 14px 14px 10px;
+}
+
+.game-room-frame__topline {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .game-room-frame__brand {
@@ -308,6 +316,34 @@ select {
   font-weight: 900;
 }
 
+.game-room-frame__coin-hud {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  border: 2px solid var(--pixel-ink);
+  background: #fff2a8;
+  box-shadow:
+    inset 2px 2px 0 rgb(255 255 255 / 0.68),
+    2px 2px 0 var(--pixel-ink);
+  color: #4b280c;
+  line-height: 1;
+  padding: 4px 8px 4px 5px;
+}
+
+.game-room-frame__coin-hud img {
+  width: 26px;
+  height: 26px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.game-room-frame__coin-hud strong {
+  font-family: var(--font-pixel-title);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
 .game-room-frame__menu {
   min-width: 0;
 }
@@ -317,24 +353,22 @@ select {
   max-width: 100%;
   align-items: center;
   justify-content: flex-start;
-  gap: 8px;
+  gap: 14px;
   overflow-x: auto;
-  padding: 2px 2px 6px;
+  padding: 0 2px 4px;
 }
 
 .game-room-frame__asset-menu-item {
   position: relative;
   display: grid;
-  min-height: 64px;
+  min-height: 74px;
   min-width: 62px;
   place-items: center;
-  border: var(--pixel-border);
+  border: 0;
   border-radius: 0;
-  padding: 5px 4px 4px;
-  background: rgb(255 250 240 / 0.78);
-  box-shadow:
-    inset 2px 2px 0 rgb(255 255 255 / 0.65),
-    3px 3px 0 var(--pixel-ink);
+  padding: 0 2px 7px;
+  background: transparent;
+  box-shadow: none;
   color: var(--pixel-ink);
   cursor: pointer;
   flex: 0 0 auto;
@@ -343,9 +377,12 @@ select {
 }
 
 .game-room-frame__asset-menu-item img {
-  height: 42px;
-  width: 42px;
+  height: 56px;
+  width: 56px;
   object-fit: contain;
+  transition:
+    filter 120ms ease,
+    transform 120ms ease;
 }
 
 .game-room-frame__asset-menu-item span {
@@ -354,17 +391,37 @@ select {
 }
 
 .game-room-frame__asset-menu-item[data-active="true"] {
-  background: #e1f8e9;
-  box-shadow:
-    inset 2px 2px 0 rgb(255 255 255 / 0.65),
-    3px 3px 0 #1f8b56;
+  color: #1f6f49;
+}
+
+.game-room-frame__asset-menu-item::after {
+  position: absolute;
+  right: 12px;
+  bottom: 0;
+  left: 12px;
+  height: 0;
+  background: #78d89f;
+  box-shadow: 0 2px 0 #1f6f49;
+  content: "";
+  opacity: 0;
+}
+
+.game-room-frame__asset-menu-item[data-active="true"]::after {
+  height: 3px;
+  opacity: 1;
+}
+
+.game-room-frame__asset-menu-item[data-active="true"] img {
+  filter: drop-shadow(0 3px 0 rgb(120 216 159 / 0.85));
+  transform: translateY(-1px);
 }
 
 .game-room-frame__asset-menu-item:hover {
-  transform: translate(1px, 1px);
-  box-shadow:
-    inset 2px 2px 0 rgb(255 255 255 / 0.65),
-    2px 2px 0 var(--pixel-ink);
+  color: #1f6f49;
+}
+
+.game-room-frame__asset-menu-item:hover img {
+  transform: translateY(-1px);
 }
 
 .game-room-frame__asset-menu-item:focus-visible {
@@ -1166,7 +1223,11 @@ select {
 
 @media (min-width: 768px) {
   .game-room-frame__hud {
-    grid-template-columns: minmax(160px, 1fr) minmax(0, auto);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .game-room-frame__asset-menu {
+    justify-content: flex-end;
   }
 
   .game-room-frame__body {
@@ -1182,16 +1243,49 @@ select {
 }
 
 @media (max-width: 639px) {
-  .game-room-frame__brand {
-    justify-content: space-between;
+  .game-room-frame__hud {
+    min-height: 122px;
+    padding: 12px 12px 10px;
+  }
+
+  .game-room-frame__topline {
+    align-items: center;
   }
 
   .game-room-frame__brand strong {
     font-size: 1.65rem;
   }
 
+  .game-room-frame__brand span {
+    font-size: 0.6875rem;
+  }
+
+  .game-room-frame__coin-hud {
+    padding: 3px 7px 3px 4px;
+  }
+
+  .game-room-frame__coin-hud img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .game-room-frame__coin-hud strong {
+    font-size: 0.875rem;
+  }
+
   .game-room-frame__asset-menu {
     justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .game-room-frame__asset-menu-item {
+    min-height: 70px;
+    min-width: 58px;
+  }
+
+  .game-room-frame__asset-menu-item img {
+    width: 52px;
+    height: 52px;
   }
 
   .game-command {

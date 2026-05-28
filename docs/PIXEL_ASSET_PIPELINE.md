@@ -50,6 +50,8 @@ public/assets/
       member-shadow.png
       room-light.png
   ui/
+    hud/
+      icon-coin.png
     game-frame/
       hud-bar.png
       command-panel.png
@@ -196,6 +198,14 @@ DeeBi Lo-Fi Pixel Object Standard v1:
 - 피드백 반영 시에는 사용자가 지적한 축만 바꾼다. 예를 들어 "너무 고퀄"이면 디테일과 광택을 낮추고, 색상/형태/컨셉 전체를 동시에 갈아엎지 않는다.
 - 새 후보를 만들 때는 프롬프트에 반드시 "match DeeBi Lo-Fi Pixel Object Standard v1"과 "not product icon, not premium asset-store sticker"를 포함한다.
 - 최종 적용 전에는 128px 원본, 42px 축소 미리보기, 최종 기준 4종을 한 화면에서 함께 확인한다. 이 비교를 하지 않은 후보는 승인 후보로 취급하지 않는다.
+
+HUD 리소스 아이콘:
+
+- 포인트는 `코인` 개념으로 표현한다. `/dashboard` 헤더 우상단에는 `public/assets/ui/hud/icon-coin.png` 단일 금화 에셋과 숫자만 표시한다.
+- HUD 리소스 아이콘도 `DeeBi Lo-Fi Pixel Object Standard v1`을 따른다. 작은 크기에서 바로 읽히는 단일 오브젝트, 진한 갈색 외곽선, 큰 색면, 절제된 하이라이트를 기준으로 한다.
+- 코인 에셋은 `128x128` 투명 PNG로 저장하고, 런타임 표시는 24~28px 범위에서 한다.
+- 숫자와 단위는 이미지에 굽지 않는다. 보유량 숫자는 HTML로 렌더링하고, 접근성 라벨은 `보유 코인 240`처럼 제공한다.
+- 코인 아이콘에는 글자, 숫자, 로고, 가격표, 상점/결제/현금 결제 암시를 넣지 않는다. 게임 HUD 자원처럼 보여야 하며 쇼핑몰 포인트 배지처럼 보이면 실패로 본다.
 
 UI 프레임:
 

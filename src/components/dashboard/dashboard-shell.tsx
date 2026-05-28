@@ -96,10 +96,6 @@ function StatusCommand({ data }: { data: DashboardMockData }) {
           <strong>{data.user.streakDays}일</strong>
         </div>
         <div>
-          <span>POINT</span>
-          <strong>{data.user.points}P</strong>
-        </div>
-        <div>
           <span>OWNED</span>
           <strong>{ownedCount}/{data.inventory.length}</strong>
         </div>
@@ -330,7 +326,7 @@ function HeaderAssetMenu({
             }}
             type="button"
           >
-            <Image alt="" aria-hidden="true" className="pixel-grid-art" height={42} src={action.iconSrc} unoptimized width={42} />
+            <Image alt="" aria-hidden="true" className="pixel-grid-art" height={56} src={action.iconSrc} unoptimized width={56} />
             <span>{action.label}</span>
           </button>
         );
@@ -365,7 +361,7 @@ export function DashboardShell({ data }: { data: DashboardMockData }) {
   );
 
   return (
-    <GameRoomFrame activeTab={activeTab} command={command} dock={dock} menu={menu}>
+    <GameRoomFrame activeTab={activeTab} command={command} dock={dock} menu={menu} points={data.user.points}>
       {activeTab === "my-room" ? <MyRoomStage data={data} /> : <SharedRoomStage rooms={data.joinedRooms} />}
     </GameRoomFrame>
   );
