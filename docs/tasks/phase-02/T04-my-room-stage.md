@@ -12,10 +12,10 @@
 ## 작업
 
 - `docs/PIXEL_ASSET_PIPELINE.md`를 먼저 읽고 내 방 기준 좌표계와 에셋 검수 기준을 따른다.
-- 개발자가 승인한 응집된 장면을 `public/assets/rooms/my-room/source-scene.png`로 보존한다.
+- 개발자가 승인한 응집된 장면을 `public/assets/rooms/my-room/source/source-scene.png`로 보존한다.
   - 이 원본은 배경, 책상, 흰색 DeeBi placeholder가 하나의 시점과 팔레트로 맞춰진 기준 이미지다.
   - 이후 분리 작업에서 이 원본을 재생성하거나 임의로 바꾸지 않는다.
-- 승인 원본을 분리해 `public/assets/rooms/my-room/base-room.png`와 `public/assets/rooms/my-room/foreground-scene.png`에 저장한다.
+- 승인 원본을 분리해 `public/assets/rooms/my-room/layers/base-room.png`와 `public/assets/rooms/my-room/layers/foreground-scene.png`에 저장한다.
   - 기준 해상도는 `1600x900` 16:9로 둔다.
   - 밝은 크림/우드/민트 계열의 픽셀 방으로 만든다.
   - 벽, 바닥, 문, 창문, 선반, 식물, 작은 고정 소품은 base room에 일체형으로 포함한다.
@@ -23,11 +23,10 @@
   - `foreground-scene.png`는 책상, 캐릭터, 접지 그림자를 포함한 투명 PNG로 둔다.
   - `base-room.png`와 `foreground-scene.png`를 합성했을 때 `source-scene.png`와 픽셀 단위로 같아야 한다.
   - 십자표/개발용 그리드/텍스트/워터마크가 없어야 한다.
-- 상단 메뉴 에셋을 별도로 제작하거나 가공해 저장한다.
-  - 권장 파일: `menu-room.png`, `menu-gacha-locked.png`, `menu-bag-locked.png`
-  - 메뉴 아이콘은 투명 PNG로 후처리한다.
+- 상단 메뉴 에셋은 P02-T05 이후 `public/assets/rooms/my-room/menu-objects/`의 최종 오브젝트 4종을 사용한다.
+  - 메뉴 오브젝트는 투명 PNG로 후처리한다.
   - base room과 투시, 팔레트, 픽셀 밀도가 맞는지 브라우저에서 확인한다.
-- `public/assets/deebi.png`는 개발자 제공 기준 캐릭터로 보존하되 원본을 수정하지 않는다.
+- `public/assets/characters/deebi/deebi.png`는 개발자 제공 기준 캐릭터로 보존하되 원본을 수정하지 않는다.
   - T04 화면의 흰색 DeeBi는 승인된 `source-scene.png`에서 분리한 placeholder이며 최종 캐릭터 디자인 확정이 아니다.
   - 별도 배경 제거/크롭이 필요하면 `deebi-stage.png` 같은 파생 파일만 만든다.
 - `src/types/room-assets.ts`와 `src/lib/mock/room-assets.ts`를 만들고 layer manifest를 정의한다.
@@ -48,7 +47,7 @@
 ## 완료 조건
 
 - [ ] 내 방 스테이지가 대시보드의 시각적 중심이다.
-- [ ] `public/assets/rooms/my-room/` 아래에 T04에서 사용하는 개발용 source/base/foreground/menu PNG 에셋이 저장되어 있다.
+- [ ] `public/assets/rooms/my-room/source/`, `layers/`, `menu-objects/` 아래에 T04/T05에서 사용하는 PNG 에셋이 저장되어 있다.
 - [ ] room layer manifest가 있고, 화면 배치는 manifest 기준으로 이뤄진다.
 - [ ] 개발자 제공 `deebi.png` 원본은 보존되고, 화면의 stage placeholder는 픽셀 선명도를 유지한다.
 - [ ] 상단 `룸` 아이콘이 공동 룸 진입점을 암시하고 `함께하는 방` 탭 전환으로 동작한다.
@@ -64,7 +63,7 @@
 1. `/dashboard`의 `내 방` 탭을 연다.
 2. 방, 책상, 캐릭터, 상단 룸 아이콘이 픽셀 게임 화면처럼 느껴지는지 확인한다.
 3. 모바일 폭에서 캐릭터가 뭉개지거나 너무 작지 않은지 확인한다.
-4. `public/assets/rooms/my-room/`의 PNG들이 실제 화면에서 사용되는지 확인한다.
+4. `public/assets/rooms/my-room/source/`, `layers/`, `menu-objects/`의 PNG들이 실제 화면에서 사용되는지 확인한다.
 
 ## 참조
 

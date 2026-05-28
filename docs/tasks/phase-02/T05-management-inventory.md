@@ -12,20 +12,20 @@
 ## 작업
 
 - `docs/PIXEL_ASSET_PIPELINE.md`의 UI 프레임 원칙을 따른다.
-- `public/assets/ui/` 아래에 게임 UI 프레임 에셋을 직접 제작한다.
-  - `hud-bar.png`
-  - `command-panel.png`
-  - `log-window.png`
-  - `inventory-slot-empty.png`
-  - `inventory-slot-equipped.png`
-  - `progress-health-frame.png`
-  - `progress-health-fill.png`
-- `public/assets/rooms/my-room/` 아래에 별도 오브젝트 버튼 PNG를 추가한다.
+- `public/assets/ui/` 아래에 게임 UI 에셋을 용도별 폴더로 직접 제작한다.
+  - `game-frame/hud-bar.png`
+  - `game-frame/command-panel.png`
+  - `game-frame/log-window.png`
+  - `inventory/inventory-slot-empty.png`
+  - `inventory/inventory-slot-equipped.png`
+  - `progress/progress-health-frame.png`
+  - `progress/progress-health-fill.png`
+- `public/assets/rooms/my-room/menu-objects/` 아래에 별도 오브젝트 버튼 PNG를 추가한다.
   - `object-visit.png`
   - `object-status.png`
   - `object-customize.png`
   - `object-gacha.png`
-- 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`는 수정하지 않는다.
+- 승인된 `source/source-scene.png`, `layers/base-room.png`, `layers/foreground-scene.png`는 수정하지 않는다.
 - UI/오브젝트 에셋에는 텍스트를 굽지 않는다. 텍스트, 숫자, 상태값은 HTML로 유지한다.
 - `GameRoomFrame`을 만들어 `내 방`과 `함께하는 방`이 같은 상단 에셋 메뉴, stage, 우측 command panel, 하단 dock 구조를 공유하게 한다.
 - 상단에는 `DeeBi`, 현재 위치, 픽셀 에셋 메뉴만 노출한다. health와 오늘 커밋은 상단에 두지 않는다.
@@ -41,8 +41,8 @@
 ## 완료 조건
 
 - [ ] 데스크톱에서 상단 에셋 메뉴, 중앙 stage, 우측 선택 메뉴창, 하단 Dock이 공통 게임 프레임처럼 보인다.
-- [ ] `public/assets/ui/` 아래에 T05에서 사용하는 UI 프레임 PNG 에셋이 저장되어 있다.
-- [ ] `public/assets/rooms/my-room/` 아래에 별도 오브젝트 버튼 PNG가 저장되어 있다.
+- [ ] `public/assets/ui/game-frame/`, `inventory/`, `progress/` 아래에 T05에서 사용하는 UI 프레임 PNG 에셋이 저장되어 있다.
+- [ ] `public/assets/rooms/my-room/menu-objects/` 아래에 별도 오브젝트 버튼 PNG가 저장되어 있다.
 - [ ] 메뉴가 stage 안에 끼어들지 않고 헤더의 픽셀 에셋 버튼처럼 보인다.
 - [ ] UI 에셋에 텍스트가 굽혀 있지 않고 HTML 텍스트가 유지된다.
 - [ ] 상단 헤더에는 health와 오늘 커밋이 보이지 않는다.

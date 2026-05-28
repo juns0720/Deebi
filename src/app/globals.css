@@ -281,7 +281,7 @@ select {
   align-items: center;
   gap: 10px;
   border: var(--pixel-border);
-  border-image: url("/assets/ui/hud-bar.png") 16 fill / 16px / 0 stretch;
+  border-image: url("/assets/ui/game-frame/hud-bar.png") 16 fill / 16px / 0 stretch;
   background: var(--pixel-paper);
   box-shadow: var(--pixel-shadow);
   grid-template-columns: minmax(0, 1fr);
@@ -407,12 +407,12 @@ select {
 
 .game-command {
   min-height: 100%;
-  border-image: url("/assets/ui/command-panel.png") 18 fill / 18px / 0 stretch;
+  border-image: url("/assets/ui/game-frame/command-panel.png") 18 fill / 18px / 0 stretch;
   padding: 18px;
 }
 
 .game-log {
-  border-image: url("/assets/ui/log-window.png") 18 fill / 18px / 0 stretch;
+  border-image: url("/assets/ui/game-frame/log-window.png") 18 fill / 18px / 0 stretch;
   padding: 14px 16px;
 }
 
@@ -495,7 +495,7 @@ select {
   position: relative;
   height: 40px;
   width: 100%;
-  background: url("/assets/ui/progress-health-frame.png") center / 100% 100% no-repeat;
+  background: url("/assets/ui/progress/progress-health-frame.png") center / 100% 100% no-repeat;
   image-rendering: pixelated;
 }
 
@@ -506,7 +506,7 @@ select {
   display: block;
   height: 16px;
   max-width: calc(100% - 16px);
-  background: url("/assets/ui/progress-health-fill.png") left center / auto 100% repeat-x;
+  background: url("/assets/ui/progress/progress-health-fill.png") left center / auto 100% repeat-x;
 }
 
 .game-command__stat-grid {
@@ -548,13 +548,13 @@ select {
 .game-inventory-slot {
   min-height: 96px;
   min-width: 0;
-  background: url("/assets/ui/inventory-slot-empty.png") center / 100% 100% no-repeat;
+  background: url("/assets/ui/inventory/inventory-slot-empty.png") center / 100% 100% no-repeat;
   image-rendering: pixelated;
   padding: 14px 12px;
 }
 
 .game-inventory-slot[data-equipped="true"] {
-  background-image: url("/assets/ui/inventory-slot-equipped.png");
+  background-image: url("/assets/ui/inventory/inventory-slot-equipped.png");
 }
 
 .game-command__item-list,

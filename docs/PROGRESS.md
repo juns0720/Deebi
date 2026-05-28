@@ -157,12 +157,13 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 상단 헤더에서 HP와 오늘 커밋 지표를 제거했다. 오늘 커밋은 하단 sync/status 로그 카드에서 표시한다.
 - `놀러가기` 헤더 에셋은 `함께하는 방` 탭 전환만 수행하고, `상태`/`꾸미기`/`뽑기`는 우측 선택 메뉴창 내용을 바꾼다.
 - 하단 Dock은 내 방에서 sync/status 로그를 보여주고, 함께하는 방에서는 향후 채팅 Dock placeholder를 같은 위치에 둔다.
-- 새 UI 에셋 `hud-bar.png`, `command-panel.png`, `log-window.png`, `inventory-slot-*`, `progress-health-*`를 `public/assets/ui/`에 추가했다.
-- 새 오브젝트 에셋 `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`를 `public/assets/rooms/my-room/`에 추가했다.
+- 새 UI 에셋 `hud-bar.png`, `command-panel.png`, `log-window.png`, `inventory-slot-*`, `progress-health-*`를 `public/assets/ui/game-frame`, `public/assets/ui/inventory`, `public/assets/ui/progress`로 구분했다.
+- 새 오브젝트 에셋 `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`를 `public/assets/rooms/my-room/menu-objects/`에 추가했다.
 - 상단 옵션 에셋은 사용자 피드백에 맞춰 예쁜 문, 모니터, 인벤토리 가방/백팩형 오브젝트, 핑크 유리돔 뽑기 기계로 다시 생성했고, 모두 `128x128` 투명 PNG로 저장했다.
 - 상단 메뉴 에셋 4종을 최종 파일로 승격했다: `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`.
 - 이후 소형 픽셀 오브젝트 품질 기준은 최종 상단 메뉴 4종을 기준으로 하는 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 색상은 고정하지 않고, 42px에서도 읽히는 게임 아이템 질감과 한 개씩 생성/검수하는 workflow를 `docs/PIXEL_ASSET_PIPELINE.md`에 기록했다.
-- 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`의 SHA-256 hash는 변경 전과 동일하다.
+- 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`의 SHA-256 hash는 변경 전과 동일하며, 각각 `source/`와 `layers/` 하위 폴더로 정리했다.
+- `public/assets/**`에는 런타임 최종 에셋만 남기고, 온보딩 테스트 에셋/미사용 메뉴 에셋/승인 전 후보 에셋은 삭제했다.
 - `docs/tasks/phase-02/T05-management-inventory.md`, `docs/PIXEL_ASSET_PIPELINE.md`, `docs/DECISIONS.md`를 새 헤더 에셋 메뉴 방향에 맞게 갱신했다.
 
 이어받기 메모:
@@ -171,11 +172,11 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - `내 방`과 `함께하는 방`은 같은 외곽 프레임을 공유한다. 하단 Dock은 내 방에서는 sync/status 로그, 함께하는 방에서는 이후 채팅 영역이 된다.
 - 상단 헤더에는 HP/커밋 숫자를 두지 않는다. 현재 위치와 픽셀 에셋 메뉴만 둔다. 커밋 정보는 하단 `SYNC LOG` 카드에 둔다.
 - stage 위에 메뉴성 UI를 올리지 않는다. 승인된 방 장면 위에 상단 옵션 버튼이 끼어들면 안 된다.
-- `public/assets/rooms/my-room/source-scene.png`는 개발자가 승인한 원본 장면이다. `base-room.png`와 `foreground-scene.png`는 이 장면을 분리한 렌더용 레이어이며, 세 파일은 T05에서 변경하지 않았다.
+- `public/assets/rooms/my-room/source/source-scene.png`는 개발자가 승인한 원본 장면이다. `layers/base-room.png`와 `layers/foreground-scene.png`는 이 장면을 분리한 렌더용 레이어다.
 - 승인된 방/캐릭터/책상 장면을 수정해야 하는 경우에는 먼저 별도 preview로 만들고 개발자 승인 후 저장한다. 현재 방향은 방 원본을 재생성하지 않고 UI/메뉴/오브젝트 에셋만 별도 레이어 또는 헤더 메뉴로 추가하는 것이다.
-- `public/assets/deebi.png`는 개발자 제공 기준 캐릭터 원본으로 취급한다. 원본을 덮어쓰지 말고, 필요하면 파생 파일만 만든다.
-- UI 에셋은 `public/assets/ui/`에 있다. 텍스트/숫자는 에셋에 굽지 않고 HTML로 유지한다.
-- 헤더 메뉴 에셋은 `public/assets/rooms/my-room/object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png` 파일을 사용한다. 현재 실제 버튼은 헤더에 있고 stage 내부에는 없다.
+- `public/assets/characters/deebi/deebi.png`는 개발자 제공 기준 캐릭터 원본으로 취급한다. 원본을 덮어쓰지 말고, 필요하면 파생 파일만 만든다.
+- UI 에셋은 용도별로 `public/assets/ui/game-frame/`, `public/assets/ui/inventory/`, `public/assets/ui/progress/`에 있다. 텍스트/숫자는 에셋에 굽지 않고 HTML로 유지한다.
+- 헤더 메뉴 에셋은 `public/assets/rooms/my-room/menu-objects/object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png` 파일을 사용한다. 현재 실제 버튼은 헤더에 있고 stage 내부에는 없다.
 - 다음 작업자가 이어서 손볼 가능성이 높은 파일은 `src/components/dashboard/dashboard-shell.tsx`, `src/components/dashboard/game-room-frame.tsx`, `src/components/dashboard/my-room-stage.tsx`, `src/lib/mock/room-assets.ts`, `src/app/globals.css`다.
 - P02-T06 방치 모드를 시작하기 전에는 P02-T05 리뷰가 통과되어야 한다. 방치 모드에서는 이 공통 프레임에서 우측 command panel과 하단 Dock을 어떻게 접거나 축소할지 결정하면 된다.
 

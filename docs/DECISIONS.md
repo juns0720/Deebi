@@ -12,6 +12,7 @@
 ## 로그
 
 <!-- 아래에 새 결정을 추가하세요 -->
+- [2026-05-28][phase-02] `public/assets/**`는 런타임 최종 에셋만 보관하고 캐릭터/방 source/방 layers/상단 menu objects/UI game-frame/UI inventory/UI progress로 폴더를 분리한다 — 후보·실험·온보딩 테스트 에셋이 실제 사용 에셋과 섞여 이후 화면 참조와 에셋 품질 기준을 흐리지 않게 하기 위해 (결정 주체: developer/codex)
 - [2026-05-28][phase-02] 최종 상단 메뉴 4종 `object-visit.png`/`object-status.png`/`object-customize.png`/`object-gacha.png`를 앞으로의 소형 픽셀 오브젝트 기준인 `DeeBi Lo-Fi Pixel Object Standard v1`로 명명한다 — 후보 한 장의 감각에 의존하지 않고 최종 승인된 문/모니터/가방/뽑기 기계 전체의 질감, 밀도, 외곽선, 절제된 하이라이트를 반복 가능한 기준으로 삼기 위해 (결정 주체: developer/codex)
 - [2026-05-28][phase-02] 모든 에이전트 작업은 작업 단위 종료 시 커밋 후 현재 브랜치를 원격에 push한다 — 개발자가 매번 최신 작업 상태를 원격 main 기준으로 확인하고 이어받을 수 있게 하되, 무관한 dirty change는 함께 stage하지 않도록 하기 위해 (결정 주체: developer/codex)
 - [2026-05-28][phase-02] 상단 메뉴 픽셀 에셋의 품질 기준은 `object-visit-candidate-1.png` 문 후보의 질감으로 고정하고, 색상은 오브젝트별로 자유롭게 선택한다 — 황토색/하늘색 같은 팔레트가 핵심이 아니라 42px에서도 읽히는 게임 아이템 질감, 큰 색면, 절제된 하이라이트, 제품 아이콘이 아닌 인디 픽셀 게임 오브젝트 감성을 일관되게 유지하기 위해 (결정 주체: developer/codex)
