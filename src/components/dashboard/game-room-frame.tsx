@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import type { ReactNode } from "react";
 
 export type DashboardTabId = "my-room" | "rooms";
@@ -10,14 +9,12 @@ export function GameRoomFrame({
   command,
   dock,
   menu,
-  points,
   children,
 }: {
   activeTab: DashboardTabId;
   command: ReactNode;
   dock: ReactNode;
   menu: ReactNode;
-  points: number;
   children: ReactNode;
 }) {
   return (
@@ -27,11 +24,6 @@ export function GameRoomFrame({
           <nav aria-label="대시보드 메뉴" className="game-room-frame__menu">
             {menu}
           </nav>
-
-          <div aria-label={`보유 코인 ${points}`} className="game-room-frame__coin-hud">
-            <Image alt="" aria-hidden="true" height={28} src="/assets/ui/hud/icon-coin.png" unoptimized width={28} />
-            <strong aria-hidden="true">{points}</strong>
-          </div>
         </header>
 
         <div className="game-room-frame__body">

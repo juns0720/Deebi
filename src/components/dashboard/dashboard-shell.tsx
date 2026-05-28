@@ -361,7 +361,7 @@ export function DashboardShell({ data }: { data: DashboardMockData }) {
   );
 
   return (
-    <GameRoomFrame activeTab={activeTab} command={command} dock={dock} menu={menu} points={data.user.points}>
+    <GameRoomFrame activeTab={activeTab} command={command} dock={dock} menu={menu}>
       {activeTab === "my-room" ? <MyRoomStage data={data} /> : <SharedRoomStage rooms={data.joinedRooms} />}
     </GameRoomFrame>
   );

@@ -50,8 +50,6 @@ public/assets/
       member-shadow.png
       room-light.png
   ui/
-    hud/
-      icon-coin.png
     game-frame/
       hud-bar.png
       command-panel.png
@@ -216,11 +214,9 @@ DeeBi Pixel Asset Standard v2:
 
 HUD 리소스 아이콘:
 
-- 포인트는 `코인` 개념으로 표현한다. `/dashboard` 헤더 우상단에는 `public/assets/ui/hud/icon-coin.png` 단일 금화 에셋과 숫자만 표시한다.
-- HUD 리소스 아이콘도 `DeeBi Lo-Fi Pixel Object Standard v1`을 따른다. 작은 크기에서 바로 읽히는 단일 오브젝트, 진한 갈색 외곽선, 큰 색면, 절제된 하이라이트를 기준으로 한다.
-- 코인 에셋은 `128x128` 투명 PNG로 저장하고, 런타임 표시는 24~28px 범위에서 한다. alpha bbox 비율은 `width / height = 0.9~1.1` 범위로 유지해 찌그러진 타원형으로 보이지 않게 한다.
-- 숫자와 단위는 이미지에 굽지 않는다. 보유량 숫자는 HTML로 렌더링하고, 접근성 라벨은 `보유 코인 240`처럼 제공한다.
-- 코인 아이콘에는 글자, 숫자, 로고, 가격표, 상점/결제/현금 결제 암시를 넣지 않는다. 게임 HUD 자원처럼 보여야 하며 쇼핑몰 포인트 배지처럼 보이면 실패로 본다.
+- P02-T05 기준 `/dashboard` 상단에는 별도 코인 HUD를 두지 않는다. 상단은 중앙 메뉴만 가볍게 보이게 하고, mock 포인트는 `뽑기` 선택 메뉴창에서만 HTML 텍스트로 표시한다.
+- 이후 실제 포인트 HUD가 다시 필요해지면 `DeeBi Pixel Asset Standard v2`에 맞춰 새 리소스 아이콘을 만들되, 상단 메뉴 중심과 방 stage 시선을 방해하지 않는 위치를 먼저 정한다.
+- 숫자와 단위는 이미지에 굽지 않는다. 보유량 숫자는 HTML로 렌더링한다.
 
 UI 프레임:
 
