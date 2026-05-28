@@ -173,6 +173,7 @@ T04의 내 방은 승인된 하나의 응집된 장면을 `source-scene.png`로 
 - 광원은 대체로 위/왼쪽에서 오는 단순한 빛으로 통일한다. 밝은 면, 중간 면, 어두운 면이 큰 덩어리로 나뉘면 충분하다.
 - 하이라이트는 기능과 형태를 살리는 곳에만 둔다. 문 손잡이 주변, 가방 플랩, 유리돔의 작은 반짝임처럼 한눈에 읽히는 1~2개면 충분하다.
 - 그림자와 바닥 접지는 만들지 않는다. 버튼 안에 들어가는 독립 오브젝트이므로 바닥면, 드롭섀도, 주변 글로우, 배경 소품을 넣지 않는다.
+- 크로마키 배경색은 오브젝트 대표색과 겹치지 않는 색을 고른다. 기본은 `#ff00ff`지만, 핑크 뽑기 기계처럼 피사체가 분홍 계열이면 `#00ff00`을 사용한다.
 - 색은 고정하지 않는다. 오브젝트가 가장 자연스럽게 읽히는 대표 색을 먼저 고르고, 전체 UI 톤에 억지로 끼워 맞추지 않는다.
 - 다만 색이 너무 현대적인 제품 팔레트처럼 보이면 다시 잡는다. 예를 들어 가방은 하늘색/갈색/황토색 중 무엇이든 가능하지만, "제품 상세 페이지의 새 가방"처럼 보이면 안 된다.
 - 뽑기 기계는 핑크 본체와 유리돔이 핵심이지만, 고광택 장난감 렌더링처럼 반짝이면 안 된다. 유리 표현도 단순한 색면과 작은 하이라이트로 제한한다.
@@ -225,7 +226,7 @@ Object: <pretty wooden door / status monitor / inventory bag or backpack-like it
 Quality reference: match the texture, pixel density, outline strength, warm block shading, and not-too-polished game-item feel of `public/assets/rooms/my-room/object-visit-candidate-1.png`.
 Final use: transparent 128x128 PNG displayed around 42px, so the silhouette must be readable when small.
 Style: charming lo-fi indie pixel game item, chunky readable pixel clusters, dark brown outline, large simple color blocks, a few restrained highlights.
-Background: perfectly flat solid #ff00ff chroma-key background for removal.
+Background: perfectly flat solid <#ff00ff or #00ff00> chroma-key background for removal. Choose a key color absent from the subject; use #00ff00 for a pink gacha machine.
 No text, no letters, no numbers, no watermark, no logo.
 No shop, payment, cash, price tag, or commerce feeling.
 Avoid product icon, ecommerce catalog icon, premium asset-store sticker, high-detail pixel illustration, glossy rendering, realistic texture, excessive tiny details, and over-forced mosaic pixels.
