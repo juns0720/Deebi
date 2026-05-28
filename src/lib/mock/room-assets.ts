@@ -39,7 +39,7 @@ export const myRoomObjectActions: RoomObjectAction[] = [
     id: "status",
     label: "내 방",
     description: "내 방 상태와 작업 리듬 확인",
-    iconSrc: "/assets/rooms/my-room/menu-objects/object-status.png",
+    iconSrc: "/assets/rooms/my-room/menu-objects/object-my-room.png",
   },
   {
     id: "bag",

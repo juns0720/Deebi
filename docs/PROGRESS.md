@@ -158,9 +158,9 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - `같이 하기` 헤더 에셋은 `함께하는 방` 탭 전환만 수행하고, `내 방`/`꾸미기`/`뽑기`는 우측 선택 메뉴창 내용을 바꾼다. `내 방` 선택 시 우측 패널 제목은 기존 `상태`를 유지한다.
 - 하단 Dock은 내 방에서 sync/status 로그를 보여주고, 함께하는 방에서는 향후 채팅 Dock placeholder를 같은 위치에 둔다.
 - 새 UI 에셋 `hud-bar.png`, `command-panel.png`, `log-window.png`, `inventory-slot-*`, `progress-health-*`를 `public/assets/ui/game-frame`, `public/assets/ui/inventory`, `public/assets/ui/progress`로 구분했다.
-- 새 오브젝트 에셋 `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`를 `public/assets/rooms/my-room/menu-objects/`에 추가했다.
-- 상단 옵션 에셋은 사용자 피드백에 맞춰 예쁜 문, 모니터, 인벤토리 가방/백팩형 오브젝트, 핑크 유리돔 뽑기 기계로 다시 생성했고, 모두 `128x128` 투명 PNG로 저장했다.
-- 상단 메뉴 에셋 4종을 최종 파일로 승격했다: `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`.
+- 새 오브젝트 에셋 `object-visit.png`, `object-my-room.png`, `object-customize.png`, `object-gacha.png`를 `public/assets/rooms/my-room/menu-objects/`에 추가했다.
+- 상단 옵션 에셋은 사용자 피드백에 맞춰 예쁜 문, 작은 집, 인벤토리 가방/백팩형 오브젝트, 핑크 유리돔 뽑기 기계로 다시 생성했고, 모두 `128x128` 투명 PNG로 저장했다.
+- 상단 메뉴 에셋 4종을 최종 파일로 승격했다: `object-visit.png`, `object-my-room.png`, `object-customize.png`, `object-gacha.png`.
 - 헤더 오른쪽 상단에 보유 포인트를 보여주는 코인 HUD를 추가했다. 포인트는 단위 없이 숫자로 표시하고, 새 금화 에셋은 `public/assets/ui/hud/icon-coin.png`에 저장했다.
 - 상단 헤더 좌측 `DeeBi`/현재 위치 브랜드 영역을 제거하고, 4개 메뉴를 헤더 중앙의 큰 픽셀 오브젝트와 작은 라벨 중심 HUD 메뉴로 정리했다.
 - `상태` 선택 메뉴창의 포인트 카드를 제거했다. 포인트는 헤더 코인 HUD와 `뽑기` 선택 메뉴창에서만 보인다.
@@ -171,7 +171,7 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 이후 소형 픽셀 오브젝트 품질 기준은 최종 상단 메뉴 4종을 기준으로 하는 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 색상은 고정하지 않고, 42px에서도 읽히는 게임 아이템 질감과 한 개씩 생성/검수하는 workflow를 `docs/PIXEL_ASSET_PIPELINE.md`에 기록했다.
 - 헤더 메뉴 중심은 헤더 전체 기준 absolute center로 고정했다. 우상단 코인 HUD는 메뉴 레이아웃 계산에 참여하지 않는 보조 HUD로 둔다.
 - v1의 64색/저해상도 후처리 기준은 신규 에셋 기준에서 제외하고, `DeeBi Pixel Asset Standard v2`를 새 기준으로 추가했다. v2는 안정적인 외곽선, 큰 색면, 중간 고급 픽셀 게임 오브젝트 품질을 우선한다.
-- `내 방` 메뉴용 작은 방 모형 후보 `menu-objects/candidates/object-my-room-candidate-1.png`를 생성했다. 승인 전이므로 실제 `status` 메뉴 참조와 기존 `object-status.png`는 유지했다.
+- `내 방` 메뉴는 기존 모니터 에셋 대신 작은 집 에셋 `object-my-room.png`를 적용했다. 내부 id는 `status` 그대로 유지한다.
 - `game-frame`, `inventory`, `progress` UI 에셋을 직접 픽셀 제작 방식으로 다시 그려 임시 사각 테두리 느낌을 줄이고 HUD/패널/슬롯/게이지의 게임 UI 감성을 보강했다.
 - 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`의 SHA-256 hash는 변경 전과 동일하며, 각각 `source/`와 `layers/` 하위 폴더로 정리했다.
 - `public/assets/**` 루트에는 런타임 최종 에셋만 두고, 승인 전 후보는 `menu-objects/candidates/`처럼 별도 하위 폴더에 둔다.
@@ -187,7 +187,7 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 승인된 방/캐릭터/책상 장면을 수정해야 하는 경우에는 먼저 별도 preview로 만들고 개발자 승인 후 저장한다. 현재 방향은 방 원본을 재생성하지 않고 UI/메뉴/오브젝트 에셋만 별도 레이어 또는 헤더 메뉴로 추가하는 것이다.
 - `public/assets/characters/deebi/deebi.png`는 개발자 제공 기준 캐릭터 원본으로 취급한다. 원본을 덮어쓰지 말고, 필요하면 파생 파일만 만든다.
 - UI 에셋은 용도별로 `public/assets/ui/game-frame/`, `public/assets/ui/inventory/`, `public/assets/ui/progress/`에 있다. 텍스트/숫자는 에셋에 굽지 않고 HTML로 유지한다.
-- 헤더 메뉴 에셋은 `public/assets/rooms/my-room/menu-objects/object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png` 파일을 사용한다. 현재 실제 버튼은 헤더에 있고 stage 내부에는 없다.
+- 헤더 메뉴 에셋은 `public/assets/rooms/my-room/menu-objects/object-visit.png`, `object-my-room.png`, `object-customize.png`, `object-gacha.png` 파일을 사용한다. 현재 실제 버튼은 헤더에 있고 stage 내부에는 없다.
 - 다음 작업자가 이어서 손볼 가능성이 높은 파일은 `src/components/dashboard/dashboard-shell.tsx`, `src/components/dashboard/game-room-frame.tsx`, `src/components/dashboard/my-room-stage.tsx`, `src/lib/mock/room-assets.ts`, `src/app/globals.css`다.
 - P02-T06 방치 모드를 시작하기 전에는 P02-T05 리뷰가 통과되어야 한다. 방치 모드에서는 이 공통 프레임에서 우측 command panel과 하단 Dock을 어떻게 접거나 축소할지 결정하면 된다.
 
@@ -200,7 +200,7 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 이미지 검사: 헤더 메뉴 PNG 4종과 코인 PNG의 가시 색 수가 64색 이하임을 확인
 - 브라우저 데스크톱 확인: 브랜드 텍스트 없이 헤더 중앙에 `같이 하기`/`내 방`/`꾸미기`/`뽑기` 메뉴가 64px 아이콘으로 선명하게 보이고, 우상단 `보유 코인 240` HUD와 하단 Dock의 오늘 커밋 표시를 확인했다.
 - 브라우저 데스크톱 확인: 헤더 메뉴 그룹 중심과 헤더 중심이 일치하고, 우상단 코인 HUD가 메뉴와 겹치지 않음을 확인했다.
-- 이미지 후보 확인: `menu-objects/candidates/object-my-room-candidate-1.png`가 `128x128` RGBA, 투명 모서리, 마젠타 계열 배경 제거 상태임을 확인했다.
+- 이미지 확인: `object-my-room.png`가 `128x128` RGBA, 투명 모서리, 마젠타 계열 배경 제거 상태임을 확인했다.
 - UI 에셋 확인: `game-frame`, `inventory`, `progress` PNG가 기존 경로/크기로 갱신되고 브라우저에서 패널, 슬롯, 게이지에 정상 적용됨을 확인했다.
 - 브라우저 상호작용 확인: 헤더 에셋 메뉴의 `같이 하기`, `내 방`, `꾸미기` 클릭 동작 통과
 - 브라우저 키보드 확인: 헤더 `뽑기` Enter/Space 활성화로 command panel 전환 통과

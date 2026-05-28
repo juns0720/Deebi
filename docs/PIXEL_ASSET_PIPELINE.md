@@ -39,7 +39,7 @@ public/assets/
         foreground-scene.png
       menu-objects/
         object-visit.png
-        object-status.png
+        object-my-room.png
         object-customize.png
         object-gacha.png
     shared-room/
@@ -150,7 +150,7 @@ T04의 내 방은 승인된 하나의 응집된 장면을 `rooms/my-room/source/
 - P02-T05 이후 `/dashboard` 상단 옵션명은 `같이 하기`, `내 방`, `꾸미기`, `뽑기`로 고정한다.
 - 내부 동작 id는 `rooms`, `status`, `bag`, `gacha`를 유지한다. 라벨과 에셋만 친근한 행동형/오브젝트형으로 바꾼다.
 - `같이 하기`는 예쁜 문 오브젝트로 표현하고 `함께하는 방` 탭 전환만 수행한다.
-- `내 방`은 DeeBi 컨디션과 작업 리듬을 보는 기존 `상태` 선택 메뉴창을 대표하며, 모니터 오브젝트로 표현한다.
+- `내 방`은 DeeBi 컨디션과 작업 리듬을 보는 기존 `상태` 선택 메뉴창을 대표하며, 작은 집 오브젝트로 표현한다.
 - `꾸미기`는 장착/보유 아이템 맥락이 읽히는 인벤토리 가방/백팩형 오브젝트로 표현한다. 색상은 고정하지 않고, 제품 아이콘처럼 보이지 않는 게임 아이템성을 우선한다.
 - `뽑기`는 핑크 본체와 유리 돔이 있는 캡슐 뽑기 기계 오브젝트로 표현한다.
 - `상점`, 구매, 결제처럼 보이는 메뉴명과 아이콘은 MVP 제외 범위이므로 만들지 않는다.
@@ -161,7 +161,7 @@ DeeBi Lo-Fi Pixel Object Standard v1:
 
 - 이 기준은 P02-T05 초반 상단 메뉴 에셋을 맞추기 위한 v1 기록이다. 이후 신규 메뉴/소형 UI 에셋은 아래 `DeeBi Pixel Asset Standard v2`를 우선한다.
 - 규칙명은 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 앞으로 소형 픽셀 오브젝트 에셋을 만들 때는 이 이름을 기준으로 참조한다.
-- 기준 에셋은 최종 승인된 상단 메뉴 4종이다: `public/assets/rooms/my-room/menu-objects/object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`.
+- 기준 에셋은 최종 승인된 상단 메뉴 4종이다: `public/assets/rooms/my-room/menu-objects/object-visit.png`, `object-my-room.png`, `object-customize.png`, `object-gacha.png`.
 - 4종 기준은 "너무 고퀄 픽셀 일러스트"도 아니고 "너무 투박한 저퀄 도트"도 아닌, 작은 게임 메뉴 오브젝트에 가까운 품질 기준이다.
 - 목표는 **기분 좋은 로우파이 인디 픽셀 게임 아이템**이다. 허접하게 단순화하는 것이 아니라, 42px 버튼 안에서 기능이 바로 읽히고 주변 UI보다 혼자 비싸 보이지 않는 질감이어야 한다.
 - 오브젝트는 실제 제품 사진, 이커머스 아이콘, 에셋 스토어 고급 스티커가 아니라 게임 속 인벤토리/메뉴 아이템처럼 보여야 한다.
@@ -170,7 +170,7 @@ DeeBi Lo-Fi Pixel Object Standard v1:
 - 외곽선은 진한 갈색 또는 거의 검정에 가까운 갈색을 기본으로 한다. 외곽선은 오브젝트를 한눈에 잡아주되, 내부 디테일 선이 외곽선만큼 많아지면 안 된다.
 - 음영은 재질당 2~4단계 정도의 큰 블록으로 제한한다. 작은 점 하이라이트, 촘촘한 디더링, 복잡한 주름, 사실적인 재질 텍스처는 사용하지 않는다.
 - 하이라이트는 큰 덩어리 1~2개만 둔다. 광택이 반짝이는 장난감/제품 썸네일처럼 보이면 실패로 본다.
-- 장식은 기능을 설명하는 최소 요소만 둔다. 문은 손잡이/작은 창, 가방은 플랩/버클/끈, 모니터는 화면/막대, 뽑기는 유리돔/캡슐/핸들 정도로 제한한다.
+- 장식은 기능을 설명하는 최소 요소만 둔다. 문은 손잡이/작은 창, 집은 지붕/문/창문/작은 화분, 가방은 플랩/버클/끈, 뽑기는 유리돔/캡슐/핸들 정도로 제한한다.
 - 색상은 오브젝트별로 자유롭게 고른다. 예를 들어 가방은 황토/갈색으로 고정하지 않는다. 다만 색이 제품 아이콘처럼 현대적이거나 UI 전체에서 튀면 다시 잡는다.
 - 각 에셋은 단일 오브젝트여야 한다. 배경 가구, 식물, 러그, 계단, 말풍선, 글자, 숫자, 로고, 가격표, 상점/결제 암시는 넣지 않는다.
 - 후보 이미지는 반드시 한 개씩 만든다. 여러 에셋을 요청받아도 `생성 -> 128px/42px 미리보기 -> 사용자 검사 -> 승인 또는 수정` 루프를 한 에셋씩 진행한다.
@@ -181,7 +181,7 @@ DeeBi Lo-Fi Pixel Object Standard v1:
 
 - 캔버스는 항상 `128x128`로 만들고, 실제 오브젝트는 캔버스 중앙에 둔다. 오브젝트가 가장자리까지 닿으면 안 되며, 42px 표시에서 답답하지 않을 정도의 여백을 둔다.
 - 오브젝트의 기본 인상은 "작은 RPG/생활 게임 메뉴 아이템"이어야 한다. 앱 아이콘, 쇼핑몰 상품 썸네일, 3D 렌더링을 픽셀화한 이미지처럼 보이면 안 된다.
-- 형태는 42px에서 먼저 읽혀야 한다. 세부 장식이 사라져도 문/모니터/가방/뽑기 기계라는 정체성이 실루엣만으로 남아야 한다.
+- 형태는 64px에서 먼저 읽혀야 한다. 세부 장식이 사라져도 문/집/가방/뽑기 기계라는 정체성이 실루엣만으로 남아야 한다.
 - 외곽은 살짝 두꺼운 픽셀 계단으로 만든다. 완벽한 벡터 선처럼 매끈하거나, 반대로 모든 칸이 같은 격자로 끊어진 도트 도안처럼 보이면 안 된다.
 - 내부선은 외곽선보다 적고 짧게 쓴다. 내부 디테일이 많아져서 오브젝트 표면이 복잡한 패턴처럼 보이면 실패로 본다.
 - 표면은 큰 색 블록이 먼저 보여야 한다. 작은 픽셀 노이즈, 촘촘한 디더링, 사진 같은 재질, 미세한 반사광은 줄인다.
@@ -192,7 +192,7 @@ DeeBi Lo-Fi Pixel Object Standard v1:
 - 색은 고정하지 않는다. 오브젝트가 가장 자연스럽게 읽히는 대표 색을 먼저 고르고, 전체 UI 톤에 억지로 끼워 맞추지 않는다.
 - 다만 색이 너무 현대적인 제품 팔레트처럼 보이면 다시 잡는다. 예를 들어 가방은 하늘색/갈색/황토색 중 무엇이든 가능하지만, "제품 상세 페이지의 새 가방"처럼 보이면 안 된다.
 - 뽑기 기계는 핑크 본체와 유리돔이 핵심이지만, 고광택 장난감 렌더링처럼 반짝이면 안 된다. 유리 표현도 단순한 색면과 작은 하이라이트로 제한한다.
-- 모니터는 내 방 상태 확인 기능이 읽히게 화면과 받침/프레임을 보여준다. 화면 안에는 글자, 숫자, 복잡한 그래프를 넣지 않고 단순한 색 블록이나 막대 정도만 허용한다.
+- 집은 `내 방` 진입 기능이 읽히게 작은 주택 실루엣, 따뜻한 지붕, 문, 창문을 보여준다. 배경 풍경이나 내부 방 디오라마처럼 복잡해지면 안 된다.
 - 문은 "같이 하기" 행동이 읽히는 방문/멀티 진입 느낌을 준다. 웅장한 판타지 게이트나 배경이 붙은 입구가 아니라, 버튼용 단일 문 오브젝트로 유지한다.
 - 가방은 꾸미기/인벤토리 맥락이 읽혀야 한다. 토트백 제품 아이콘보다 게임 아이템 가방, 작은 백팩, 플랩백, 모험 가방 쪽의 형태가 우선이다.
 - 한 번에 여러 후보를 뽑아 비교하는 방식은 사용하지 않는다. 생성 비용과 시간이 늘어도 최종 톤을 지키기 위해 한 후보씩 보고, 피드백을 다음 후보에 반영한다.
@@ -210,7 +210,7 @@ DeeBi Pixel Asset Standard v2:
 - 색 수 제한은 폐기한다. 단, 사진식 미세 색 노이즈와 고광택 렌더링은 피하고, 재질별 3~5단계 정도의 읽히는 색 블록을 사용한다.
 - 외곽선은 진한 갈색 계열을 기본으로 하며, 오브젝트 바깥 윤곽은 내부선보다 더 굵고 안정적으로 보여야 한다. 끊긴 외곽, 제각각인 선 두께, 무작위 안티앨리어싱은 실패로 본다.
 - 메뉴 오브젝트는 후보 한 개씩 생성한다. 후보는 `menu-objects/candidates/object-{purpose}-candidate-{n}.png`로 저장하고, 사용자가 승인한 뒤에만 최종 파일명으로 승격한다.
-- `내 방` 메뉴는 기존 모니터 아이콘 대신 작은 방 모형 후보를 기준으로 검토한다. 승인 전에는 기존 `status` 동작과 참조 파일을 유지한다.
+- `내 방` 메뉴는 기존 모니터 아이콘 대신 작은 집 오브젝트 `object-my-room.png`를 사용한다. 내부 `status` 동작과 우측 선택 메뉴창 제목은 그대로 유지한다.
 - 프롬프트에는 `DeeBi Pixel Asset Standard v2`, `medium-polished cozy indie pixel game object`, `consistent dark brown outline`, `large clean color blocks`, `not product icon`, `not premium asset-store sticker`를 포함한다.
 - 최종 검수는 128px 원본과 64px 런타임 표시를 함께 본다. 42px 미리보기는 참고만 하고, 헤더 메뉴 품질 판단은 64px 기준으로 한다.
 
@@ -264,7 +264,7 @@ Generous padding around the object, clean readable silhouette.
 
 ```text
 Create one 2D pixel-art object icon for a cozy indie pixel game dashboard top menu.
-Object: <pretty wooden door / tiny cozy room diorama / inventory bag or backpack-like item / pink glass-dome gacha capsule machine>.
+Object: <pretty wooden door / cute small cozy house / inventory bag or backpack-like item / pink glass-dome gacha capsule machine>.
 Quality reference: match `DeeBi Pixel Asset Standard v2`.
 Final use: transparent 128x128 PNG displayed around 64px, so the silhouette must be readable when small.
 Style: medium-polished cozy indie pixel game object, consistent dark brown outline, controlled 1-2 pixel stepped outline, large clean color blocks, simple block shading, restrained highlights.

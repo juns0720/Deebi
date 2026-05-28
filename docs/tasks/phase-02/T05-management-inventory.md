@@ -23,7 +23,7 @@
   - `progress/progress-health-fill.png`
 - `public/assets/rooms/my-room/menu-objects/` 아래에 별도 오브젝트 버튼 PNG를 추가한다.
   - `object-visit.png`
-  - `object-status.png`
+  - `object-my-room.png`
   - `object-customize.png`
   - `object-gacha.png`
 - 승인된 `source/source-scene.png`, `layers/base-room.png`, `layers/foreground-scene.png`는 수정하지 않는다.
@@ -32,7 +32,7 @@
 - 상단에는 보유 코인 HUD와 중앙 대형 픽셀 에셋 메뉴만 노출한다. `DeeBi`/현재 위치, health, 오늘 커밋은 상단에 두지 않는다.
 - 헤더 메뉴 아이콘은 `128x128` PNG를 런타임에서 `64px`로 표시해 픽셀 격자가 깨지지 않게 한다.
 - 헤더 메뉴와 UI 프레임 에셋은 `DeeBi Pixel Asset Standard v2`를 우선 기준으로 한다. 일부러 색 수를 낮추는 방식보다 안정적인 외곽선, 큰 색면, 중간 고급 픽셀 게임 오브젝트 품질을 우선한다.
-- `내 방` 메뉴의 새 에셋은 작은 방 모형 후보를 먼저 만들고, 승인 전에는 기존 메뉴 참조를 유지한다.
+- `내 방` 메뉴의 새 에셋은 작은 집 오브젝트로 만들고, 내부 `status` 동작은 유지한다.
 - 기존 오른쪽 카드 묶음은 제거하고, 선택된 방 오브젝트의 설명과 명령만 보여주는 RPG식 선택 메뉴창으로 바꾼다.
 - 헤더 에셋 메뉴 동작:
   - `같이 하기`: `함께하는 방` 탭 전환만 수행한다.
@@ -49,7 +49,7 @@
 - [ ] `public/assets/ui/game-frame/`, `inventory/`, `progress/` 아래에 T05에서 사용하는 UI 프레임 PNG 에셋이 저장되어 있다.
 - [ ] UI 프레임 PNG가 임시 사각 테두리 느낌이 아니라 픽셀 게임 HUD/패널/슬롯/게이지처럼 보인다.
 - [ ] `public/assets/rooms/my-room/menu-objects/` 아래에 별도 오브젝트 버튼 PNG가 저장되어 있다.
-- [ ] `내 방` 작은 방 모형 후보가 생성되어 있고, 승인 후 최종 메뉴 에셋으로 승격할 수 있다.
+- [ ] `내 방` 작은 집 오브젝트가 최종 메뉴 에셋으로 적용되어 있다.
 - [ ] 메뉴가 stage 안에 끼어들지 않고 헤더 중앙의 큰 픽셀 에셋 버튼처럼 보인다.
 - [ ] 헤더 메뉴 아이콘이 64px 정수 배율 기준으로 선명하게 보인다.
 - [ ] UI 에셋에 텍스트가 굽혀 있지 않고 HTML 텍스트가 유지된다.
