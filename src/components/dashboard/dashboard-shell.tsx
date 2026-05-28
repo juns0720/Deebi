@@ -326,7 +326,7 @@ function HeaderAssetMenu({
             }}
             type="button"
           >
-            <Image alt="" aria-hidden="true" className="pixel-grid-art" height={56} src={action.iconSrc} unoptimized width={56} />
+            <Image alt="" aria-hidden="true" className="pixel-grid-art" height={84} src={action.iconSrc} unoptimized width={84} />
             <span>{action.label}</span>
           </button>
         );

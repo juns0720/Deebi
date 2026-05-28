@@ -31,14 +31,14 @@ export const myRoomLayers: RoomLayerAsset[] = [
 export const myRoomObjectActions: RoomObjectAction[] = [
   {
     id: "rooms",
-    label: "놀러가기",
-    description: "함께하는 방으로 이동",
+    label: "같이 하기",
+    description: "함께하는 방에서 멀티로 같이 하기",
     iconSrc: "/assets/rooms/my-room/menu-objects/object-visit.png",
   },
   {
     id: "status",
-    label: "상태",
-    description: "DeeBi 컨디션과 작업 리듬 확인",
+    label: "내 방",
+    description: "내 방 상태와 작업 리듬 확인",
     iconSrc: "/assets/rooms/my-room/menu-objects/object-status.png",
   },
   {
