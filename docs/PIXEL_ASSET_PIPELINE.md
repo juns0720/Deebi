@@ -145,9 +145,11 @@ T04의 내 방은 승인된 하나의 응집된 장면을 `source-scene.png`로 
 - 아이콘 에셋에는 텍스트를 굽지 않고, 접근 가능한 라벨은 HTML/ARIA로 제공한다.
 - 색감은 기능에 충실한 오브젝트를 우선한다. 공통 톤에 억지로 맞추기보다, 작은 크기에서도 무엇인지 바로 읽히는 실루엣과 대표 색을 우선한다.
 
-상단 메뉴 오브젝트 품질 기준:
+DeeBi Lo-Fi Pixel Object Standard v1:
 
-- 기준 질감은 `public/assets/rooms/my-room/object-visit-candidate-1.png`의 문 후보에 맞춘다. 이 샘플은 "너무 고퀄 픽셀 일러스트"도 아니고 "너무 투박한 저퀄 도트"도 아닌, 작은 게임 메뉴 오브젝트에 가까운 품질 기준이다.
+- 규칙명은 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 앞으로 소형 픽셀 오브젝트 에셋을 만들 때는 이 이름을 기준으로 참조한다.
+- 기준 에셋은 최종 승인된 상단 메뉴 4종이다: `public/assets/rooms/my-room/object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`.
+- 4종 기준은 "너무 고퀄 픽셀 일러스트"도 아니고 "너무 투박한 저퀄 도트"도 아닌, 작은 게임 메뉴 오브젝트에 가까운 품질 기준이다.
 - 목표는 **기분 좋은 로우파이 인디 픽셀 게임 아이템**이다. 허접하게 단순화하는 것이 아니라, 42px 버튼 안에서 기능이 바로 읽히고 주변 UI보다 혼자 비싸 보이지 않는 질감이어야 한다.
 - 오브젝트는 실제 제품 사진, 이커머스 아이콘, 에셋 스토어 고급 스티커가 아니라 게임 속 인벤토리/메뉴 아이템처럼 보여야 한다.
 - 픽셀 질감은 큰 색면과 덩어리감 있는 계단형 외곽을 사용한다. 너무 부드러운 고해상도 브러시, 과한 안티앨리어싱, 고급 일러스트식 미세 묘사를 피한다.
@@ -160,7 +162,7 @@ T04의 내 방은 승인된 하나의 응집된 장면을 `source-scene.png`로 
 - 각 에셋은 단일 오브젝트여야 한다. 배경 가구, 식물, 러그, 계단, 말풍선, 글자, 숫자, 로고, 가격표, 상점/결제 암시는 넣지 않는다.
 - 후보 이미지는 반드시 한 개씩 만든다. 여러 에셋을 요청받아도 `생성 -> 128px/42px 미리보기 -> 사용자 검사 -> 승인 또는 수정` 루프를 한 에셋씩 진행한다.
 - 승인 전에는 기존 적용 파일을 덮어쓰지 않는다. 후보는 `object-{purpose}-candidate-{n}.png`로 저장하고, 승인 후에만 최종 `object-{purpose}.png`로 복사한다.
-- 후보를 판단할 때는 항상 문 후보 기준과 나란히 본다. 새 후보가 문 후보보다 더 고급 렌더링처럼 보이거나, 반대로 훨씬 조잡하면 스타일 불일치로 본다.
+- 후보를 판단할 때는 항상 최종 기준 4종과 나란히 본다. 새 후보가 기준 4종보다 더 고급 렌더링처럼 보이거나, 반대로 훨씬 조잡하면 스타일 불일치로 본다.
 
 상단 메뉴 오브젝트 세부 제작 규칙:
 
@@ -182,8 +184,8 @@ T04의 내 방은 승인된 하나의 응집된 장면을 `source-scene.png`로 
 - 가방은 꾸미기/인벤토리 맥락이 읽혀야 한다. 토트백 제품 아이콘보다 게임 아이템 가방, 작은 백팩, 플랩백, 모험 가방 쪽의 형태가 우선이다.
 - 한 번에 여러 후보를 뽑아 비교하는 방식은 사용하지 않는다. 생성 비용과 시간이 늘어도 최종 톤을 지키기 위해 한 후보씩 보고, 피드백을 다음 후보에 반영한다.
 - 피드백 반영 시에는 사용자가 지적한 축만 바꾼다. 예를 들어 "너무 고퀄"이면 디테일과 광택을 낮추고, 색상/형태/컨셉 전체를 동시에 갈아엎지 않는다.
-- 새 후보를 만들 때는 프롬프트에 반드시 "match `object-visit-candidate-1.png` texture"와 "not product icon, not premium asset-store sticker"를 포함한다.
-- 최종 적용 전에는 128px 원본, 42px 축소 미리보기, 기존 문 후보를 한 화면에서 함께 확인한다. 이 세 가지를 비교하지 않은 후보는 승인 후보로 취급하지 않는다.
+- 새 후보를 만들 때는 프롬프트에 반드시 "match DeeBi Lo-Fi Pixel Object Standard v1"과 "not product icon, not premium asset-store sticker"를 포함한다.
+- 최종 적용 전에는 128px 원본, 42px 축소 미리보기, 최종 기준 4종을 한 화면에서 함께 확인한다. 이 비교를 하지 않은 후보는 승인 후보로 취급하지 않는다.
 
 UI 프레임:
 
@@ -223,7 +225,7 @@ Generous padding around the object, clean readable silhouette.
 ```text
 Create one 2D pixel-art object icon for a cozy indie pixel game dashboard top menu.
 Object: <pretty wooden door / status monitor / inventory bag or backpack-like item / pink glass-dome gacha capsule machine>.
-Quality reference: match the texture, pixel density, outline strength, warm block shading, and not-too-polished game-item feel of `public/assets/rooms/my-room/object-visit-candidate-1.png`.
+Quality reference: match `DeeBi Lo-Fi Pixel Object Standard v1`, based on the final approved top-menu assets `object-visit.png`, `object-status.png`, `object-customize.png`, and `object-gacha.png`. Match their texture, pixel density, outline strength, warm block shading, and not-too-polished game-item feel.
 Final use: transparent 128x128 PNG displayed around 42px, so the silhouette must be readable when small.
 Style: charming lo-fi indie pixel game item, chunky readable pixel clusters, dark brown outline, large simple color blocks, a few restrained highlights.
 Background: perfectly flat solid <#ff00ff or #00ff00> chroma-key background for removal. Choose a key color absent from the subject; use #00ff00 for a pink gacha machine.
@@ -270,7 +272,7 @@ No watermark, no UI labels, no ranking board, no realistic blur.
 - 프로젝트에서 참조하는 최종 에셋은 반드시 `public/assets/**` 아래에 저장한다. built-in `image_gen` 기본 저장 위치의 원본은 참조하지 않는다.
 - 상단 메뉴 에셋 후보는 승인 전 최종 파일을 덮어쓰지 않았는지 확인한다.
 - 상단 메뉴 에셋 후보는 128px 원본과 42px 버튼 미리보기를 함께 확인한다.
-- 상단 메뉴 에셋 후보는 문 후보 기준과 비교해 같은 품질/질감인지 확인한다.
+- 상단 메뉴 에셋 후보는 `DeeBi Lo-Fi Pixel Object Standard v1` 기준 4종과 비교해 같은 품질/질감인지 확인한다.
 
 화면 검수:
 

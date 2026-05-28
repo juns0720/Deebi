@@ -38,19 +38,19 @@ const slotLabels: Record<ItemSlot, string> = {
 
 const commandTitles: Record<Exclude<RoomObjectActionId, "rooms">, { eyebrow: string; title: string; copy: string }> = {
   bag: {
-    eyebrow: "BAG",
-    title: "가방",
-    copy: "장착 슬롯과 보유 아이템을 확인해요.",
+    eyebrow: "STYLE",
+    title: "꾸미기",
+    copy: "장착 슬롯과 보유 아이템을 살펴봐요.",
   },
   gacha: {
     eyebrow: "GACHA",
-    title: "뽑기 장치",
-    copy: "포인트 보상 UI 자리만 열어둔 mock이에요.",
+    title: "뽑기",
+    copy: "포인트와 뽑기 준비 상태를 확인해요.",
   },
   status: {
     eyebrow: "STATUS",
-    title: "상태 보드",
-    copy: "health, streak, points를 작은 게임창에서 확인해요.",
+    title: "상태",
+    copy: "DeeBi 컨디션과 작업 리듬을 확인해요.",
   },
 };
 

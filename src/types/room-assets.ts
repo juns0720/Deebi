@@ -21,12 +21,3 @@ export interface RoomObjectAction {
   description: string;
   iconSrc: string;
 }
-
-export interface RoomMenuItem {
-  id: "rooms" | "gacha" | "bag";
-  label: string;
-  description: string;
-  iconSrc: string;
-  status: "active" | "locked";
-  targetTab?: "rooms";
-}

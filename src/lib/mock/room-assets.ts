@@ -1,4 +1,4 @@
-import type { RoomLayerAsset, RoomMenuItem, RoomObjectAction } from "@/types/room-assets";
+import type { RoomLayerAsset, RoomObjectAction } from "@/types/room-assets";
 
 export const myRoomStageSize = {
   width: 1600,
@@ -28,54 +28,29 @@ export const myRoomLayers: RoomLayerAsset[] = [
   },
 ];
 
-export const myRoomMenuItems: RoomMenuItem[] = [
+export const myRoomObjectActions: RoomObjectAction[] = [
   {
     id: "rooms",
-    label: "룸",
-    description: "함께하는 방 탭으로 이동",
-    iconSrc: "/assets/rooms/my-room/menu-room.png",
-    status: "active",
-    targetTab: "rooms",
+    label: "놀러가기",
+    description: "함께하는 방으로 이동",
+    iconSrc: "/assets/rooms/my-room/object-visit.png",
+  },
+  {
+    id: "status",
+    label: "상태",
+    description: "DeeBi 컨디션과 작업 리듬 확인",
+    iconSrc: "/assets/rooms/my-room/object-status.png",
+  },
+  {
+    id: "bag",
+    label: "꾸미기",
+    description: "장착 슬롯과 보유 아이템 확인",
+    iconSrc: "/assets/rooms/my-room/object-customize.png",
   },
   {
     id: "gacha",
     label: "뽑기",
-    description: "다음 task에서 연결할 목업 슬롯",
-    iconSrc: "/assets/rooms/my-room/menu-gacha-locked.png",
-    status: "locked",
-  },
-  {
-    id: "bag",
-    label: "가방",
-    description: "인벤토리 dock task에서 연결할 목업 슬롯",
-    iconSrc: "/assets/rooms/my-room/menu-bag-locked.png",
-    status: "locked",
-  },
-];
-
-export const myRoomObjectActions: RoomObjectAction[] = [
-  {
-    id: "rooms",
-    label: "문",
-    description: "함께하는 방으로 이동",
-    iconSrc: "/assets/rooms/my-room/object-door.png",
-  },
-  {
-    id: "status",
-    label: "상태 보드",
-    description: "건강도, streak, 포인트 보기",
-    iconSrc: "/assets/rooms/my-room/object-status-board.png",
-  },
-  {
-    id: "bag",
-    label: "가방",
-    description: "장착과 보유 아이템 보기",
-    iconSrc: "/assets/rooms/my-room/object-bag.png",
-  },
-  {
-    id: "gacha",
-    label: "뽑기 장치",
-    description: "포인트 보상 mock 확인",
+    description: "포인트 보상과 뽑기 상태 확인",
     iconSrc: "/assets/rooms/my-room/object-gacha.png",
   },
 ];

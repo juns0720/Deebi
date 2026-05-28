@@ -160,10 +160,8 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 새 UI 에셋 `hud-bar.png`, `command-panel.png`, `log-window.png`, `inventory-slot-*`, `progress-health-*`를 `public/assets/ui/`에 추가했다.
 - 새 오브젝트 에셋 `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`를 `public/assets/rooms/my-room/`에 추가했다.
 - 상단 옵션 에셋은 사용자 피드백에 맞춰 예쁜 문, 모니터, 인벤토리 가방/백팩형 오브젝트, 핑크 유리돔 뽑기 기계로 다시 생성했고, 모두 `128x128` 투명 PNG로 저장했다.
-- 이후 상단 메뉴 에셋 품질 기준은 `object-visit-candidate-1.png` 문 후보의 질감으로 맞춘다. 색상은 고정하지 않고, 42px에서도 읽히는 게임 아이템 질감과 한 개씩 생성/검수하는 workflow를 `docs/PIXEL_ASSET_PIPELINE.md`에 추가했다.
-- 문 후보 질감에 맞춘 `꾸미기` 가방 리뷰 후보 `object-customize-candidate-6.png`를 추가했다. 승인 전이므로 `object-customize.png`는 덮어쓰지 않았다.
-- `상태` 리뷰 후보 `object-status-candidate-1.png`를 작은 컨디션 모니터 장치 컨셉으로 추가했다. 승인 전이므로 `object-status.png`는 덮어쓰지 않았다.
-- `뽑기` 리뷰 후보 `object-gacha-candidate-1.png`를 핑크 유리돔 캡슐 머신 컨셉으로 추가했다. 승인 전이므로 `object-gacha.png`는 덮어쓰지 않았다.
+- 상단 메뉴 에셋 4종을 최종 파일로 승격했다: `object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`.
+- 이후 소형 픽셀 오브젝트 품질 기준은 최종 상단 메뉴 4종을 기준으로 하는 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 색상은 고정하지 않고, 42px에서도 읽히는 게임 아이템 질감과 한 개씩 생성/검수하는 workflow를 `docs/PIXEL_ASSET_PIPELINE.md`에 기록했다.
 - 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`의 SHA-256 hash는 변경 전과 동일하다.
 - `docs/tasks/phase-02/T05-management-inventory.md`, `docs/PIXEL_ASSET_PIPELINE.md`, `docs/DECISIONS.md`를 새 헤더 에셋 메뉴 방향에 맞게 갱신했다.
 
