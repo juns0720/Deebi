@@ -221,12 +221,16 @@ HUD 리소스 아이콘:
 UI 프레임:
 
 - 텍스트가 들어갈 영역은 비워둔다.
-- 9-slice 또는 `border-image`로 늘릴 수 있게 네 귀퉁이와 중앙 영역이 분리되어 보여야 한다.
+- 대형 패널처럼 텍스트와 반응형 레이아웃을 담는 UI 프레임은 저해상도 PNG 9-slice를 먼저 만들지 않는다. 먼저 CSS 다중 inset, clip-path 계단형 코너, dashed inner line, 공통 shadow 토큰으로 얇고 반복 가능한 프레임을 만든다.
+- PNG 9-slice 또는 `border-image`는 작은 슬롯/버튼처럼 고정 크기 성격이 강하거나, CSS만으로 표현하기 어려운 질감이 필요할 때만 사용한다. 이 경우에도 네 귀퉁이와 중앙 영역이 분리되어 보여야 한다.
 - 버튼/탭/패널 프레임에는 문구를 넣지 않는다.
 - hover/active 상태는 CSS 그림자와 색상 조정으로 먼저 처리하고, 필요할 때만 별도 에셋을 추가한다.
 - 게임 프레임/인벤토리/진행바처럼 늘어나거나 HTML 텍스트를 담는 UI 에셋은 AI 생성보다 직접 픽셀 제작을 우선한다. 모서리, edge slice, fill 영역이 예측 가능해야 하기 때문이다.
 - UI 프레임은 따뜻한 아이보리 fill, 진한 갈색 외곽, 작은 mint/blue/gold accent, 단단한 픽셀 그림자를 사용한다. 임시 사각 테두리처럼 보이지 않되, 텍스트보다 장식이 튀면 안 된다.
-- `hud-bar`, `command-panel`, `log-window`는 기존 파일 크기와 경로를 유지하고 9-slice stretch에서 모서리와 테두리가 무너지지 않아야 한다.
+- 큰 command panel, log/chat dock, stage 주변의 프레임은 공통 CSS 변수로 gap, side panel width, outer shadow를 공유한다. 데스크톱에서는 stage와 command panel의 top/bottom, dock의 left/right가 같은 외곽 좌표에 맞아야 하며, 모바일에서는 stage/command/dock이 같은 폭으로 쌓여야 한다.
+- 우측 command panel의 내용이 stage보다 길어지는 경우에도 stage를 세로로 늘리지 않는다. 데스크톱에서는 stage의 16:9 높이를 기준으로 row를 유지하고, 긴 command panel 내용은 패널 내부 스크롤로 처리한다.
+- 위치가 애매한 클로버/잎/새싹 같은 모서리 장식은 기본 사용하지 않는다. 장식이 꼭 필요하면 별도 승인된 에셋과 좌표 기준을 둔 뒤 적용하고, 텍스트/점선/프레임 정렬을 침범하면 제거한다.
+- `hud-bar`, `command-panel`, `log-window` PNG는 기존 경로를 유지하되, 큰 command/log 패널은 CSS 프레임을 우선한다. PNG를 다시 런타임 프레임으로 쓰려면 9-slice stretch에서 모서리와 테두리가 무너지지 않는지 먼저 검수한다.
 - `inventory-slot-*`는 빈 슬롯과 장착 슬롯이 색/작은 상태 표시로 구분되어야 한다. 글자, 숫자, 아이템 그림은 슬롯 에셋에 굽지 않는다.
 - `progress-health-*`는 체력/컨디션 게이지처럼 읽히는 픽셀 막대여야 하며, fill은 반복되어도 패턴이 어색하게 끊기지 않아야 한다.
 

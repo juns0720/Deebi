@@ -168,10 +168,15 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 헤더 메뉴 런타임 표시 크기를 `64px`로 낮추고, 메뉴 간격은 데스크톱에서 더 넓혀 픽셀 깨짐과 과한 크기감을 줄였다.
 - 헤더 메뉴 PNG 4종을 64px 작업 격자 기준으로 다시 후처리하고 가시 색 수를 64색 이하로 줄여 64px 표시에서 더 선명하게 보이도록 했다.
 - 이후 소형 픽셀 오브젝트 품질 기준은 최종 상단 메뉴 4종을 기준으로 하는 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 색상은 고정하지 않고, 42px에서도 읽히는 게임 아이템 질감과 한 개씩 생성/검수하는 workflow를 `docs/PIXEL_ASSET_PIPELINE.md`에 기록했다.
-- 헤더 메뉴 중심은 헤더 전체 기준 absolute center로 고정했다. 별도 우상단 HUD를 두지 않아 메뉴 중심감이 흐트러지지 않게 했다.
+- 데스크톱에서 헤더 메뉴 중심은 전체 프레임이 아니라 stage 컬럼 중심에 맞췄다. 우측 command panel이 있어도 메뉴가 방 위에 붙은 오브젝트 선택 메뉴처럼 보이게 했다.
+- 헤더 메뉴와 stage 사이의 데스크톱 간격은 11px로 조정했다. 메뉴가 방에 딸린 느낌은 유지하되, 방 프레임에 너무 붙어 보이지 않게 했다.
+- 데스크톱 헤더 메뉴 아이콘 간격은 48px로 넓혀 4개 메뉴가 한 덩어리처럼 뭉쳐 보이지 않게 했다.
 - v1의 64색/저해상도 후처리 기준은 신규 에셋 기준에서 제외하고, `DeeBi Pixel Asset Standard v2`를 새 기준으로 추가했다. v2는 안정적인 외곽선, 큰 색면, 중간 고급 픽셀 게임 오브젝트 품질을 우선한다.
 - `내 방` 메뉴는 기존 모니터 에셋 대신 작은 집 에셋 `object-my-room.png`를 적용했다. 내부 id는 `status` 그대로 유지한다.
 - `game-frame`, `inventory`, `progress` UI 에셋을 직접 픽셀 제작 방식으로 다시 그려 임시 사각 테두리 느낌을 줄이고 HUD/패널/슬롯/게이지의 게임 UI 감성을 보강했다.
+- 예시 이미지 기반의 세이지/아이보리 패널 후보를 승인 전 검수용으로 추가했다. 런타임 `command-panel.png`/`log-window.png`는 아직 덮어쓰지 않았고, 후보는 `public/assets/ui/game-frame/candidates/` 아래에만 둔다.
+- 새 후보는 `command-panel-candidate-1.png`, `log-window-candidate-1.png`, 실제 `/dashboard` 합성 검사용 `dashboard-frame-preview-candidate-1.png`로 구성했다.
+- 초기 후보가 너무 투박해 폐기하고, 더 얇은 세이지 레일/부드러운 그림자/작은 잎 장식으로 다시 제작한 후보를 `candidate-1` 파일명에 정리했다.
 - `내 방` 집 에셋을 기준으로 만든 `같이 하기` 문 후보 `public/assets/rooms/my-room/menu-objects/candidates/object-visit-candidate-1.png`를 승인된 최종 런타임 에셋 `object-visit.png`로 승격했다.
 - 비교 검사용 시트 `public/assets/rooms/my-room/menu-objects/candidates/object-visit-candidate-1-preview.png`에는 기준 `내 방`, 현재 `같이 하기`, 신규 후보를 128px/64px로 나란히 배치했다.
 - `꾸미기` 가방 후보 `public/assets/rooms/my-room/menu-objects/candidates/object-customize-candidate-1.png`를 승인된 최종 런타임 에셋 `object-customize.png`로 승격했다.
@@ -192,6 +197,10 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 승인된 방/캐릭터/책상 장면을 수정해야 하는 경우에는 먼저 별도 preview로 만들고 개발자 승인 후 저장한다. 현재 방향은 방 원본을 재생성하지 않고 UI/메뉴/오브젝트 에셋만 별도 레이어 또는 헤더 메뉴로 추가하는 것이다.
 - `public/assets/characters/deebi/deebi.png`는 개발자 제공 기준 캐릭터 원본으로 취급한다. 원본을 덮어쓰지 말고, 필요하면 파생 파일만 만든다.
 - UI 에셋은 용도별로 `public/assets/ui/game-frame/`, `public/assets/ui/inventory/`, `public/assets/ui/progress/`에 있다. 텍스트/숫자는 에셋에 굽지 않고 HTML로 유지한다.
+- 큰 패널 테두리는 rejected PNG 후보 방식을 폐기하고 `src/app/globals.css`의 CSS 다중 inset 프레임으로 런타임 적용한다. 텍스트/숫자는 계속 HTML이며, 위치가 어색했던 클로버/잎 모서리 장식은 제거했다.
+- 거절된 두꺼운 PNG 후보 폴더 `public/assets/ui/game-frame/candidates/`는 제거했다. 기존 `command-panel.png`/`log-window.png`는 보존하지만 큰 command/log 프레임에는 더 이상 `border-image`로 사용하지 않는다.
+- 프레임 정렬은 `--game-frame-gap`, `--game-side-panel-width`, `--game-outer-shadow` 공통 변수로 묶었다. 데스크톱에서는 stage와 command panel의 top/bottom, dock의 left/right가 같은 좌표에 맞고, 모바일에서는 stage/command/dock이 같은 폭으로 쌓이게 한다.
+- `꾸미기`처럼 우측 command panel 내용이 stage보다 길어지는 경우에도 stage를 늘리지 않는다. 데스크톱에서는 command 영역을 size containment로 묶고 `.game-command` 내부만 스크롤되게 해 stage 16:9 비율과 하단 정렬을 유지한다.
 - 헤더 메뉴 에셋은 `public/assets/rooms/my-room/menu-objects/object-visit.png`, `object-my-room.png`, `object-customize.png`, `object-gacha.png` 파일을 사용한다. 현재 실제 버튼은 헤더에 있고 stage 내부에는 없다.
 - `같이 하기` 문, `꾸미기` 가방, `뽑기` 기계 품질 리워크는 최종 런타임 에셋에 반영 완료했다.
 - 다음 작업자가 이어서 손볼 가능성이 높은 파일은 `src/components/dashboard/dashboard-shell.tsx`, `src/components/dashboard/game-room-frame.tsx`, `src/components/dashboard/my-room-stage.tsx`, `src/lib/mock/room-assets.ts`, `src/app/globals.css`다.
@@ -208,12 +217,20 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 이미지 검사: 최종 `object-gacha.png`가 `128x128` RGBA, alpha bbox `83x112`, 투명 모서리, 크로마키/마젠타 잔여 0픽셀임을 확인
 - 이미지 검사: 헤더 메뉴 PNG 4종의 가시 색 수가 64색 이하임을 확인
 - 브라우저 데스크톱 확인: 브랜드 텍스트, 상단 헤더 프레임, 우상단 코인 HUD 없이 헤더 중앙에 `같이 하기`/`내 방`/`꾸미기`/`뽑기` 메뉴가 64px 아이콘으로 선명하게 보이고, 하단 Dock의 오늘 커밋 표시를 확인했다.
-- 브라우저 데스크톱 확인: `1280px` 폭에서 `scrollWidth=1280`, 헤더 메뉴 그룹 중심과 헤더 중심의 차이 `0px`, 헤더 배경 투명/테두리 0/box-shadow none임을 확인했다.
+- 브라우저 데스크톱 확인: `1280px` 폭에서 헤더 메뉴 그룹 중심과 stage 중심의 차이 `0px`, 전체 프레임 중심과의 차이 `-176px`로 stage 기준 정렬됨을 확인했다.
+- 브라우저 데스크톱 확인: 헤더 메뉴 하단과 stage 상단 사이의 간격이 `11px`로 확보됨을 확인했다.
+- 브라우저 데스크톱 확인: 헤더 메뉴 아이템 사이 간격이 각각 `48px`로 확보되고, 메뉴 전체 중심은 stage 중심과 `0px` 차이로 유지됨을 확인했다.
 - 브라우저 데스크톱 확인: 적용 후 `같이 하기` 메뉴가 최종 `object-visit.png`를 참조하고, 헤더 메뉴 중심 차이 `0px`, 코인 HUD 없음 상태를 유지함을 확인했다.
 - 브라우저 데스크톱 확인: 적용 후 `꾸미기` 메뉴가 최종 `object-customize.png`를 참조하고, 헤더 메뉴 중심 차이 `0px`, 코인 HUD 없음 상태를 유지함을 확인했다.
 - 브라우저 데스크톱 확인: 적용 후 `뽑기` 메뉴가 최종 `object-gacha.png`를 참조하고, 헤더 메뉴 중심 차이 `0px`, 코인 HUD 없음 상태를 유지함을 확인했다.
 - 이미지 확인: `object-my-room.png`가 `128x128` RGBA, 투명 모서리, 마젠타 계열 배경 제거 상태임을 확인했다.
-- UI 에셋 확인: `game-frame`, `inventory`, `progress` PNG가 기존 경로/크기로 갱신되고 브라우저에서 패널, 슬롯, 게이지에 정상 적용됨을 확인했다.
+- UI 에셋 확인: `inventory`, `progress` PNG는 기존 경로로 유지되고 슬롯/게이지에 정상 적용됨을 확인했다.
+- 패널 프레임 확인: 오른쪽 command panel과 하단 dock이 CSS 기반 세이지 그린 외곽선, 아이보리 내부 fill, 살구색 안쪽 점선, 얇은 계단형 코너, 은은한 하단/우측 그림자로 표시됨을 확인했다.
+- 패널 프레임 확인: `상태`, `꾸미기`, `뽑기` command panel 전환 상태에서 제목/본문/숫자가 이미지에 굽지 않고 HTML로 유지되며, 장식이 텍스트를 침범하지 않음을 확인했다.
+- 브라우저 모바일 360px 확인: CDP device metrics 기준 `innerWidth=360`, `scrollWidth=360`, 상단 메뉴 4개가 모두 보이고 stage/command panel 폭이 `336px`로 들어와 가로 overflow가 없음을 확인했다.
+- 브라우저 데스크톱 정렬 확인: stage와 command panel의 top/bottom 차이 `0px`, dock left와 stage left 차이 `0px`, dock right와 command right 차이 `0px`로 외곽 좌표가 맞음을 확인했다.
+- 브라우저 모바일 360px 정렬 확인: stage/command/dock의 left/right 차이 `0px`, 각 폭 `336px`, `scrollWidth=360`으로 반응형에서도 같은 폭으로 쌓임을 확인했다.
+- 브라우저 데스크톱 `꾸미기` 확인: stage와 command panel의 top/bottom 차이 `0px`, stage 높이 `477px`, command 내부 `scrollHeight=550/clientHeight=477`로 긴 꾸미기 내용이 stage를 늘리지 않고 내부 스크롤됨을 확인했다.
 - 브라우저 상호작용 확인: 헤더 에셋 메뉴의 `같이 하기`, `내 방`, `꾸미기` 클릭 동작 통과
 - 브라우저 키보드 확인: 헤더 `뽑기` Enter/Space 활성화로 command panel 전환 통과
 - 브라우저 모바일 360px 확인: `innerWidth=360`, `scrollWidth=360`, 헤더 메뉴 중심 차이 `0px`으로 가로 overflow가 없고, 브랜드/코인 HUD/상단 프레임 없이 64px 상단 메뉴가 중앙에 보인다.
