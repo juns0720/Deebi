@@ -69,6 +69,10 @@ task 완료 후 `docs/PROGRESS.md`를 아래 상태로 만든다:
 
 - 한 task = 의미 있는 커밋 단위. task 도중 작은 커밋은 허용.
 - 커밋 메시지: `feat(P02-T03): build my room stage` 처럼 phase와 task 번호를 포함.
+- 에이전트는 작업 단위가 끝나 개발자에게 보고하기 전에 현재 작업 내용을 커밋하고 현재 브랜치를 원격에 push한다.
+- 문서만 수정한 작업도 같은 규칙을 따른다. 단, 작업과 무관한 dirty change는 함께 stage/commit하지 않는다.
+- push가 인증, 네트워크, 권한 문제로 실패하면 실패 사유를 `PROGRESS.md`의 `Blockers` 또는 최종 보고에 남기고 멈춘다.
+- 커밋과 push를 했더라도 1장의 `STOP` 규칙은 유지한다. 개발자 승인 없이 다음 task로 자동 진행하지 않는다.
 - 자세한 컨벤션은 `docs/CONVENTIONS.md`.
 
 ## 6. 개발자를 위한 사용법 (참고)
