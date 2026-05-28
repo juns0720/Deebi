@@ -1,219 +1,372 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
-import { PixelBadge, PixelButton, PixelPanel, PixelTab } from "@/components/ui";
-import type { DashboardMockData, HealthBand, JoinedRoomPreview, RoomMood } from "@/types/deebi";
+import { GameRoomFrame } from "@/components/dashboard/game-room-frame";
+import type { DashboardTabId } from "@/components/dashboard/game-room-frame";
+import { MyRoomStage } from "@/components/dashboard/my-room-stage";
+import { myRoomObjectActions } from "@/lib/mock/room-assets";
+import type {
+  DashboardMockData,
+  DeebiItemSummary,
+  HealthBand,
+  ItemSlot,
+  JoinedRoomPreview,
+  RoomMood,
+} from "@/types/deebi";
+import type { RoomObjectActionId } from "@/types/room-assets";
 
-type DashboardTabId = "my-room" | "rooms";
-
-const dashboardTabs: Array<{ id: DashboardTabId; label: string }> = [
-  { id: "my-room", label: "내 방" },
-  { id: "rooms", label: "함께하는 방" },
-];
-
-const healthBandMeta: Record<HealthBand, { label: string; tone: "success" | "warning" | "danger" | "muted" }> = {
-  great: { label: "최상", tone: "success" },
-  normal: { label: "보통", tone: "muted" },
-  tired: { label: "나쁨", tone: "warning" },
-  idle: { label: "방치", tone: "danger" },
+const healthBandMeta: Record<HealthBand, { label: string; copy: string; tone: string }> = {
+  great: { label: "최상", copy: "방은 밝고 DeeBi는 멀쩡해요.", tone: "success" },
+  normal: { label: "보통", copy: "오늘도 무난하게 유지 중이에요.", tone: "muted" },
+  tired: { label: "나쁨", copy: "조금 피곤한 기색이 보여요.", tone: "warning" },
+  idle: { label: "방치", copy: "잠깐 돌봄이 필요한 상태예요.", tone: "danger" },
 };
 
-const roomMoodMeta: Record<RoomMood, { label: string; tone: "success" | "warning" | "danger" | "muted" }> = {
+const roomMoodMeta: Record<RoomMood, { label: string; tone: string }> = {
   active: { label: "작업 중", tone: "success" },
   quiet: { label: "조용함", tone: "muted" },
   idle: { label: "쉬는 중", tone: "warning" },
 };
 
-function StatTile({ label, value, detail }: { label: string; value: string; detail?: string }) {
+const slotLabels: Record<ItemSlot, string> = {
+  accessory: "액세서리",
+  background: "배경",
+  face: "얼굴",
+  hat: "모자",
+};
+
+const commandTitles: Record<Exclude<RoomObjectActionId, "rooms">, { eyebrow: string; title: string; copy: string }> = {
+  bag: {
+    eyebrow: "BAG",
+    title: "가방",
+    copy: "장착 슬롯과 보유 아이템을 확인해요.",
+  },
+  gacha: {
+    eyebrow: "GACHA",
+    title: "뽑기 장치",
+    copy: "포인트 보상 UI 자리만 열어둔 mock이에요.",
+  },
+  status: {
+    eyebrow: "STATUS",
+    title: "상태 보드",
+    copy: "health, streak, points를 작은 게임창에서 확인해요.",
+  },
+};
+
+function getItemById(items: DeebiItemSummary[], itemId: string) {
+  return items.find((item) => item.id === itemId);
+}
+
+function CommandHeader({ actionId }: { actionId: Exclude<RoomObjectActionId, "rooms"> }) {
+  const meta = commandTitles[actionId];
+
   return (
-    <PixelPanel className="min-h-[112px] p-4">
-      <p className="text-xs font-black uppercase text-[#6f6257]">{label}</p>
-      <p className="mt-3 text-2xl font-black leading-none [font-family:var(--font-pixel-title)] sm:text-3xl">
-        {value}
-      </p>
-      {detail ? <p className="pixel-copy mt-3 text-sm leading-6 text-[#4c4038]">{detail}</p> : null}
-    </PixelPanel>
+    <div className="game-command__header">
+      <p>{meta.eyebrow}</p>
+      <h2>{meta.title}</h2>
+      <span>{meta.copy}</span>
+    </div>
   );
 }
 
-function RoomShellPreview({ healthBand }: { healthBand: HealthBand }) {
-  const faceClass = healthBand === "great" ? "bg-[#a8e6c1]" : healthBand === "tired" ? "bg-[#f0b84b]" : "bg-[#fffaf0]";
-
+function HealthMeter({ value }: { value: number }) {
   return (
-    <PixelPanel className="relative min-h-[320px] w-full min-w-0 overflow-hidden bg-[#f7e6c2] p-0 sm:min-h-[420px]">
-      <div className="absolute inset-x-0 top-0 h-[60%] bg-[linear-gradient(90deg,rgba(23,18,15,0.04)_1px,transparent_1px),linear-gradient(180deg,rgba(23,18,15,0.04)_1px,transparent_1px),#fff2d2] bg-[length:20px_20px]" />
-      <div className="absolute inset-x-0 bottom-0 h-[44%] border-t-2 border-[#17120f] bg-[linear-gradient(90deg,rgba(143,106,66,0.20)_1px,transparent_1px),#d9a66f] bg-[length:42px_42px]" />
-      <div className="absolute left-[8%] top-[22%] h-24 w-16 border-2 border-[#17120f] bg-[#67b7e8] shadow-[3px_3px_0_#8f6a42]">
-        <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-[#17120f]" />
-        <div className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 bg-[#17120f]" />
-      </div>
-      <div className="absolute right-[8%] top-[18%] h-24 w-28 border-2 border-[#17120f] bg-[#d9a66f] shadow-[3px_3px_0_#8f6a42]">
-        <div className="mx-auto mt-4 h-3 w-20 bg-[#17120f]" />
-        <div className="mx-auto mt-4 h-3 w-16 bg-[#2fb66d]" />
-      </div>
-      <div className="pixel-idle-bob absolute left-1/2 top-[63%] h-28 w-24 -translate-x-1/2 -translate-y-1/2 border-2 border-[#17120f] bg-[#fffaf0] shadow-[4px_4px_0_#8f6a42]">
-        <div className={`absolute left-1/2 top-5 h-12 w-12 -translate-x-1/2 border-2 border-[#17120f] ${faceClass}`}>
-          <div className="absolute left-3 top-4 h-1.5 w-1.5 bg-[#17120f]" />
-          <div className="absolute right-3 top-4 h-1.5 w-1.5 bg-[#17120f]" />
-          <div className="absolute bottom-3 left-1/2 h-0.5 w-5 -translate-x-1/2 bg-[#17120f]" />
-        </div>
-        <div className="absolute bottom-4 left-5 h-5 w-4 border-2 border-[#17120f] bg-[#fffaf0]" />
-        <div className="absolute bottom-4 right-5 h-5 w-4 border-2 border-[#17120f] bg-[#fffaf0]" />
-      </div>
-      <div className="absolute bottom-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3">
-        <PixelBadge tone="muted">목업 방 셸</PixelBadge>
-        <PixelBadge tone="success">스테이지 준비</PixelBadge>
-      </div>
-    </PixelPanel>
+    <div className="game-health-meter" aria-label={`건강도 ${value}%`}>
+      <i style={{ width: `${value}%` }} />
+    </div>
   );
 }
 
-function MyRoomPanel({ data }: { data: DashboardMockData }) {
+function StatusCommand({ data }: { data: DashboardMockData }) {
   const healthMeta = healthBandMeta[data.user.healthBand];
-  const ownedCount = useMemo(() => data.inventory.filter((item) => item.owned).length, [data.inventory]);
+  const ownedCount = data.inventory.filter((item) => item.owned).length;
 
   return (
-    <section aria-labelledby="dashboard-tab-my-room" className="mt-6" id="dashboard-panel-my-room" role="tabpanel">
-      <div className="grid min-w-0 gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <RoomShellPreview healthBand={data.user.healthBand} />
-        <div className="grid min-w-0 gap-4">
-          <PixelPanel className="p-5">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-black uppercase text-[#6f6257]">상태</p>
-                <h2 className="mt-2 text-2xl font-black [font-family:var(--font-pixel-title)]">오늘의 DeeBi</h2>
-              </div>
-              <PixelBadge tone={healthMeta.tone}>{healthMeta.label}</PixelBadge>
-            </div>
-            <div className="mt-5 h-6 border-2 border-[#17120f] bg-[#efe0bd] p-1 shadow-[2px_2px_0_#17120f]">
-              <div className="h-full bg-[#2fb66d]" style={{ width: `${data.user.health}%` }} />
-            </div>
-            <p className="pixel-copy mt-4 text-sm leading-6 text-[#4c4038]">
-              {data.user.githubLogin} 기준 목업 상태예요. 실제 GitHub 동기화는 이후 단계에서 연결해요.
-            </p>
-          </PixelPanel>
-          <div className="grid min-w-0 grid-cols-2 gap-4">
-            <StatTile detail="오늘 활동 목업" label="오늘 커밋" value={`${data.user.todayCommitCount}`} />
-            <StatTile detail="연속 기록 목업" label="연속" value={`${data.user.streakDays}일`} />
-            <StatTile detail="뽑기 가능" label="포인트" value={`${data.user.points}P`} />
-            <StatTile detail={`${ownedCount}/${data.inventory.length}개 보유`} label="인벤토리" value={`${ownedCount}`} />
-          </div>
+    <div className="game-command__section">
+      <div className="game-command__status-line">
+        <span data-tone={healthMeta.tone}>{healthMeta.label}</span>
+        <strong>{data.user.health}%</strong>
+      </div>
+      <HealthMeter value={data.user.health} />
+      <p className="game-command__copy">{healthMeta.copy}</p>
+      <div className="game-command__stat-grid">
+        <div>
+          <span>STREAK</span>
+          <strong>{data.user.streakDays}일</strong>
+        </div>
+        <div>
+          <span>POINT</span>
+          <strong>{data.user.points}P</strong>
+        </div>
+        <div>
+          <span>OWNED</span>
+          <strong>{ownedCount}/{data.inventory.length}</strong>
+        </div>
+        <div>
+          <span>SYNC</span>
+          <strong>MOCK</strong>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
-function RoomPreviewCard({ room }: { room: JoinedRoomPreview }) {
-  const mood = roomMoodMeta[room.mood];
-
+function InventorySlot({ label, item, equipped = false }: { label: string; item?: DeebiItemSummary; equipped?: boolean }) {
   return (
-    <PixelPanel className="flex min-h-[160px] flex-col justify-between p-4">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className="pixel-copy text-lg font-black leading-7">{room.name}</h3>
-          <p className="mt-1 text-sm font-black text-[#6f6257]">#{room.code}</p>
-        </div>
-        <PixelBadge tone={mood.tone}>{mood.label}</PixelBadge>
-      </div>
-      <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
-        <div className="border-2 border-[#17120f] bg-[#fffaf0] p-3 shadow-[2px_2px_0_#8f6a42]">
-          <p className="font-black">{room.memberCount}명</p>
-          <p className="mt-1 text-[#4c4038]">멤버</p>
-        </div>
-        <div className="border-2 border-[#17120f] bg-[#fffaf0] p-3 shadow-[2px_2px_0_#8f6a42]">
-          <p className="font-black">{room.activeTodayCount}명</p>
-          <p className="mt-1 text-[#4c4038]">오늘 활동</p>
-        </div>
-      </div>
-    </PixelPanel>
+    <div className="game-inventory-slot" data-equipped={equipped}>
+      <span>{label}</span>
+      <strong>{item?.name ?? "빈 슬롯"}</strong>
+    </div>
   );
 }
 
-function RoomsPanel({ data }: { data: DashboardMockData }) {
+function BagCommand({ data }: { data: DashboardMockData }) {
+  const equippedSlots = (Object.keys(slotLabels) as ItemSlot[]).map((slot) => {
+    const equipped = data.equipped.find((item) => item.slot === slot);
+    return {
+      item: equipped ? getItemById(data.inventory, equipped.itemId) : undefined,
+      slot,
+    };
+  });
+
   return (
-    <section aria-labelledby="dashboard-tab-rooms" className="mt-6" id="dashboard-panel-rooms" role="tabpanel">
-      <div className="grid min-w-0 gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="grid min-w-0 gap-4 md:grid-cols-2">
-          {data.joinedRooms.length > 0 ? (
-            data.joinedRooms.map((room) => <RoomPreviewCard key={room.code} room={room} />)
-          ) : (
-            <PixelPanel className="p-6 md:col-span-2">
-              <h2 className="text-xl font-black [font-family:var(--font-pixel-title)]">아직 참여한 방이 없어요.</h2>
-              <p className="pixel-copy mt-3 text-sm leading-6 text-[#4c4038]">
-                방 만들기와 코드 참여는 mock shell에서 자리만 잡아둡니다.
-              </p>
-            </PixelPanel>
-          )}
-        </div>
-        <PixelPanel className="p-5">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="text-xl font-black [font-family:var(--font-pixel-title)]">룸 액션</h2>
-            <PixelBadge tone="muted">목업</PixelBadge>
-          </div>
-          <div className="mt-5 grid gap-3">
-            <PixelButton disabled variant="primary">
-              새 룸 만들기
-            </PixelButton>
-            <PixelButton disabled variant="quiet">
-              코드로 참여
-            </PixelButton>
-          </div>
-          <p className="pixel-copy mt-4 text-sm leading-6 text-[#4c4038]">
-            실제 룸 생성과 참여 API는 아직 연결하지 않았어요.
-          </p>
-        </PixelPanel>
+    <div className="game-command__section">
+      <div className="game-command__slot-grid">
+        {equippedSlots.map(({ item, slot }) => (
+          <InventorySlot equipped={Boolean(item)} item={item} key={slot} label={slotLabels[slot]} />
+        ))}
       </div>
-    </section>
+      <ul className="game-command__item-list" aria-label="보유 아이템">
+        {data.inventory.map((item) => (
+          <li data-owned={item.owned} key={item.id}>
+            <span>{item.name}</span>
+            <b>{item.owned ? "보유" : "미보유"}</b>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function GachaCommand({ data }: { data: DashboardMockData }) {
+  const canDraw = data.user.points >= 100;
+
+  return (
+    <div className="game-command__section">
+      <div className="game-command__status-line">
+        <span data-tone={canDraw ? "success" : "warning"}>{canDraw ? "뽑기 가능" : "포인트 부족"}</span>
+        <strong>{data.user.points}P</strong>
+      </div>
+      <p className="game-command__copy">
+        실제 뽑기 API는 이후 task에서 연결해요. 지금은 버튼과 상태 표시만 확인합니다.
+      </p>
+      <button className="game-command__button" disabled type="button">
+        다음 단계에서 연결
+      </button>
+    </div>
+  );
+}
+
+function MyRoomCommandPanel({
+  actionId,
+  data,
+}: {
+  actionId: Exclude<RoomObjectActionId, "rooms">;
+  data: DashboardMockData;
+}) {
+  return (
+    <div className="game-command">
+      <CommandHeader actionId={actionId} />
+      {actionId === "status" ? <StatusCommand data={data} /> : null}
+      {actionId === "bag" ? <BagCommand data={data} /> : null}
+      {actionId === "gacha" ? <GachaCommand data={data} /> : null}
+    </div>
+  );
+}
+
+function MyRoomLogDock({ data }: { data: DashboardMockData }) {
+  const healthMeta = healthBandMeta[data.user.healthBand];
+  const logs = [
+    `오늘 커밋 ${data.user.todayCommitCount}개가 sync mock에 반영됐어요.`,
+    `${data.user.streakDays}일 연속 기록이 이어지고 있어요.`,
+    data.user.todayCommitCount >= 8 ? "작업량이 높아 DeeBi가 살짝 과열된 상태예요." : healthMeta.copy,
+  ];
+
+  return (
+    <div className="game-log">
+      <div className="game-log__title">
+        <span>SYNC LOG</span>
+        <b>오늘 {data.user.todayCommitCount}커밋</b>
+      </div>
+      <div className="game-log__sync-card">
+        <div>
+          <span>HEALTH</span>
+          <strong>{data.user.health}%</strong>
+        </div>
+        <div>
+          <span>STREAK</span>
+          <strong>{data.user.streakDays}일</strong>
+        </div>
+        <div>
+          <span>SYNC</span>
+          <strong>MOCK</strong>
+        </div>
+      </div>
+      <ol>
+        {logs.map((log) => (
+          <li key={log}>{log}</li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+function SharedRoomStage({ rooms }: { rooms: JoinedRoomPreview[] }) {
+  return (
+    <div className="shared-room-stage">
+      <div className="shared-room-stage__board">
+        <p>공동 룸 스테이지 준비 중</p>
+        <strong>{rooms.length}개 룸 참여 중</strong>
+      </div>
+      <div className="shared-room-stage__list">
+        {rooms.map((room) => {
+          const mood = roomMoodMeta[room.mood];
+          return (
+            <article className="shared-room-stage__card" data-tone={mood.tone} key={room.code}>
+              <span>#{room.code}</span>
+              <h2>{room.name}</h2>
+              <p>{room.memberCount}명 / 오늘 {room.activeTodayCount}명 활동</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function SharedRoomCommand({ rooms }: { rooms: JoinedRoomPreview[] }) {
+  const activeRooms = rooms.filter((room) => room.mood === "active").length;
+
+  return (
+    <div className="game-command">
+      <div className="game-command__header">
+        <p>ROOM</p>
+        <h2>함께하는 방</h2>
+        <span>실제 룸 API는 이후 단계에서 연결해요.</span>
+      </div>
+      <div className="game-command__stat-grid">
+        <div>
+          <span>JOINED</span>
+          <strong>{rooms.length}</strong>
+        </div>
+        <div>
+          <span>ACTIVE</span>
+          <strong>{activeRooms}</strong>
+        </div>
+      </div>
+      <button className="game-command__button" disabled type="button">
+        새 룸 만들기
+      </button>
+      <button className="game-command__button" disabled type="button">
+        코드로 참여
+      </button>
+    </div>
+  );
+}
+
+function SharedRoomDock() {
+  return (
+    <div className="game-log">
+      <div className="game-log__title">
+        <span>CHAT DOCK</span>
+        <b>준비 중</b>
+      </div>
+      <ol>
+        <li>공동 룸 채팅은 같은 하단 dock 자리에 들어올 예정이에요.</li>
+        <li>이번 단계에서는 내 방 상태 로그와 레이아웃 충돌이 없는지만 확인합니다.</li>
+      </ol>
+    </div>
+  );
+}
+
+function HeaderAssetMenu({
+  activeTab,
+  selectedAction,
+  onOpenRooms,
+  onSelectAction,
+}: {
+  activeTab: DashboardTabId;
+  selectedAction: Exclude<RoomObjectActionId, "rooms">;
+  onOpenRooms: () => void;
+  onSelectAction: (actionId: Exclude<RoomObjectActionId, "rooms">) => void;
+}) {
+  return (
+    <div className="game-room-frame__asset-menu">
+      {myRoomObjectActions.map((action) => {
+        const isActive = action.id === "rooms" ? activeTab === "rooms" : activeTab === "my-room" && selectedAction === action.id;
+        const activate = () => {
+          if (action.id === "rooms") {
+            onOpenRooms();
+            return;
+          }
+
+          onSelectAction(action.id);
+        };
+
+        return (
+          <button
+            aria-label={`${action.label}: ${action.description}`}
+            aria-pressed={isActive}
+            className="game-room-frame__asset-menu-item"
+            data-active={isActive}
+            key={action.id}
+            onClick={activate}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                activate();
+              }
+            }}
+            type="button"
+          >
+            <Image alt="" aria-hidden="true" className="pixel-grid-art" height={42} src={action.iconSrc} unoptimized width={42} />
+            <span>{action.label}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
 export function DashboardShell({ data }: { data: DashboardMockData }) {
   const [activeTab, setActiveTab] = useState<DashboardTabId>("my-room");
+  const [selectedAction, setSelectedAction] = useState<Exclude<RoomObjectActionId, "rooms">>("status");
+
+  const command = useMemo(() => {
+    if (activeTab === "rooms") {
+      return <SharedRoomCommand rooms={data.joinedRooms} />;
+    }
+
+    return <MyRoomCommandPanel actionId={selectedAction} data={data} />;
+  }, [activeTab, data, selectedAction]);
+
+  const dock = activeTab === "rooms" ? <SharedRoomDock /> : <MyRoomLogDock data={data} />;
+  const menu = (
+    <HeaderAssetMenu
+      activeTab={activeTab}
+      onOpenRooms={() => setActiveTab("rooms")}
+      onSelectAction={(actionId) => {
+        setActiveTab("my-room");
+        setSelectedAction(actionId);
+      }}
+      selectedAction={selectedAction}
+    />
+  );
 
   return (
-    <main className="pixel-app-root min-h-screen overflow-x-clip px-4 py-5 text-[#17120f] sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-[1180px] min-w-0 flex-col">
-        <header className="flex min-w-0 flex-col gap-4 border-b-2 border-[#17120f] pb-5 md:flex-row md:items-end md:justify-between">
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-4xl font-black leading-none [font-family:var(--font-pixel-title)] sm:text-5xl">DeeBi</h1>
-              <PixelBadge tone="warning">목업 UI</PixelBadge>
-            </div>
-            <p className="pixel-copy mt-3 max-w-[640px] text-sm leading-6 text-[#4c4038] sm:text-base">
-              GitHub 인증 연결 전, 대시보드의 기본 탭 구조만 먼저 확인하는 화면이에요.
-            </p>
-          </div>
-          <PixelPanel className="flex w-[calc(100vw-32px)] max-w-full min-w-0 items-center justify-between gap-4 p-3 md:w-auto md:min-w-[300px]">
-            <div className="min-w-0">
-              <p className="text-xs font-black uppercase text-[#6f6257]">목업 사용자</p>
-              <p className="truncate text-lg font-black">{data.user.githubLogin}</p>
-            </div>
-            <PixelBadge tone="success">{data.user.health}%</PixelBadge>
-          </PixelPanel>
-        </header>
-
-        <nav aria-label="대시보드 탭" className="mt-5">
-          <div className="grid w-[calc(100vw-32px)] max-w-full min-w-0 grid-cols-2 gap-3 sm:inline-grid sm:w-full sm:min-w-[360px]" role="tablist">
-            {dashboardTabs.map((tab) => (
-              <PixelTab
-                active={activeTab === tab.id}
-                aria-controls={`dashboard-panel-${tab.id}`}
-                aria-selected={activeTab === tab.id}
-                className="w-full"
-                id={`dashboard-tab-${tab.id}`}
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                role="tab"
-              >
-                {tab.label}
-              </PixelTab>
-            ))}
-          </div>
-        </nav>
-
-        {activeTab === "my-room" ? <MyRoomPanel data={data} /> : <RoomsPanel data={data} />}
-      </div>
-    </main>
+    <GameRoomFrame activeTab={activeTab} command={command} dock={dock} menu={menu}>
+      {activeTab === "my-room" ? <MyRoomStage data={data} /> : <SharedRoomStage rooms={data.joinedRooms} />}
+    </GameRoomFrame>
   );
 }

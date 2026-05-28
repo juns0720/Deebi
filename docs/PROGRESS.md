@@ -16,11 +16,11 @@
 
 ## Current Task
 
-- **Task:** P02-T03 — 대시보드 앱 셸과 탭 구조
-- **File:** `docs/tasks/phase-02/T03-dashboard-shell.md`
+- **Task:** P02-T05 — 관리 패널과 인벤토리 dock
+- **File:** `docs/tasks/phase-02/T05-management-inventory.md`
 - **Status:** AWAITING REVIEW
   - 가능한 값: `NOT STARTED` / `IN PROGRESS` / `AWAITING REVIEW` / `DONE`
-- **Next Ready Task:** P02-T04 — 내 방 스테이지 (`docs/tasks/phase-02/T04-my-room-stage.md`)
+- **Next Ready Task:** P02-T06 — 방치 모드 (`docs/tasks/phase-02/T06-idle-mode.md`)
 
 ## Phase Status
 
@@ -54,9 +54,9 @@
 
 - [x] P02-T01 — 픽셀 디자인 토큰과 폰트 기반 — DONE
 - [x] P02-T02 — 랜딩 정적 프로토타입 — DONE
-- [x] P02-T03 — 대시보드 앱 셸과 탭 구조 — AWAITING REVIEW
-- [ ] P02-T04 — 내 방 스테이지 — NOT STARTED
-- [ ] P02-T05 — 관리 패널과 인벤토리 dock — NOT STARTED
+- [x] P02-T03 — 대시보드 앱 셸과 탭 구조 — DONE
+- [x] P02-T04 — 내 방 스테이지 — DONE
+- [ ] P02-T05 — 관리 패널과 인벤토리 dock — AWAITING REVIEW
 - [ ] P02-T06 — 방치 모드 — NOT STARTED
 - [ ] P02-T07 — 함께하는 방 탭 — NOT STARTED
 - [ ] P02-T08 — 공동 룸 스테이지 — NOT STARTED
@@ -146,44 +146,46 @@
 
 ## Working Notes
 
-P02-T03에서 `/dashboard` mock 앱 셸과 `내 방` / `함께하는 방` 탭 구조를 추가했다.
+P02-T05 구현 완료, 개발자 리뷰 대기.
 
 주요 변경:
 
-- 개발자 피드백에 따라 온보딩의 임시 초기 방 테스트 화면(`#room-test`)을 제거했다. 내 방 에셋 비율/좌표계 검증은 P02-T04에서 정식으로 다룬다.
-- 랜딩 첫 화면의 `시작하기` 버튼은 `/dashboard` 목업 셸로 이동하고, `구경하기` 버튼은 기존 기능 미리보기(`#demo`)로 유지했다.
-- `src/app/dashboard/page.tsx`를 추가해 `/dashboard` route를 만들었다.
-- `src/components/dashboard/dashboard-shell.tsx`를 추가해 클라이언트 상태 기반 `내 방` / `함께하는 방` 탭 전환을 구현했다.
-- 기존 `src/lib/mock/deebi.ts`의 `mockDashboardData`를 사용해 사용자, 건강도, 오늘 커밋, streak, 포인트, 인벤토리 수, 참여 중인 룸 목록을 표시했다.
-- 상단에는 `DeeBi`, 목업 UI 배지, 목업 사용자, 건강도 요약을 배치해 실제 인증이 연결된 화면으로 오해하지 않게 했다.
-- `내 방` 탭에는 세부 스테이지 완성 대신 간단한 픽셀 방 셸과 상태/지표 요약만 두었다. 본격적인 방 비율/레이어 계약은 다음 task인 P02-T04 범위로 남겼다.
-- `함께하는 방` 탭에는 참여 중인 룸 카드와 비활성 `새 룸 만들기` / `코드로 참여` 버튼을 두어 실제 룸 API가 아직 없음을 작게 표시했다.
-- 모바일에서 탭과 패널이 화면 밖으로 밀리지 않도록 `.pixel-tab` 최소 폭, 패널 최대 폭, dashboard root의 가로 overflow를 보정했다.
-- `public/assets/onboarding/room-test/*` PNG는 삭제하지 않았다. 현재 온보딩에서는 참조하지 않으며, P02-T04에서 에셋/좌표계 검증용으로 다시 판단할 수 있다.
-- 개발자 피드백으로 P02-T04 이후 작업 방향을 "직접 제작한 개발용 픽셀 에셋 + 게임 UI 구조"로 상세화했다.
-- `docs/PIXEL_ASSET_PIPELINE.md`를 추가해 room/ui/chat 에셋 제작 원칙, 폴더 구조, 프롬프트 템플릿, 좌표계, 검수 기준을 정의했다.
-- `docs/tasks/phase-02/T04-my-room-stage.md`를 갱신해 `base-room.png`, 문/창문/가구/전경 테이블 등 내 방 에셋 직접 제작과 manifest 기반 room stage 구현을 다음 작업 범위로 명시했다.
-- `docs/tasks/phase-02/T05-management-inventory.md`를 갱신해 HUD, 패널, 버튼, 탭, 인벤토리 슬롯 UI 프레임 에셋 제작과 HTML 텍스트 유지 원칙을 명시했다.
-- `docs/tasks/phase-02/T06-idle-mode.md`를 갱신해 방치 모드 친구 상태 신호를 문 불빛, 램프, 벽 모니터 같은 방 오브젝트 에셋으로 표현하도록 했다.
-- `docs/tasks/phase-02/T07-rooms-tab.md`, `T08-shared-room-stage.md`, `T09-room-chat.md`, `T10-responsive-qa.md`를 갱신해 함께하는 방, 공동 룸, 채팅, 최종 QA까지 같은 에셋 기반 게임 UI 흐름을 따르게 했다.
-- `docs/phases/02-ui-ux-prototype.md`와 `docs/DECISIONS.md`에 asset-first Phase 02 방향과 런타임 AI 이미지 생성 제외 경계를 기록했다.
+- `/dashboard`를 `상단 에셋 메뉴 + 중앙 Stage + 우측 선택 메뉴창 + 하단 Dock` 공통 게임 프레임으로 재구성했다.
+- `src/components/dashboard/game-room-frame.tsx`를 추가해 `내 방`과 `함께하는 방`이 같은 header menu/stage/command/dock 구조를 공유하게 했다.
+- 기존 오른쪽 카드 묶음을 제거하고, 선택된 방 오브젝트의 설명과 명령만 보여주는 RPG식 command panel로 교체했다.
+- `MyRoomStage` 위에 얹었던 메뉴성 버튼은 제거하고, `문`, `상태 보드`, `가방`, `뽑기 장치`를 헤더의 픽셀 에셋 메뉴로 이동했다.
+- 상단 헤더에서 HP와 오늘 커밋 지표를 제거했다. 오늘 커밋은 하단 sync/status 로그 카드에서 표시한다.
+- `문` 헤더 에셋은 `함께하는 방` 탭 전환만 수행하고, `상태 보드`/`가방`/`뽑기 장치`는 우측 선택 메뉴창 내용을 바꾼다.
+- 하단 Dock은 내 방에서 sync/status 로그를 보여주고, 함께하는 방에서는 향후 채팅 Dock placeholder를 같은 위치에 둔다.
+- 새 UI 에셋 `hud-bar.png`, `command-panel.png`, `log-window.png`, `inventory-slot-*`, `progress-health-*`를 `public/assets/ui/`에 추가했다.
+- 새 오브젝트 에셋 `object-door.png`, `object-status-board.png`, `object-bag.png`, `object-gacha.png`를 `public/assets/rooms/my-room/`에 추가했다.
+- 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`의 SHA-256 hash는 변경 전과 동일하다.
+- `docs/tasks/phase-02/T05-management-inventory.md`, `docs/PIXEL_ASSET_PIPELINE.md`, `docs/DECISIONS.md`를 새 헤더 에셋 메뉴 방향에 맞게 갱신했다.
+
+이어받기 메모:
+
+- 현재 UI 컨셉은 "픽셀 게임 클라이언트"다. 웹 대시보드 카드 묶음이 아니라 `상단 에셋 메뉴`, `중앙 stage`, `우측 RPG command panel`, `하단 sync/chat dock`으로 이해하면 된다.
+- `내 방`과 `함께하는 방`은 같은 외곽 프레임을 공유한다. 하단 Dock은 내 방에서는 sync/status 로그, 함께하는 방에서는 이후 채팅 영역이 된다.
+- 상단 헤더에는 HP/커밋 숫자를 두지 않는다. 현재 위치와 픽셀 에셋 메뉴만 둔다. 커밋 정보는 하단 `SYNC LOG` 카드에 둔다.
+- stage 위에 메뉴성 UI를 올리지 않는다. 승인된 방 장면 위에 `문`, `가방`, `뽑기` 같은 메뉴 버튼이 끼어들면 안 된다.
+- `public/assets/rooms/my-room/source-scene.png`는 개발자가 승인한 원본 장면이다. `base-room.png`와 `foreground-scene.png`는 이 장면을 분리한 렌더용 레이어이며, 세 파일은 T05에서 변경하지 않았다.
+- 승인된 방/캐릭터/책상 장면을 수정해야 하는 경우에는 먼저 별도 preview로 만들고 개발자 승인 후 저장한다. 현재 방향은 방 원본을 재생성하지 않고 UI/메뉴/오브젝트 에셋만 별도 레이어 또는 헤더 메뉴로 추가하는 것이다.
+- `public/assets/deebi.png`는 개발자 제공 기준 캐릭터 원본으로 취급한다. 원본을 덮어쓰지 말고, 필요하면 파생 파일만 만든다.
+- UI 에셋은 `public/assets/ui/`에 있다. 텍스트/숫자는 에셋에 굽지 않고 HTML로 유지한다.
+- 헤더 메뉴 에셋은 `public/assets/rooms/my-room/object-*.png` 파일을 사용한다. 현재 실제 버튼은 헤더에 있고 stage 내부에는 없다.
+- 다음 작업자가 이어서 손볼 가능성이 높은 파일은 `src/components/dashboard/dashboard-shell.tsx`, `src/components/dashboard/game-room-frame.tsx`, `src/components/dashboard/my-room-stage.tsx`, `src/lib/mock/room-assets.ts`, `src/app/globals.css`다.
+- P02-T06 방치 모드를 시작하기 전에는 P02-T05 리뷰가 통과되어야 한다. 방치 모드에서는 이 공통 프레임에서 우측 command panel과 하단 Dock을 어떻게 접거나 축소할지 결정하면 된다.
 
 검증:
 
 - `npm run lint` 통과
 - `npm run typecheck` 통과
-- `npm run build` 통과
-- 문서 갱신 확인: P02-T04~T10 task 문서가 `docs/PIXEL_ASSET_PIPELINE.md`를 참조하고, 각 task별 에셋 산출물과 완료 조건이 구체화되어 있다.
-- 텍스트 검색 확인: `src` 안에 `room-test`, `초기 방`, `앞 테이블`, `러그`, `빈 방 위에` 참조가 남아 있지 않다.
-- 브라우저 확인: `/dashboard` 데스크톱에서 `내 방` / `함께하는 방` 탭이 보이고, `함께하는 방` 탭 클릭 시 룸 카드와 룸 액션 영역으로 전환된다.
-- Chrome CDP 모바일 확인: 360px viewport에서 `/dashboard`의 `innerWidth: 360`, `scrollWidth: 360`, `bodyScrollWidth: 360`으로 가로 오버플로가 없다.
-- `npm run build` 결과 `/dashboard`가 static route로 생성된다.
-
-주의:
-
-- 최종 픽셀 배경/캐릭터/아이템 이미지는 개발자가 제공한다.
-- 현재 `/dashboard`의 방 셸은 최종 내 방 스테이지가 아니라 P02-T03용 구조 placeholder다.
-- 현재 로컬 Node는 v21.7.3이라 설치/실행 시 engine 경고 가능성이 있다. 권장 버전은 Node 20 LTS 또는 22 LTS 계열이다.
+- `npm run build` 통과, `/dashboard` static route 생성 확인
+- 이미지 검사: 신규 UI/오브젝트 PNG 크기와 alpha channel 확인
+- 브라우저 데스크톱 확인: 헤더에 HP/커밋 텍스트가 없고 stage 내부 메뉴 버튼 수가 0개이며, 하단 Dock에 오늘 커밋이 표시된다.
+- 브라우저 상호작용 확인: 헤더 에셋 메뉴의 `가방`, `뽑기 장치`, `문` 클릭 동작 통과
+- 브라우저 키보드 확인: 헤더 `뽑기 장치` Enter 활성화로 command panel 전환 통과
+- 브라우저 모바일 360px 확인: `innerWidth=360`, `scrollWidth=345`, `bodyScrollWidth=345`로 가로 overflow가 없고 `header menu → stage → command → dock` 순서로 겹침 없이 배치된다.
 
 ## Blockers
 
@@ -191,14 +193,16 @@ none
 
 ## Developer Test
 
-1. `/`를 데스크톱 폭에서 확인한다.
-2. `/`를 모바일 360px 폭에서 확인한다.
-3. 온보딩에서 초기 방 테스트 화면이 더 이상 나오지 않는지 확인한다.
-4. `/` 첫 화면의 `시작하기`가 `/dashboard`로, `구경하기`가 기능 미리보기 화면(`#demo`)으로 이동하는지 확인한다.
-5. `/dashboard`를 데스크톱 폭에서 열고 `내 방` / `함께하는 방` 탭이 보이는지 확인한다.
-6. 두 탭을 전환했을 때 내 방 목업 셸과 함께하는 방 목업 카드가 안정적으로 바뀌는지 확인한다.
-7. `/dashboard`를 모바일 360px 폭에서 확인하고 탭과 패널이 화면 밖으로 넘치지 않는지 확인한다.
-8. `npm run lint`, `npm run typecheck`, `npm run build`가 통과하는지 확인한다.
+1. `/dashboard`의 `내 방` 탭을 데스크톱 폭에서 연다.
+2. 방 stage가 중심이고 오른쪽 카드 더미 느낌이 사라졌는지 확인한다.
+3. 상단 헤더에 HP와 커밋 지표가 없고, 커밋 정보가 하단 sync/status 로그 카드에 있는지 확인한다.
+4. stage 안에 메뉴 옵션이 끼어들어가 있지 않은지 확인한다.
+5. `상태 보드`, `가방`, `뽑기 장치` 헤더 에셋 메뉴를 클릭/키보드 포커스로 선택했을 때 우측 선택 메뉴창 내용이 바뀌는지 확인한다.
+6. `문` 헤더 에셋 메뉴가 `함께하는 방` 탭 전환으로만 동작하는지 확인한다.
+7. 하단 Dock이 내 방에서는 sync/status 로그로 보이고, 함께하는 방에서는 채팅 Dock placeholder로 보이는지 확인한다.
+8. 모바일 360px 폭에서 stage, command panel, log dock이 겹치지 않고 가로 overflow가 없는지 확인한다.
+9. 버튼/탭/인벤토리 슬롯의 텍스트가 이미지가 아니라 실제 HTML로 선택/읽기 가능한지 확인한다.
+10. `npm run lint`, `npm run typecheck`, `npm run build`가 통과하는지 확인한다.
 
 ---
 
