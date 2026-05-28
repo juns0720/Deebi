@@ -277,10 +277,8 @@ select {
 
 .game-room-frame__hud {
   position: relative;
-  display: flex;
+  display: block;
   min-height: 116px;
-  align-items: center;
-  justify-content: center;
   border: var(--pixel-border);
   border-image: url("/assets/ui/game-frame/hud-bar.png") 16 fill / 16px / 0 stretch;
   background: var(--pixel-paper);
@@ -320,10 +318,16 @@ select {
 }
 
 .game-room-frame__menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
   display: flex;
-  width: 100%;
+  width: max-content;
+  max-width: calc(100% - 220px);
   min-width: 0;
   justify-content: center;
+  transform: translate(-50%, -50%);
 }
 
 .game-room-frame__asset-menu {
@@ -1233,6 +1237,14 @@ select {
 
   .game-room-frame__coin-hud strong {
     font-size: 0.875rem;
+  }
+
+  .game-room-frame__menu {
+    top: auto;
+    bottom: 10px;
+    width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
+    transform: translateX(-50%);
   }
 
   .game-room-frame__asset-menu {

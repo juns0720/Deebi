@@ -169,8 +169,12 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 헤더 메뉴 PNG 4종과 코인 PNG를 64px 작업 격자 기준으로 다시 후처리하고 가시 색 수를 64색 이하로 줄여 64px 표시에서 더 선명하게 보이도록 했다.
 - 코인 HUD 에셋은 alpha bbox가 원형에 가깝도록 다시 가공해 찌그러져 보이지 않게 했다.
 - 이후 소형 픽셀 오브젝트 품질 기준은 최종 상단 메뉴 4종을 기준으로 하는 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 색상은 고정하지 않고, 42px에서도 읽히는 게임 아이템 질감과 한 개씩 생성/검수하는 workflow를 `docs/PIXEL_ASSET_PIPELINE.md`에 기록했다.
+- 헤더 메뉴 중심은 헤더 전체 기준 absolute center로 고정했다. 우상단 코인 HUD는 메뉴 레이아웃 계산에 참여하지 않는 보조 HUD로 둔다.
+- v1의 64색/저해상도 후처리 기준은 신규 에셋 기준에서 제외하고, `DeeBi Pixel Asset Standard v2`를 새 기준으로 추가했다. v2는 안정적인 외곽선, 큰 색면, 중간 고급 픽셀 게임 오브젝트 품질을 우선한다.
+- `내 방` 메뉴용 작은 방 모형 후보 `menu-objects/candidates/object-my-room-candidate-1.png`를 생성했다. 승인 전이므로 실제 `status` 메뉴 참조와 기존 `object-status.png`는 유지했다.
+- `game-frame`, `inventory`, `progress` UI 에셋을 직접 픽셀 제작 방식으로 다시 그려 임시 사각 테두리 느낌을 줄이고 HUD/패널/슬롯/게이지의 게임 UI 감성을 보강했다.
 - 승인된 `source-scene.png`, `base-room.png`, `foreground-scene.png`의 SHA-256 hash는 변경 전과 동일하며, 각각 `source/`와 `layers/` 하위 폴더로 정리했다.
-- `public/assets/**`에는 런타임 최종 에셋만 남기고, 온보딩 테스트 에셋/미사용 메뉴 에셋/승인 전 후보 에셋은 삭제했다.
+- `public/assets/**` 루트에는 런타임 최종 에셋만 두고, 승인 전 후보는 `menu-objects/candidates/`처럼 별도 하위 폴더에 둔다.
 - `docs/tasks/phase-02/T05-management-inventory.md`, `docs/PIXEL_ASSET_PIPELINE.md`, `docs/DECISIONS.md`를 새 헤더 에셋 메뉴 방향에 맞게 갱신했다.
 
 이어받기 메모:
@@ -195,6 +199,9 @@ P02-T05 구현 완료, 개발자 리뷰 대기.
 - 이미지 검사: 신규 코인 HUD PNG와 상단 오브젝트 PNG 4개가 `128x128` RGBA, 투명 모서리, 크로마키 잔여 0픽셀임을 확인
 - 이미지 검사: 헤더 메뉴 PNG 4종과 코인 PNG의 가시 색 수가 64색 이하임을 확인
 - 브라우저 데스크톱 확인: 브랜드 텍스트 없이 헤더 중앙에 `같이 하기`/`내 방`/`꾸미기`/`뽑기` 메뉴가 64px 아이콘으로 선명하게 보이고, 우상단 `보유 코인 240` HUD와 하단 Dock의 오늘 커밋 표시를 확인했다.
+- 브라우저 데스크톱 확인: 헤더 메뉴 그룹 중심과 헤더 중심이 일치하고, 우상단 코인 HUD가 메뉴와 겹치지 않음을 확인했다.
+- 이미지 후보 확인: `menu-objects/candidates/object-my-room-candidate-1.png`가 `128x128` RGBA, 투명 모서리, 마젠타 계열 배경 제거 상태임을 확인했다.
+- UI 에셋 확인: `game-frame`, `inventory`, `progress` PNG가 기존 경로/크기로 갱신되고 브라우저에서 패널, 슬롯, 게이지에 정상 적용됨을 확인했다.
 - 브라우저 상호작용 확인: 헤더 에셋 메뉴의 `같이 하기`, `내 방`, `꾸미기` 클릭 동작 통과
 - 브라우저 키보드 확인: 헤더 `뽑기` Enter/Space 활성화로 command panel 전환 통과
 - 브라우저 모바일 360px 확인: `innerWidth=360`, `scrollWidth=360`으로 가로 overflow가 없고, 브랜드 영역이 사라진 상태에서 코인 HUD/64px 상단 메뉴가 서로 겹치지 않는다.

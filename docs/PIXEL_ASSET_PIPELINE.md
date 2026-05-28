@@ -64,7 +64,7 @@ public/assets/
       progress-health-fill.png
 ```
 
-`public/assets/**`에는 실제 화면에서 쓰는 최종 런타임 에셋만 둔다. 후보, 실패작, 비교용 임시 파일은 승인 후 삭제하거나 `public` 밖의 작업 폴더에 둔다.
+`public/assets/**` 루트에는 실제 화면에서 쓰는 최종 런타임 에셋만 둔다. 승인 전 후보를 유지해야 할 때는 해당 에셋 폴더의 `candidates/` 하위 폴더에 두고, 런타임 코드에서는 참조하지 않는다.
 
 타입과 manifest는 아래 위치에 둔다.
 
@@ -159,6 +159,7 @@ T04의 내 방은 승인된 하나의 응집된 장면을 `rooms/my-room/source/
 
 DeeBi Lo-Fi Pixel Object Standard v1:
 
+- 이 기준은 P02-T05 초반 상단 메뉴 에셋을 맞추기 위한 v1 기록이다. 이후 신규 메뉴/소형 UI 에셋은 아래 `DeeBi Pixel Asset Standard v2`를 우선한다.
 - 규칙명은 `DeeBi Lo-Fi Pixel Object Standard v1`로 부른다. 앞으로 소형 픽셀 오브젝트 에셋을 만들 때는 이 이름을 기준으로 참조한다.
 - 기준 에셋은 최종 승인된 상단 메뉴 4종이다: `public/assets/rooms/my-room/menu-objects/object-visit.png`, `object-status.png`, `object-customize.png`, `object-gacha.png`.
 - 4종 기준은 "너무 고퀄 픽셀 일러스트"도 아니고 "너무 투박한 저퀄 도트"도 아닌, 작은 게임 메뉴 오브젝트에 가까운 품질 기준이다.
@@ -196,11 +197,22 @@ DeeBi Lo-Fi Pixel Object Standard v1:
 - 가방은 꾸미기/인벤토리 맥락이 읽혀야 한다. 토트백 제품 아이콘보다 게임 아이템 가방, 작은 백팩, 플랩백, 모험 가방 쪽의 형태가 우선이다.
 - 한 번에 여러 후보를 뽑아 비교하는 방식은 사용하지 않는다. 생성 비용과 시간이 늘어도 최종 톤을 지키기 위해 한 후보씩 보고, 피드백을 다음 후보에 반영한다.
 - 피드백 반영 시에는 사용자가 지적한 축만 바꾼다. 예를 들어 "너무 고퀄"이면 디테일과 광택을 낮추고, 색상/형태/컨셉 전체를 동시에 갈아엎지 않는다.
-- 새 후보를 만들 때는 프롬프트에 반드시 "match DeeBi Lo-Fi Pixel Object Standard v1"과 "not product icon, not premium asset-store sticker"를 포함한다.
+- v1 기준을 다시 비교해야 하는 과거 후보가 아니라면, 신규 후보 프롬프트는 아래 v2 템플릿을 사용한다.
 - 최종 적용 전에는 128px 원본, 42px 축소 미리보기, 최종 기준 4종을 한 화면에서 함께 확인한다. 이 비교를 하지 않은 후보는 승인 후보로 취급하지 않는다.
 - 헤더 메뉴 최종 에셋은 승인된 오브젝트를 `64x64` 작업 그리드에 다시 얹고 `128x128`로 `NEAREST` 업스케일해 픽셀 덩어리 크기를 맞춘다. CSS 확대만으로 크기를 맞추지 않는다.
 - 중앙 헤더 메뉴 런타임 표시 크기는 `64px`로 고정한다. `128px` 최종 파일을 `64px`로 정확히 2:1 축소 표시해 픽셀 격자가 깨지지 않게 하고, `width`/`height` prop과 CSS 크기를 같은 값으로 맞춘다.
 - 중앙 헤더 메뉴 에셋은 후처리 시 가시 색 수를 대략 `64`색 이하로 줄인다. 고해상도 일러스트식 색 노이즈보다 64px에서 읽히는 큰 픽셀 덩어리를 우선한다.
+
+DeeBi Pixel Asset Standard v2:
+
+- P02-T05 헤더/프레임 리워크 이후 신규 소형 오브젝트와 UI 프레임 에셋은 `DeeBi Pixel Asset Standard v2`를 기준으로 만든다.
+- v2는 일부러 저퀄처럼 보이게 색 수를 낮추는 방식이 아니다. 64px 표시에서 외곽선이 깨져 보이지 않도록 균일한 1~2px 계단형 외곽, 큰 색면, 정돈된 내부선, 적당한 하이라이트를 우선한다.
+- 색 수 제한은 폐기한다. 단, 사진식 미세 색 노이즈와 고광택 렌더링은 피하고, 재질별 3~5단계 정도의 읽히는 색 블록을 사용한다.
+- 외곽선은 진한 갈색 계열을 기본으로 하며, 오브젝트 바깥 윤곽은 내부선보다 더 굵고 안정적으로 보여야 한다. 끊긴 외곽, 제각각인 선 두께, 무작위 안티앨리어싱은 실패로 본다.
+- 메뉴 오브젝트는 후보 한 개씩 생성한다. 후보는 `menu-objects/candidates/object-{purpose}-candidate-{n}.png`로 저장하고, 사용자가 승인한 뒤에만 최종 파일명으로 승격한다.
+- `내 방` 메뉴는 기존 모니터 아이콘 대신 작은 방 모형 후보를 기준으로 검토한다. 승인 전에는 기존 `status` 동작과 참조 파일을 유지한다.
+- 프롬프트에는 `DeeBi Pixel Asset Standard v2`, `medium-polished cozy indie pixel game object`, `consistent dark brown outline`, `large clean color blocks`, `not product icon`, `not premium asset-store sticker`를 포함한다.
+- 최종 검수는 128px 원본과 64px 런타임 표시를 함께 본다. 42px 미리보기는 참고만 하고, 헤더 메뉴 품질 판단은 64px 기준으로 한다.
 
 HUD 리소스 아이콘:
 
@@ -216,6 +228,11 @@ UI 프레임:
 - 9-slice 또는 `border-image`로 늘릴 수 있게 네 귀퉁이와 중앙 영역이 분리되어 보여야 한다.
 - 버튼/탭/패널 프레임에는 문구를 넣지 않는다.
 - hover/active 상태는 CSS 그림자와 색상 조정으로 먼저 처리하고, 필요할 때만 별도 에셋을 추가한다.
+- 게임 프레임/인벤토리/진행바처럼 늘어나거나 HTML 텍스트를 담는 UI 에셋은 AI 생성보다 직접 픽셀 제작을 우선한다. 모서리, edge slice, fill 영역이 예측 가능해야 하기 때문이다.
+- UI 프레임은 따뜻한 아이보리 fill, 진한 갈색 외곽, 작은 mint/blue/gold accent, 단단한 픽셀 그림자를 사용한다. 임시 사각 테두리처럼 보이지 않되, 텍스트보다 장식이 튀면 안 된다.
+- `hud-bar`, `command-panel`, `log-window`는 기존 파일 크기와 경로를 유지하고 9-slice stretch에서 모서리와 테두리가 무너지지 않아야 한다.
+- `inventory-slot-*`는 빈 슬롯과 장착 슬롯이 색/작은 상태 표시로 구분되어야 한다. 글자, 숫자, 아이템 그림은 슬롯 에셋에 굽지 않는다.
+- `progress-health-*`는 체력/컨디션 게이지처럼 읽히는 픽셀 막대여야 하며, fill은 반복되어도 패턴이 어색하게 끊기지 않아야 한다.
 
 ## 5. 프롬프트 템플릿
 
@@ -247,14 +264,14 @@ Generous padding around the object, clean readable silhouette.
 
 ```text
 Create one 2D pixel-art object icon for a cozy indie pixel game dashboard top menu.
-Object: <pretty wooden door / status monitor / inventory bag or backpack-like item / pink glass-dome gacha capsule machine>.
-Quality reference: match `DeeBi Lo-Fi Pixel Object Standard v1`, based on the final approved top-menu assets `object-visit.png`, `object-status.png`, `object-customize.png`, and `object-gacha.png`. Match their texture, pixel density, outline strength, warm block shading, and not-too-polished game-item feel.
-Final use: transparent 128x128 PNG displayed around 42px, so the silhouette must be readable when small.
-Style: charming lo-fi indie pixel game item, chunky readable pixel clusters, dark brown outline, large simple color blocks, a few restrained highlights.
+Object: <pretty wooden door / tiny cozy room diorama / inventory bag or backpack-like item / pink glass-dome gacha capsule machine>.
+Quality reference: match `DeeBi Pixel Asset Standard v2`.
+Final use: transparent 128x128 PNG displayed around 64px, so the silhouette must be readable when small.
+Style: medium-polished cozy indie pixel game object, consistent dark brown outline, controlled 1-2 pixel stepped outline, large clean color blocks, simple block shading, restrained highlights.
 Background: perfectly flat solid <#ff00ff or #00ff00> chroma-key background for removal. Choose a key color absent from the subject; use #00ff00 for a pink gacha machine.
 No text, no letters, no numbers, no watermark, no logo.
 No shop, payment, cash, price tag, or commerce feeling.
-Avoid product icon, ecommerce catalog icon, premium asset-store sticker, high-detail pixel illustration, glossy rendering, realistic texture, excessive tiny details, and over-forced mosaic pixels.
+Avoid product icon, ecommerce catalog icon, premium asset-store sticker, glossy rendering, realistic texture, excessive tiny details, noisy dithering, rough broken outline, and over-forced mosaic pixels.
 No cast shadow, no floor plane, no gradient background.
 Generous padding, centered object, crisp silhouette.
 ```
@@ -294,8 +311,8 @@ No watermark, no UI labels, no ranking board, no realistic blur.
 - 파일명이 kebab-case이고 의미가 명확하다.
 - 프로젝트에서 참조하는 최종 에셋은 반드시 `public/assets/**` 아래에 저장한다. built-in `image_gen` 기본 저장 위치의 원본은 참조하지 않는다.
 - 상단 메뉴 에셋 후보는 승인 전 최종 파일을 덮어쓰지 않았는지 확인한다.
-- 상단 메뉴 에셋 후보는 128px 원본과 42px 버튼 미리보기를 함께 확인한다.
-- 상단 메뉴 에셋 후보는 `DeeBi Lo-Fi Pixel Object Standard v1` 기준 4종과 비교해 같은 품질/질감인지 확인한다.
+- 상단 메뉴 에셋 후보는 128px 원본과 64px 런타임 미리보기를 함께 확인한다.
+- 상단 메뉴 에셋 후보는 `DeeBi Pixel Asset Standard v2` 기준으로 외곽선 안정성, 큰 색면, 중간 고급 픽셀 게임 오브젝트 품질을 확인한다.
 
 화면 검수:
 
